@@ -37,6 +37,7 @@ public class CRUDUtils {
                         EncryptionUtils.decrypt(set.getString(4)),
                         set.getTimestamp(5).toLocalDateTime()));
             }
+            set.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -97,6 +98,7 @@ public class CRUDUtils {
                         EncryptionUtils.decrypt(set.getString(4)),
                         set.getTimestamp(5).toLocalDateTime());
             }
+            set.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -137,6 +139,7 @@ public class CRUDUtils {
                         set.getString(2),
                         set.getTimestamp(3).toLocalDateTime()));
             }
+            set.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -154,6 +157,7 @@ public class CRUDUtils {
                         set.getString(2),
                         set.getTimestamp(3).toLocalDateTime());
             }
+            set.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

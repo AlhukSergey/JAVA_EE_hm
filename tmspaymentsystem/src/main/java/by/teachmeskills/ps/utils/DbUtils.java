@@ -21,4 +21,14 @@ public class DbUtils {
         }
         return connection;
     }
+
+/*    public static void closeConnection(Connection connection) {
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }*/
 }

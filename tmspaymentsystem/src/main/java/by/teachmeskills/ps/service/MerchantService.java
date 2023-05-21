@@ -34,29 +34,21 @@ public class MerchantService {
     public void updateBankAccount(String bankAccountId, String newAccountNumber, Merchant merchant) throws BankAccountNotFoundException, IllegalArgumentException {
         validAccountNumber(newAccountNumber);
         List<BankAccount> accounts = CRUDUtils.getMerchantBankAccounts(merchant);
-        Optional<BankAccount> account = accounts.stream().filter(s -> s.getId().equals(bankAccountId)).findAny();
-        account.ifPresentOrElse(a -> {
-            a.setAccountNumber(newAccountNumber);
-            CRUDUtils.updateNumberMerchantBankAccount(a);
-        }, () -> {
-            try {
-                throw new BankAccountNotFoundException("No bank account found!");
-            } catch (BankAccountNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        BankAccount account = accounts.stream().filter(s -> s.getId().equals(bankAccountId)).findAny().orElse(null);
+        if (account == null) {
+            throw new BankAccountNotFoundException("No bank account found!");
+        }
+        account.setAccountNumber(newAccountNumber);
+        CRUDUtils.updateNumberMerchantBankAccount(account);
     }
 
     public void deleteBankAccount(String bankAccountId, Merchant merchant) throws BankAccountNotFoundException {
         List<BankAccount> accounts = CRUDUtils.getMerchantBankAccounts(merchant);
-        accounts.stream().filter(s -> s.getId().equals(bankAccountId)).findAny().ifPresentOrElse(a -> CRUDUtils.deleteBankAccountById(bankAccountId),
-                () -> {
-                    try {
-                        throw new BankAccountNotFoundException("No bank account found!");
-                    } catch (BankAccountNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
+        BankAccount account = accounts.stream().filter(s -> s.getId().equals(bankAccountId)).findAny().orElse(null);
+        if (account == null) {
+            throw new BankAccountNotFoundException("No bank account found!");
+        }
+        CRUDUtils.deleteBankAccountById(bankAccountId);
     }
 
     public void createMerchant(String merchantName) {
