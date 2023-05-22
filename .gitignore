@@ -1,5 +1,6 @@
 target/
 servlet-api/target
+servlet-form/target
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
