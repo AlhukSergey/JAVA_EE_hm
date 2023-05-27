@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app
+        xmlns = "https://jakarta.ee/xml/ns/jakartaee"
+        xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation = "https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+        version = "5.0"
+        metadata-complete = "false">
+    <context-param>
+        <param-name>dbuser</param-name>
+        <param-value>root</param-value>
+    </context-param>
+    <context-param>
+        <param-name>dbpass</param-name>
+        <param-value>1002</param-value>
+    </context-param>
+    <context-param>
+        <param-name>dburl</param-name>
+        <param-value>jdbc:mysql://localhost:3306/tms</param-value>
+    </context-param>
+</web-app>
