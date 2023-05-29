@@ -17,15 +17,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 @WebServlet("/create")
-public class DBUserWriterServlet extends HttpServlet {
-
-    /*использую для добавление нового пользователя в базу данных. После добавление одного пользователя перебрасывает
-    на страницу аутентификации.*/
-
-
+public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/create.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/registration.jsp");
         requestDispatcher.forward(req, resp);
     }
 
