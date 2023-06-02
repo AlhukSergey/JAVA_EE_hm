@@ -12,6 +12,7 @@
 <div class="container">
     <div class="col-md-8 offset-md-4">
         <h2>Вход</h2>
+        ${info}
         <p>Пожалуйста, введите свои данные:</p>
         <form method="post" action="/login" class="needs-validation" novalidate>
             <div class="form-group">

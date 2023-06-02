@@ -40,18 +40,24 @@ public class LoginServlet extends HttpServlet {
         DBConnectionManager dbConnectionManager = (DBConnectionManager) context.getAttribute("DBManager");
         Connection connection = dbConnectionManager.getConnection();
 
-        User user = findUser(connection, email, password);
+        User user = findUser(connection, email);
 
         RequestDispatcher rd;
-        if (user != null) {
+        String varInfo;
+        if (user != null && user.getPassword().equals(password)) {
             req.setAttribute(user.getName(), user);
+            varInfo = "Добро пожаловать, " + user.getName() + ".";
+            req.setAttribute("info", varInfo);
+
             addCategories(connection, req);
+
+            /*dbConnectionManager.closeConnection();*/
             rd = req.getRequestDispatcher("/home.jsp");
         } else {
+            varInfo = "Введены неверные данные. Пожалуйста, введите данные повторны либо перейдите на страницу регистрации.";
+            req.setAttribute("info", varInfo);
             rd = req.getRequestDispatcher("/login.jsp");
         }
-
-        dbConnectionManager.closeConnection();
         rd.forward(req, resp);
     }
 
@@ -64,26 +70,26 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    private User findUser(Connection connection, String email, String password) {
-        List<User> users = new ArrayList<>();
+    private User findUser(Connection connection, String email) {
+        User user = null;
         try {
             PreparedStatement psGet = connection.prepareStatement("SELECT * FROM users WHERE email = ?");
             psGet.setString(1, email);
             ResultSet resultSet = psGet.executeQuery();
 
             while (resultSet.next()) {
-                users.add(new User(resultSet.getString(1),
+                user = new User(resultSet.getString(1),
                         resultSet.getString(2),
                         resultSet.getString(3),
                         resultSet.getBigDecimal(4).doubleValue(),
                         resultSet.getString(5),
-                        EncryptionUtils.decrypt(resultSet.getString(6))));
+                        EncryptionUtils.decrypt(resultSet.getString(6)));
             }
             resultSet.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return users.stream().filter(s -> s.getPassword().equals(password)).findAny().orElse(null);
+        return user;
     }
 
     private void addCategories(Connection connection, HttpServletRequest req) {

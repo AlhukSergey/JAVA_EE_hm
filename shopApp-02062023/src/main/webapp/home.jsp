@@ -9,20 +9,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>Категории</title>
+    <style>
+        a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
+    ${info}
     <h2 style="text-align: center">Популярные категории</h2>
     <div class="container-fluid">
         <c:if test="${not empty categories}">
             <div class="row justify-content-center">
                 <c:forEach items="${categories}" var="category">
                     <div class="card w-25 m-1" type="category">
-                        <div class="card-body">
-                            <a>${category.getName()}</a>
-                            <img class="card-img" style="max-height:300px"
-                                 src="${category.getImagePath()}" alt="Card image">
-                        </div>
+                        <a id="${category.getId()}" href='<c:url value="/category?id=${category.getId()}&name=${category.getName()}"  />'>
+                            <div class="card-body">
+                                <p>${category.getName()}</p>
+                                <img class="card-img" style="max-height:300px" src="${category.getImagePath()}"
+                                     alt="Card image">
+                            </div>
+                        </a>
                     </div>
                 </c:forEach>
             </div>
