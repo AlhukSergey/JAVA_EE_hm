@@ -56,7 +56,6 @@ public class RegistrationServlet extends HttpServlet {
             psInsert.execute();
 
             psInsert.close();
-            dbConnectionManager.closeConnection();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

@@ -52,8 +52,6 @@ public class LoginServlet extends HttpServlet {
             resultSet.close();
 
             if (user != null && user.getPassword().equals(password)) {
-                dbConnectionManager.closeConnection();
-
                 String varInfo = "Данные верны. Добро пожаловать, " + user.getName() + ".";
                 req.setAttribute("info", varInfo);
                 RequestDispatcher rd = req.getRequestDispatcher("/home.jsp");
