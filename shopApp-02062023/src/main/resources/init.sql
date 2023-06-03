@@ -71,74 +71,74 @@ CREATE TABLE IF NOT EXISTS shop.products
 );
 
 INSERT INTO shop.products(name, description, price, categoryId, imagePath)
-VALUES ('Кепка',
-        'Жокейка (кепка) спортивная мужская/женская Columbia',
+VALUES ('Жокейка (кепка) спортивная мужская/женская Columbia',
+        'Бейсболка от Columbia незаменима для летнего активного отдыха на природе. В 4 из 6 стандартных панелей этой классической модели используется легкая сетчатая ткань. Натуральный хлопок с небольшим добавлением эластана приятен на ощупь и хорошо пропускает воздух даже в жару.',
         55.5,
         1,
         'https://cdnby.sportmaster.com/upload/mdm/media_content/resize/667/395_380_77f2/58111040299.jpg');
 INSERT INTO shop.products(name, description, price, categoryId, imagePath)
-VALUES ('Кепка',
-        'Жокейка (кепка) для мальчиков FILA',
+VALUES ('Жокейка (кепка) для мальчиков FILA',
+        'Бейсболка FILA пригодится ребенку во время активных игр на улице. Модель, выполненная из натурального хлопка, гарантирует комфорт в жаркую погоду.',
         25.84,
         1,
         'https://cdnby.sportmaster.com/upload/mdm/media_content/resize/55f/395_380_93e4/73898090299.jpg');
 INSERT INTO shop.products(name, description, price, categoryId, imagePath)
-VALUES ('Сумка',
-        'Мешок для обуви для девочек FILA',
+VALUES ('Мешок для обуви для девочек FILA',
+        'Практичный мешок для обуви от FILA. Модель выполнена из прочного полиэстера. Удобный карман позволит захватить с собой необходимые мелочи.',
         21.8,
         2,
         'https://cdnby.sportmaster.com/upload/mdm/media_content/resize/efd/395_380_d2a2/81122110299.jpg');
 INSERT INTO shop.products(name, description, price, categoryId, imagePath)
-VALUES ('Сумка',
-        'Сумка мужская/женская FILA',
+VALUES ('Сумка мужская/женская FILA',
+        'Вместительная сумка-шоппер из прочного хлопка. Предусмотрены длинные ручки, чтобы носить ее и в руках, и на плече.',
         27,
         2,
         'https://cdnby.sportmaster.com/upload/mdm/media_content/resize/1c8/395_380_ddc9/57333570299.jpg');
 INSERT INTO shop.products(name, description, price, categoryId, imagePath)
-VALUES ('Сумка',
-        'Сумка мужская/женская FILA',
+VALUES ('Сумка мужская/женская FILA',
+        'Сумка кросс-боди от бренда FILA поможет держать все важные мелочи под рукой, когда вы отправляетесь по делам или на тренировку. Найти нужные вещи несложно, так как в модели предусмотрено основное отделение и 2 дополнительных кармана.',
         32.3,
         2,
         'https://cdnby.sportmaster.com/upload/mdm/media_content/resize/123/395_380_40ae/74428530299.jpg');
 INSERT INTO shop.products(name, description, price, categoryId, imagePath)
-VALUES ('Полуботинки',
-        'Полуботинки мужские GSD',
+VALUES ('Полуботинки мужские GSD',
+        'Кроссовки GSD One подойдут для прогулок по городу.',
         63.3,
         3,
         'https://cdnby.sportmaster.com/upload/mdm/media_content/resize/6e3/395_380_f6a8/78073780299.jpg');
 INSERT INTO shop.products(name, description, price, categoryId, imagePath)
-VALUES ('Полуботинки',
-        'Полуботинки мужские Head',
+VALUES ('Полуботинки мужские Head',
+        'Кроссовки Head Leon X Tms Fluo пригодятся для комфортных и размеренных пробежек в свое удовольствие.',
         240.5,
         3,
         'https://cdnby.sportmaster.com/upload/mdm/media_content/resize/5c4/395_380_10ad/80797320299.jpg');
 INSERT INTO shop.products(name, description, price, categoryId, imagePath)
-VALUES ('Полуботинки',
-        'Полуботинки мужские Reebok',
+VALUES ('Полуботинки мужские Reebok',
+        'Бескомпромиссно удобные кроссовки Reebok Glide Ripple Clip — идеальный вариант на каждый день. Узнаваемый минималистичный дизайн дополнен деталями, которые отсылают к архивам бренда.',
         296,
         3,
         'https://cdnby.sportmaster.com/upload/mdm/media_content/resize/c36/395_380_51fa/79724880299.jpg');
 INSERT INTO shop.products(name, description, price, categoryId, imagePath)
-VALUES ('Перчатки',
-        'Перчатки мужские/женские Northland',
+VALUES ('Перчатки мужские/женские Northland',
+        'Перчатки Northland для треккинговых походов выполнены из материала с технологией защиты от УФ-излучения. Нескользящие накладки обеспечивают надежный хват.',
         39.5,
         4,
         'https://cdnby.sportmaster.com/upload/mdm/media_content/resize/77a/395_380_d588/73899720299.jpg');
 INSERT INTO shop.products(name, description, price, categoryId, imagePath)
-VALUES ('Фляга',
-        'Фляга Stern',
+VALUES ('Фляга Stern',
+        'Фляга Stern объемом 700 мл позволит держать воду под рукой во время велосипедных прогулок.',
         13.04,
         5,
         'https://cdnby.sportmaster.com/upload/mdm/media_content/resize/a37/395_380_f6fe/61381440299.jpg');
 INSERT INTO shop.products(name, description, price, categoryId, imagePath)
-VALUES ('Насос',
-        'Насос Stern',
+VALUES ('Насос Stern',
+        'Велосипедный насос Stern.',
         15.61,
         5,
         'https://cdnby.sportmaster.com/upload/mdm/media_content/resize/871/395_380_653a/57988220299.jpg');
 INSERT INTO shop.products(name, description, price, categoryId, imagePath)
-VALUES ('Брюки',
-        'Брюки женские Glissade',
+VALUES ('Брюки женские Glissade',
+        'Женские термокальсоны Glissade станут отличной защитой от холода во время занятий зимними видами спорта. Модель рекомендована для низкого уровня физической активности.',
         84,
         6,
         'https://cdnby.sportmaster.com/upload/mdm/media_content/resize/e2e/395_380_caef/54563010299.jpg');

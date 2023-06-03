@@ -76,13 +76,13 @@
             <div class="row">
                 <c:forEach items="${products}" var="product">
                     <div class="card w-25 m-1" type="product">
-                        <div class="card-body">
-                            <p>${product.getName()}</p>
+                        <div class="card-body" style="flex: 1 1 auto;">
+                            <h5 class="card-title">${product.getName()}</h5>
                             <img class="card-img" style="max-height:300px"
                                  src="${product.getImagePath()}" alt="Card image">
-                            <p>${product.getDescription()}</p>
-                            <p>${product.getPrice()} р.</p>
+                            <p class="card-text">${product.getDescription()}</p>
                         </div>
+                        <div class="card-footer" style="flex: 0 1 auto;">${product.getPrice()} р.</div>
                     </div>
                 </c:forEach>
             </div>
