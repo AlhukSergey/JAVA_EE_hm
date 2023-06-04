@@ -3,7 +3,7 @@ package by.teachmeskills.shop.model;
 import java.util.UUID;
 
 public class User {
-    private final String ID;
+    private final String id;
     private String name;
     private String surname;
     private double balance;
@@ -11,7 +11,7 @@ public class User {
     private String password;
 
     public User(String name, String surname, String email, String password) {
-        ID = UUID.randomUUID().toString();
+        id = UUID.randomUUID().toString();
         this.name = name;
         this.surname = surname;
         balance = 0;
@@ -19,8 +19,8 @@ public class User {
         this.password = password;
     }
 
-    public User(String ID, String name, String surname, double balance, String email, String password) {
-        this.ID = ID;
+    public User(String id, String name, String surname, double balance, String email, String password) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.balance = balance;
@@ -29,7 +29,7 @@ public class User {
     }
 
     public String getID() {
-        return ID;
+        return id;
     }
 
     public String getName() {

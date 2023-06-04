@@ -2,6 +2,7 @@ package by.teachmeskills.shop.servlet;
 
 import by.teachmeskills.shop.listener.DBConnectionManager;
 import by.teachmeskills.shop.model.User;
+import by.teachmeskills.shop.utils.CRUDUtils;
 import by.teachmeskills.shop.utils.EncryptionUtils;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
@@ -34,26 +35,8 @@ public class RegistrationServlet extends HttpServlet {
 
         User user = new User(name, surname, email, password);
 
-        ServletContext ctx = getServletContext();
-        String sqlInsert = "INSERT INTO users (id, name, surname, balance, email, password) VALUES (?, ?, ?, ?, ?, ?)";
-        try {
-            DBConnectionManager dbConnectionManager = (DBConnectionManager) ctx.getAttribute("DBManager");
-            Connection connection = dbConnectionManager.getConnection();
-
-            PreparedStatement psInsert = connection.prepareStatement(sqlInsert);
-
-            psInsert.setString(1, user.getID());
-            psInsert.setString(2, user.getName());
-            psInsert.setString(3, user.getSurname());
-            psInsert.setBigDecimal(4, BigDecimal.valueOf(user.getBalance()));
-            psInsert.setString(5, user.getEmail());
-            psInsert.setString(6, EncryptionUtils.encrypt(user.getPassword()));
-            psInsert.execute();
-
-            psInsert.close();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+        ServletContext context = getServletContext();
+        CRUDUtils.createUser(user, context);
 
         RequestDispatcher rd = req.getRequestDispatcher("/login.jsp");
         rd.forward(req, resp);

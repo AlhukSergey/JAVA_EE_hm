@@ -5,17 +5,11 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>Категории</title>
-    <style>
-        a {
-            text-decoration: none;
-            color: black;
-            font-weight: bold;
-        }
-    </style>
 </head>
 <body>
 <div class="container">
@@ -28,7 +22,7 @@
                     <div class="card w-25 m-1" type="category">
                         <a id="${category.getId()}" href='<c:url value="/category?id=${category.getId()}&name=${category.getName()}"  />'>
                             <div class="card-body">
-                                <p>${category.getName()}</p>
+                                <h5 class="card-title">${category.getName()}</h5>
                                 <img class="card-img" style="max-height:300px" src="${category.getImagePath()}"
                                      alt="Card image">
                             </div>

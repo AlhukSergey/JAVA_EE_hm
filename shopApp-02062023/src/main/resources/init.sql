@@ -62,8 +62,8 @@ DROP TABLE IF EXISTS shop.products;
 CREATE TABLE IF NOT EXISTS shop.products
 (
     id          INT          NOT NULL AUTO_INCREMENT,
-    name        VARCHAR(45)  NOT NULL,
-    description VARCHAR(210) NOT NULL,
+    name        VARCHAR(90)  NOT NULL,
+    description VARCHAR(300) NOT NULL,
     price       DOUBLE       NOT NULL,
     categoryId  INT          NOT NULL,
     imagePath   VARCHAR(150) NOT NULL,

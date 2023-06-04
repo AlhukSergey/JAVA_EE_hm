@@ -1,10 +1,9 @@
 package by.teachmeskills.shop.servlet;
 
 import by.teachmeskills.shop.exceptions.RequestCredentialsNullException;
-import by.teachmeskills.shop.listener.DBConnectionManager;
 import by.teachmeskills.shop.model.Category;
 import by.teachmeskills.shop.model.User;
-import by.teachmeskills.shop.utils.EncryptionUtils;
+import by.teachmeskills.shop.utils.CRUDUtils;
 import by.teachmeskills.shop.utils.HttpRequestCredentialsValidator;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
@@ -13,21 +12,23 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher rd = req.getRequestDispatcher("login.jsp");
-        rd.forward(req, resp);
+        if (req.getSession().getAttribute("user") == null) {
+            RequestDispatcher rd = req.getRequestDispatcher("login.jsp");
+            rd.forward(req, resp);
+        } else {
+            showCategories(req);
+            RequestDispatcher rd = req.getRequestDispatcher("home.jsp");
+            rd.forward(req, resp);
+        }
     }
 
     @Override
@@ -37,21 +38,18 @@ public class LoginServlet extends HttpServlet {
         validateCredentials(email, password);
 
         ServletContext context = getServletContext();
-        DBConnectionManager dbConnectionManager = (DBConnectionManager) context.getAttribute("DBManager");
-        Connection connection = dbConnectionManager.getConnection();
-
-        User user = findUser(connection, email);
+        User user = CRUDUtils.getUser(email, context);
 
         RequestDispatcher rd;
         String varInfo;
         if (user != null && user.getPassword().equals(password)) {
-            req.setAttribute(user.getName(), user);
+            HttpSession session = req.getSession();
+            session.setAttribute("user", user);
+
             varInfo = "Добро пожаловать, " + user.getName() + ".";
             req.setAttribute("info", varInfo);
 
-            addCategories(connection, req);
-
-            /*dbConnectionManager.closeConnection();*/
+            showCategories(req);
             rd = req.getRequestDispatcher("/home.jsp");
         } else {
             varInfo = "Введены неверные данные. Пожалуйста, введите данные повторны либо перейдите на страницу регистрации.";
@@ -70,44 +68,10 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    private User findUser(Connection connection, String email) {
-        User user = null;
-        try {
-            PreparedStatement psGet = connection.prepareStatement("SELECT * FROM users WHERE email = ?");
-            psGet.setString(1, email);
-            ResultSet resultSet = psGet.executeQuery();
-
-            while (resultSet.next()) {
-                user = new User(resultSet.getString(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3),
-                        resultSet.getBigDecimal(4).doubleValue(),
-                        resultSet.getString(5),
-                        EncryptionUtils.decrypt(resultSet.getString(6)));
-            }
-            resultSet.close();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return user;
-    }
-
-    private void addCategories(Connection connection, HttpServletRequest req) {
-        List<Category> categories = new ArrayList<>();
-        try {
-            PreparedStatement psGet = connection.prepareStatement("SELECT * FROM categories");
-            ResultSet resultSet = psGet.executeQuery();
-
-            while (resultSet.next()) {
-                categories.add(new Category(resultSet.getInt(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3)));
-            }
-            req.setAttribute("categories", categories);
-            resultSet.close();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+    private void showCategories(HttpServletRequest req) {
+        ServletContext context = getServletContext();
+        List<Category> categories = CRUDUtils.getCategories(context);
+        req.setAttribute("categories", categories);
     }
 }
 
