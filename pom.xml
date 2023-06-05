@@ -13,6 +13,7 @@
         <module>client</module>
         <module>servlet-api</module>
         <module>servlet-26052023</module>
+        <module>shopApp-02062023</module>
     </modules>
 
     <properties>
