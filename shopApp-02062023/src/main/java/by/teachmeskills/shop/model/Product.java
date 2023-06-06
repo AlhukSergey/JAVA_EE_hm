@@ -17,6 +17,13 @@ public class Product {
         this.imagePath = imagePath;
     }
 
+    public Product(String name, String description, double price, String imagePath) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.imagePath = imagePath;
+    }
+
     public int getId() {
         return id;
     }

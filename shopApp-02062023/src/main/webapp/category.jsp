@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/category.css">
-    <title>${category.getName}</title>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Категория</title>
 </head>
 <body>
 <div class="superNav border-bottom py-2 bg-light" style="border-radius: 25px;">
@@ -57,9 +57,11 @@
                 <c:forEach items="${products}" var="product">
                     <div class="card w-25 m-1" type="product">
                         <div class="card-body" style="flex: 1 1 auto;">
-                            <h5 class="card-title">${product.getName()}</h5>
-                            <img class="card-img" style="max-height:300px"
-                                 src="${product.getImagePath()}" alt="Card image">
+                            <a href='<c:url value="/product?id=${product.getId()}" />'>
+                                <h5 class="card-title">${product.getName()}</h5>
+                                <img class="card-img" style="max-height:300px"
+                                     src="${product.getImagePath()}" alt="Card image">
+                            </a>
                             <p class="card-text">${product.getDescription()}</p>
                         </div>
                         <div class="card-footer" style="flex: 0 1 auto;">${product.getPrice()} р.</div>

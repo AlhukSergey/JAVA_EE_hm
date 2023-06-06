@@ -6,27 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <style>
-        a {
-            font-size: 14px;
-            font-weight: 700
-        }
-
-        .superNav {
-            font-size: 13px;
-        }
-
-        .form-control {
-            outline: none !important;
-            box-shadow: none !important;
-        }
-
-        @media screen and (max-width: 540px) {
-            .centerOnMobile {
-                text-align: center
-            }
-        }
-    </style>
     <title>Продукт</title>
 </head>
 <body>
