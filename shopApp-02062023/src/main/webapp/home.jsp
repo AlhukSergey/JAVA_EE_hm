@@ -21,7 +21,7 @@
                         <a href='<c:url value="/category?id=${category.getId()}&name=${category.getName()}"  />'>
                             <div class="card-body">
                                 <h5 class="card-title">${category.getName()}</h5>
-                                <img class="card-img" style="max-height:300px" src="${category.getImagePath()}"
+                                <img class="card-img card-scale" style="max-height:300px" src="${category.getImagePath()}"
                                      alt="Card image">
                             </div>
                         </a>
