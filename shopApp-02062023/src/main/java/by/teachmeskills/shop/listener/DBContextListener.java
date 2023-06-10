@@ -1,6 +1,7 @@
 package by.teachmeskills.shop.listener;
 
-import jakarta.servlet.ServletContext;
+import by.teachmeskills.shop.utils.CRUDUtils;
+import by.teachmeskills.shop.utils.ConnectionPool;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
@@ -9,22 +10,13 @@ import jakarta.servlet.annotation.WebListener;
 public class DBContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        ServletContext ctx = servletContextEvent.getServletContext();
-
-        String url = ctx.getInitParameter("dbUrl");
-        String login = ctx.getInitParameter("dbUser");
-        String password = ctx.getInitParameter("dbPass");
-
-        DBConnectionManager dbManager = new DBConnectionManager(url, login, password);
-        ctx.setAttribute("DBManager", dbManager);
+        ConnectionPool pool = ConnectionPool.getInstance();
+        CRUDUtils.setConnection(pool);
         System.out.println("Database connection initialized for application.");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        ServletContext ctx = servletContextEvent.getServletContext();
-        DBConnectionManager dbManager = (DBConnectionManager) ctx.getAttribute("DBManager");
-        dbManager.closeConnection();
         System.out.println("Database connection closed for application.");
     }
 }

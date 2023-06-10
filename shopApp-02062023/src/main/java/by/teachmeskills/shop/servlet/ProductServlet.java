@@ -3,7 +3,6 @@ package by.teachmeskills.shop.servlet;
 import by.teachmeskills.shop.model.Product;
 import by.teachmeskills.shop.utils.CRUDUtils;
 import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,8 +17,7 @@ public class ProductServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String productId = req.getParameter("id");
 
-        ServletContext context = getServletContext();
-        Product product = CRUDUtils.getProductById(productId, context);
+        Product product = CRUDUtils.getProductById(productId);
         req.setAttribute("product", product);
 
         RequestDispatcher rd = req.getRequestDispatcher("product.jsp");

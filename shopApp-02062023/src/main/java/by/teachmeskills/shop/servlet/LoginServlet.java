@@ -6,7 +6,6 @@ import by.teachmeskills.shop.model.User;
 import by.teachmeskills.shop.utils.CRUDUtils;
 import by.teachmeskills.shop.utils.HttpRequestCredentialsValidator;
 import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -37,8 +36,7 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
         validateCredentials(email, password);
 
-        ServletContext context = getServletContext();
-        User user = CRUDUtils.getUser(email, context);
+        User user = CRUDUtils.getUser(email);
 
         RequestDispatcher rd;
         String varInfo;
@@ -69,8 +67,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     private void showCategories(HttpServletRequest req) {
-        ServletContext context = getServletContext();
-        List<Category> categories = CRUDUtils.getCategories(context);
+        List<Category> categories = CRUDUtils.getCategories();
         req.setAttribute("categories", categories);
     }
 }

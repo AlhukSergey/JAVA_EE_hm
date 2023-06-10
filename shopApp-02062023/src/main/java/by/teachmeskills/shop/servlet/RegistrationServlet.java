@@ -1,11 +1,8 @@
 package by.teachmeskills.shop.servlet;
 
-import by.teachmeskills.shop.listener.DBConnectionManager;
 import by.teachmeskills.shop.model.User;
 import by.teachmeskills.shop.utils.CRUDUtils;
-import by.teachmeskills.shop.utils.EncryptionUtils;
 import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,10 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
@@ -35,8 +28,7 @@ public class RegistrationServlet extends HttpServlet {
 
         User user = new User(name, surname, email, password);
 
-        ServletContext context = getServletContext();
-        CRUDUtils.createUser(user, context);
+        CRUDUtils.createUser(user);
 
         RequestDispatcher rd = req.getRequestDispatcher("/login.jsp");
         rd.forward(req, resp);

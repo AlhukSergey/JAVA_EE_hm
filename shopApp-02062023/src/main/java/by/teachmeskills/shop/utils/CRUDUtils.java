@@ -1,10 +1,8 @@
 package by.teachmeskills.shop.utils;
 
-import by.teachmeskills.shop.listener.DBConnectionManager;
 import by.teachmeskills.shop.model.Category;
 import by.teachmeskills.shop.model.Product;
 import by.teachmeskills.shop.model.User;
-import jakarta.servlet.ServletContext;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -15,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CRUDUtils {
+    private static Connection connection;
     private static final String ADD_USER_QUERY = "INSERT INTO users (id, name, surname, balance, email, password) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String GET_USER_QUERY = "SELECT * FROM users WHERE email = ?";
     private static final String GET_CATEGORIES_QUERY = "SELECT * FROM categories";
@@ -24,12 +23,10 @@ public class CRUDUtils {
     private CRUDUtils() {
     }
 
-    public static User getUser(String email, ServletContext context) {
+    public static User getUser(String email) {
         User user = null;
 
-        try {
-            Connection connection = getConnection(context);
-            PreparedStatement psGet = connection.prepareStatement(GET_USER_QUERY);
+        try (PreparedStatement psGet = connection.prepareStatement(GET_USER_QUERY)) {
             psGet.setString(1, email);
             ResultSet resultSet = psGet.executeQuery();
 
@@ -48,12 +45,10 @@ public class CRUDUtils {
         return user;
     }
 
-    public static List<Category> getCategories(ServletContext context) {
+    public static List<Category> getCategories() {
         List<Category> categories = new ArrayList<>();
 
-        try {
-            Connection connection = getConnection(context);
-            PreparedStatement psGet = connection.prepareStatement(GET_CATEGORIES_QUERY);
+        try (PreparedStatement psGet = connection.prepareStatement(GET_CATEGORIES_QUERY)) {
             ResultSet resultSet = psGet.executeQuery();
 
             while (resultSet.next()) {
@@ -68,12 +63,10 @@ public class CRUDUtils {
         return categories;
     }
 
-    public static List<Product> getCategoryProducts(String categoryId, ServletContext context) {
+    public static List<Product> getCategoryProducts(String categoryId) {
         List<Product> products = new ArrayList<>();
 
-        try {
-            Connection connection = getConnection(context);
-            PreparedStatement psGet = connection.prepareStatement(GET_PRODUCTS_QUERY);
+        try (PreparedStatement psGet = connection.prepareStatement(GET_PRODUCTS_QUERY)) {
             psGet.setInt(1, Integer.parseInt(categoryId));
             ResultSet resultSet = psGet.executeQuery();
 
@@ -92,12 +85,10 @@ public class CRUDUtils {
         return products;
     }
 
-    public static Product getProductById(String productId, ServletContext context) {
+    public static Product getProductById(String productId) {
         Product product = null;
 
-        try {
-            Connection connection = getConnection(context);
-            PreparedStatement psGet = connection.prepareStatement(GET_PRODUCT_QUERY);
+        try (PreparedStatement psGet = connection.prepareStatement(GET_PRODUCT_QUERY)) {
             psGet.setInt(1, Integer.parseInt(productId));
             ResultSet resultSet = psGet.executeQuery();
 
@@ -116,11 +107,8 @@ public class CRUDUtils {
         return product;
     }
 
-    public static void createUser(User user, ServletContext context) {
-        try {
-            Connection connection = getConnection(context);
-            PreparedStatement psInsert = connection.prepareStatement(ADD_USER_QUERY);
-
+    public static void createUser(User user) {
+        try (PreparedStatement psInsert = connection.prepareStatement(ADD_USER_QUERY)) {
             psInsert.setString(1, user.getID());
             psInsert.setString(2, user.getName());
             psInsert.setString(3, user.getSurname());
@@ -135,8 +123,11 @@ public class CRUDUtils {
         }
     }
 
-    private static Connection getConnection(ServletContext context) {
-        DBConnectionManager dbConnectionManager = (DBConnectionManager) context.getAttribute("DBManager");
-        return dbConnectionManager.getConnection();
+    public static void setConnection(ConnectionPool pool) {
+        try {
+            connection = pool.getConnection();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

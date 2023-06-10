@@ -3,7 +3,6 @@ package by.teachmeskills.shop.servlet;
 import by.teachmeskills.shop.model.Product;
 import by.teachmeskills.shop.utils.CRUDUtils;
 import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,8 +19,7 @@ public class CategoryServlet extends HttpServlet {
         String categoryId = req.getParameter("id");
         String categoryName = req.getParameter("name");
 
-        ServletContext context = getServletContext();
-        List<Product> products = CRUDUtils.getCategoryProducts(categoryId, context);
+        List<Product> products = CRUDUtils.getCategoryProducts(categoryId);
         req.setAttribute("categoryName", categoryName);
         req.setAttribute("products", products);
 
