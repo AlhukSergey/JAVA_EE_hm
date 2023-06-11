@@ -59,8 +59,8 @@ public class LoginServlet extends HttpServlet {
 
     private void validateCredentials(String email, String password) {
         try {
-            HttpRequestCredentialsValidator.validateCredentialNotNull(email);
-            HttpRequestCredentialsValidator.validateCredentialNotNull(password);
+            HttpRequestCredentialsValidator.validateCredential(email);
+            HttpRequestCredentialsValidator.validateCredential(password);
         } catch (RequestCredentialsNullException e) {
             System.out.println(e.getMessage());
         }

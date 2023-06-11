@@ -12,6 +12,7 @@
 <div class="container">
     <div class="col-md-8 offset-md-4">
         <h2>Регистрация</h2>
+        ${info}
         <p>Пожалуйста, введите свои данные:</p>
         <form method="post" action="/registration" class="needs-validation">
             <div class="form-group">
