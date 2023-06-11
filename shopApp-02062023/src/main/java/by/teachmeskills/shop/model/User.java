@@ -1,39 +1,18 @@
 package by.teachmeskills.shop.model;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.UUID;
 
 public class User {
     private final String id;
-    private String name;
-    private String surname;
-    private LocalDate birthday;
-    private double balance;
-    private String email;
-    private String password;
+    private final String name;
+    private final String surname;
+    private final LocalDate birthday;
+    private final double balance;
+    private final String email;
+    private final String password;
 
-    public User(String name, String surname, LocalDate birthday, String email, String password) {
-        id = UUID.randomUUID().toString();
-        this.name = name;
-        this.surname = surname;
-        this.birthday = birthday;
-        balance = 0;
-        this.email = email;
-        this.password = password;
-    }
-
-    public User(String id, String name, String surname, LocalDate birthday, double balance, String email, String password) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.birthday = birthday;
-        this.balance = balance;
-        this.email = email;
-        this.password = password;
-    }
-
-    public String getID() {
+    public String getId() {
         return id;
     }
 
@@ -41,47 +20,86 @@ public class User {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getSurname() {
         return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }
 
     public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
-
     public double getBalance() {
         return balance;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    private User(Builder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+        this.surname = builder.surname;
+        this.birthday = builder.birthday;
+        this.balance = builder.balance;
+        this.email = builder.email;
+        this.password = builder.password;
+    }
+
+    public static Builder newBuilder(){
+        return new Builder();
+    }
+
+    public static final class Builder {
+        private String id;
+        private String name;
+        private String surname;
+        private LocalDate birthday;
+        private double balance;
+        private String email;
+        private String password;
+
+        private Builder(){}
+
+        public Builder withId() {
+            this.id = UUID.randomUUID().toString();
+            return this;
+        }
+
+        public Builder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder withSurname(String surname) {
+            this.surname = surname;
+            return this;
+        }
+        public Builder withBirthday(LocalDate birthday) {
+            this.birthday = birthday;
+            return this;
+        }
+
+        public Builder withBalance(double balance) {
+            this.balance = balance;
+            return this;
+        }
+
+        public Builder withEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder withPassword(String password) {
+            this.password = password;
+            return this;
+        }
+        public User build() {
+            return new User(this);
+        }
     }
 }

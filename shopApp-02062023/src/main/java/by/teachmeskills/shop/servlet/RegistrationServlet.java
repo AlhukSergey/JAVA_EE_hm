@@ -40,7 +40,14 @@ public class RegistrationServlet extends HttpServlet {
             System.out.println(e.getMessage());
         }
 
-        User user = new User(name, surname, DateParser.parseToDate(birthday), email, password);
+        User user = User.newBuilder()
+                .withId()
+                .withName(name)
+                .withSurname(surname)
+                .withBirthday(DateParser.parseToDate(birthday))
+                .withEmail(email)
+                .withPassword(password)
+                .build();
 
         CRUDUtils.createUser(user);
 

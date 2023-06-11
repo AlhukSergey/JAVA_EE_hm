@@ -17,6 +17,8 @@ public class DBContextListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        CRUDUtils.closeConnection(pool);
         System.out.println("Database connection closed for application.");
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
 public class CRUDUtils {
     private static Connection connection;
     private static final String ADD_USER_QUERY = "INSERT INTO users (id, name, surname, birthday, balance, email, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private static final String GET_USER_QUERY = "SELECT * FROM users WHERE email = ?";
+    private static final String GET_USER_QUERY = "SELECT name, surname, birthday, balance, email, password FROM users WHERE email = ?";
     private static final String GET_CATEGORIES_QUERY = "SELECT * FROM categories";
     private static final String GET_PRODUCTS_QUERY = "SELECT * FROM products WHERE categoryId = ?";
     private static final String GET_PRODUCT_QUERY = "SELECT name, description, price, imagePath FROM products WHERE id = ?";
@@ -32,13 +32,14 @@ public class CRUDUtils {
             ResultSet resultSet = psGet.executeQuery();
 
             while (resultSet.next()) {
-                user = new User(resultSet.getString(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3),
-                        resultSet.getTimestamp(4).toLocalDateTime().toLocalDate(),
-                        resultSet.getBigDecimal(5).doubleValue(),
-                        resultSet.getString(6),
-                        EncryptionUtils.decrypt(resultSet.getString(7)));
+                user = User.newBuilder()
+                        .withName(resultSet.getString(1))
+                        .withSurname(resultSet.getString(2))
+                        .withBirthday(resultSet.getTimestamp(3).toLocalDateTime().toLocalDate())
+                        .withBalance(resultSet.getBigDecimal(4).doubleValue())
+                        .withEmail(resultSet.getString(5))
+                        .withPassword(EncryptionUtils.decrypt(resultSet.getString(6)))
+                        .build();
             }
             resultSet.close();
         } catch (SQLException e) {
@@ -111,7 +112,7 @@ public class CRUDUtils {
 
     public static void createUser(User user) {
         try (PreparedStatement psInsert = connection.prepareStatement(ADD_USER_QUERY)) {
-            psInsert.setString(1, user.getID());
+            psInsert.setString(1, user.getId());
             psInsert.setString(2, user.getName());
             psInsert.setString(3, user.getSurname());
             psInsert.setTimestamp(4, Timestamp.valueOf(user.getBirthday().atStartOfDay()));
@@ -127,6 +128,14 @@ public class CRUDUtils {
     public static void setConnection(ConnectionPool pool) {
         try {
             connection = pool.getConnection();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void closeConnection(ConnectionPool pool) {
+        try {
+            pool.closeConnection(connection);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
