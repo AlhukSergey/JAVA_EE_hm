@@ -8,6 +8,6 @@
     <title>Index Page</title>
 </head>
 <body>
-<jsp:forward page="/login"/>
+<jsp:forward page="/registration"/>
 </body>
 </html>

@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS shop.users
     id       VARCHAR(60)    NOT NULL,
     name     VARCHAR(45)    NOT NULL,
     surname  VARCHAR(60)    NOT NULL,
+    birthday Timestamp      NOT NULL,
     balance  DECIMAL(10, 2) NOT NULL,
     email    VARCHAR(45)    NOT NULL,
     password VARCHAR(45)    NOT NULL,
@@ -14,17 +15,19 @@ CREATE TABLE IF NOT EXISTS shop.users
 );
 
 
-INSERT INTO shop.users(id, name, surname, balance, email, password)
+INSERT INTO shop.users(id, name, surname, birthday, balance, email, password)
 VALUES ('42d3cc41-6a7b-4aa2-bfa3-6a8fe0929ec0',
         'Katya',
         'Zhurila',
+        '1996-09-16',
         0.00,
         'katya26@gmail.com',
         'MTExMQ==');
-INSERT INTO shop.users(id, name, surname, balance, email, password)
+INSERT INTO shop.users(id, name, surname, birthday, balance, email, password)
 VALUES ('4548b689-c8a7-413e-9be0-8133e5763f06',
         'Anna',
         'Ivanova',
+        '1990-12-12',
         0.00,
         'anna18@gmail.com',
         'MTExMQ==');

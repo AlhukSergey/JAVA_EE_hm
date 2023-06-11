@@ -13,7 +13,7 @@
     <div class="col-md-8 offset-md-4">
         <h2>Регистрация</h2>
         <p>Пожалуйста, введите свои данные:</p>
-        <form method="post" action="/registration" class="needs-validation" novalidate>
+        <form method="post" action="/registration" class="needs-validation">
             <div class="form-group">
                 <label for="name">Имя:</label>
                 <input type="text" class="form-control w-25" id="name" placeholder="Введите имя" name="name"
@@ -25,6 +25,12 @@
                 <input type="text" class="form-control w-25" id="surname" placeholder="Введите фамилию" name="surname"
                        required>
                 <div class="invalid-feedback">Поле должно быть заполнено!</div>
+            </div>
+            <div class="form-group">
+                <label for="birthday">Дата рождения:</label>
+                <input type="date" class="form-control w-25" id="birthday" name="birthday"
+                       required>
+                <div class="invalid-feedback">Введите дату рождения!</div>
             </div>
             <div class="form-group">
                 <label for="email">Почта:</label>
@@ -42,64 +48,6 @@
         </form>
     </div>
 </div>
-<script>
-    // Disable form submissions if there are invalid fields
-    (function () {
-        'use strict';
-        window.addEventListener('load', function () {
-            // Get the forms we want to add validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-    })();
-
-    // Disable submit button if all fields are empty
-    document.getElementById('loginBtn').disabled = true;
-
-    document.getElementById('name').addEventListener('keyup', e => {
-        //Check for the input's value
-        if (e.target.value === "") {
-            document.getElementById('loginBtn').disabled = true;
-        } else {
-            document.getElementById('loginBtn').disabled = false;
-        }
-    });
-
-    document.getElementById('surname').addEventListener('keyup', e => {
-        //Check for the input's value
-        if (e.target.value === "") {
-            document.getElementById('loginBtn').disabled = true;
-        } else {
-            document.getElementById('loginBtn').disabled = false;
-        }
-    });
-
-    document.getElementById('email').addEventListener('keyup', e => {
-        //Check for the input's value
-        if (e.target.value === "") {
-            document.getElementById('loginBtn').disabled = true;
-        } else {
-            document.getElementById('loginBtn').disabled = false;
-        }
-    });
-
-    document.getElementById('password').addEventListener('keyup', e => {
-        //Check for the input's value
-        if (e.target.value === "") {
-            document.getElementById('loginBtn').disabled = true;
-        } else {
-            document.getElementById('loginBtn').disabled = false;
-        }
-    });
-</script>
+<script src="script/script.js"></script>
 </body>
 </html>

@@ -9,12 +9,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CRUDUtils {
     private static Connection connection;
-    private static final String ADD_USER_QUERY = "INSERT INTO users (id, name, surname, balance, email, password) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String ADD_USER_QUERY = "INSERT INTO users (id, name, surname, birthday, balance, email, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
     private static final String GET_USER_QUERY = "SELECT * FROM users WHERE email = ?";
     private static final String GET_CATEGORIES_QUERY = "SELECT * FROM categories";
     private static final String GET_PRODUCTS_QUERY = "SELECT * FROM products WHERE categoryId = ?";
@@ -34,9 +35,10 @@ public class CRUDUtils {
                 user = new User(resultSet.getString(1),
                         resultSet.getString(2),
                         resultSet.getString(3),
-                        resultSet.getBigDecimal(4).doubleValue(),
-                        resultSet.getString(5),
-                        EncryptionUtils.decrypt(resultSet.getString(6)));
+                        resultSet.getTimestamp(4).toLocalDateTime().toLocalDate(),
+                        resultSet.getBigDecimal(5).doubleValue(),
+                        resultSet.getString(6),
+                        EncryptionUtils.decrypt(resultSet.getString(7)));
             }
             resultSet.close();
         } catch (SQLException e) {
@@ -112,12 +114,11 @@ public class CRUDUtils {
             psInsert.setString(1, user.getID());
             psInsert.setString(2, user.getName());
             psInsert.setString(3, user.getSurname());
-            psInsert.setBigDecimal(4, BigDecimal.valueOf(user.getBalance()));
-            psInsert.setString(5, user.getEmail());
-            psInsert.setString(6, EncryptionUtils.encrypt(user.getPassword()));
+            psInsert.setTimestamp(4, Timestamp.valueOf(user.getBirthday().atStartOfDay()));
+            psInsert.setBigDecimal(5, BigDecimal.valueOf(user.getBalance()));
+            psInsert.setString(6, user.getEmail());
+            psInsert.setString(7, EncryptionUtils.encrypt(user.getPassword()));
             psInsert.execute();
-
-            psInsert.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

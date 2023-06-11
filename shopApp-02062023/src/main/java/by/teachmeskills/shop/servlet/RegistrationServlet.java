@@ -1,7 +1,10 @@
 package by.teachmeskills.shop.servlet;
 
+import by.teachmeskills.shop.exceptions.RequestCredentialsNullException;
 import by.teachmeskills.shop.model.User;
 import by.teachmeskills.shop.utils.CRUDUtils;
+import by.teachmeskills.shop.utils.DateParser;
+import by.teachmeskills.shop.utils.HttpRequestCredentialsValidator;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,10 +26,21 @@ public class RegistrationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
         String surname = req.getParameter("surname");
+        String birthday = req.getParameter("birthday");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        User user = new User(name, surname, email, password);
+        try {
+            HttpRequestCredentialsValidator.validateCredentialNotNull(name);
+            HttpRequestCredentialsValidator.validateCredentialNotNull(surname);
+            HttpRequestCredentialsValidator.validateCredentialNotNull(birthday);
+            HttpRequestCredentialsValidator.validateCredentialNotNull(email);
+            HttpRequestCredentialsValidator.validateCredentialNotNull(password);
+        } catch (RequestCredentialsNullException e) {
+            System.out.println(e.getMessage());
+        }
+
+        User user = new User(name, surname, DateParser.parseToDate(birthday), email, password);
 
         CRUDUtils.createUser(user);
 

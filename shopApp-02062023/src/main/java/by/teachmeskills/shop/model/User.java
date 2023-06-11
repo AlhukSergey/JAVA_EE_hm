@@ -1,28 +1,33 @@
 package by.teachmeskills.shop.model;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.UUID;
 
 public class User {
     private final String id;
     private String name;
     private String surname;
+    private LocalDate birthday;
     private double balance;
     private String email;
     private String password;
 
-    public User(String name, String surname, String email, String password) {
+    public User(String name, String surname, LocalDate birthday, String email, String password) {
         id = UUID.randomUUID().toString();
         this.name = name;
         this.surname = surname;
+        this.birthday = birthday;
         balance = 0;
         this.email = email;
         this.password = password;
     }
 
-    public User(String id, String name, String surname, double balance, String email, String password) {
+    public User(String id, String name, String surname, LocalDate birthday, double balance, String email, String password) {
         this.id = id;
         this.name = name;
         this.surname = surname;
+        this.birthday = birthday;
         this.balance = balance;
         this.email = email;
         this.password = password;
@@ -46,6 +51,14 @@ public class User {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
     }
 
     public double getBalance() {
