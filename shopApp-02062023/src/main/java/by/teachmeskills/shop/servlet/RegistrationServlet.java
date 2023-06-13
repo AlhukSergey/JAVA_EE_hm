@@ -1,5 +1,6 @@
 package by.teachmeskills.shop.servlet;
 
+import by.teachmeskills.shop.exceptions.*;
 import by.teachmeskills.shop.model.Category;
 import by.teachmeskills.shop.model.User;
 import by.teachmeskills.shop.utils.CRUDUtils;
@@ -35,30 +36,33 @@ public class RegistrationServlet extends HttpServlet {
         credentials.put("EMAIL", req.getParameter("email"));
         credentials.put("PASSWORD", req.getParameter("password"));
 
-        if (HttpRequestCredentialsValidator.validateCredentials(credentials)) {
-            User user = User.newBuilder()
-                    .withId()
-                    .withName(credentials.get("NAME"))
-                    .withSurname(credentials.get("SURNAME"))
-                    .withBirthday(DateParser.parseToDate(credentials.get("BIRTHDAY")))
-                    .withEmail(credentials.get("EMAIL"))
-                    .withPassword(credentials.get("PASSWORD"))
-                    .build();
+        try {
+            if (HttpRequestCredentialsValidator.validateCredentials(credentials)) {
+                User user = User.newBuilder()
+                        .withId()
+                        .withName(credentials.get("NAME"))
+                        .withSurname(credentials.get("SURNAME"))
+                        .withBirthday(DateParser.parseToDate(credentials.get("BIRTHDAY")))
+                        .withEmail(credentials.get("EMAIL"))
+                        .withPassword(credentials.get("PASSWORD"))
+                        .build();
 
-            CRUDUtils.createUser(user);
+                CRUDUtils.createUser(user);
 
 
-            HttpSession session = req.getSession();
-            session.setAttribute("user", user);
+                HttpSession session = req.getSession();
+                session.setAttribute("user", user);
 
-            String varInfo = "Добро пожаловать, " + user.getName() + ".";
-            req.setAttribute("info", varInfo);
+                String varInfo = "Добро пожаловать, " + user.getName() + ".";
+                req.setAttribute("info", varInfo);
 
-            showCategories(req);
-            RequestDispatcher rd = req.getRequestDispatcher("/home.jsp");
-            rd.forward(req, resp);
-        } else {
-            String varInfo = "Введены неверные данные. Пожалуйста, введите данные повторно.";
+                showCategories(req);
+                RequestDispatcher rd = req.getRequestDispatcher("/home.jsp");
+                rd.forward(req, resp);
+            }
+        } catch (InvalidDateFormatException | AgeLimitException | InvalidEmailException | InvalidPasswordException |
+                 RequestCredentialsNullException e) {
+            String varInfo ="Введены неверные данные. " + e.getMessage();
             req.setAttribute("info", varInfo);
             RequestDispatcher rd = req.getRequestDispatcher("/registration.jsp");
             rd.forward(req, resp);
