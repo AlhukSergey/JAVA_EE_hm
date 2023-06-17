@@ -14,7 +14,8 @@
         <h2>Вход</h2>
         ${info}
         <p>Пожалуйста, введите свои данные:</p>
-        <form method="post" action="/login" class="needs-validation">
+        <form method="post" class="needs-validation">
+            <input type="hidden" name="command" value="login" required/>
             <div class="form-group">
                 <label for="email">Логин:</label>
                 <input type="text" class="form-control w-25" id="email" placeholder="Введите email" name="email"

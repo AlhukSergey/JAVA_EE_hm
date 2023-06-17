@@ -1,44 +1,28 @@
-package by.teachmeskills.shop.servlet;
+package by.teachmeskills.shop.commands;
 
+import by.teachmeskills.shop.commands.enums.PagesPathEnum;
+import by.teachmeskills.shop.commands.enums.RequestParamsEnum;
+import by.teachmeskills.shop.exceptions.CommandException;
 import by.teachmeskills.shop.exceptions.RequestCredentialsNullException;
 import by.teachmeskills.shop.model.Category;
 import by.teachmeskills.shop.model.User;
 import by.teachmeskills.shop.utils.CRUDUtils;
 import by.teachmeskills.shop.utils.HttpRequestCredentialsValidator;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getSession().getAttribute("user") == null) {
-            RequestDispatcher rd = req.getRequestDispatcher("login.jsp");
-            rd.forward(req, resp);
-        } else {
-            showCategories(req);
-            RequestDispatcher rd = req.getRequestDispatcher("home.jsp");
-            rd.forward(req, resp);
-        }
-    }
+public class LoginCommandImpl implements BaseCommand {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
+    public String execute(HttpServletRequest req) throws CommandException {
+        String email = req.getParameter(RequestParamsEnum.LOGIN.getValue());
+        String password = req.getParameter(RequestParamsEnum.PASSWORD.getValue());
         validateCredentials(email, password);
 
         User user = CRUDUtils.getUser(email);
 
-        RequestDispatcher rd;
         String varInfo;
         if (user != null && user.getPassword().equals(password)) {
             HttpSession session = req.getSession();
@@ -48,13 +32,12 @@ public class LoginServlet extends HttpServlet {
             req.setAttribute("info", varInfo);
 
             showCategories(req);
-            rd = req.getRequestDispatcher("/home.jsp");
+            return PagesPathEnum.HOME_PAGE.getPath();
         } else {
             varInfo = "Введены неверные данные. Пожалуйста, введите данные повторны либо перейдите на страницу регистрации.";
             req.setAttribute("info", varInfo);
-            rd = req.getRequestDispatcher("/login.jsp");
+            return PagesPathEnum.LOGIN_PAGE.getPath();
         }
-        rd.forward(req, resp);
     }
 
     private void validateCredentials(String email, String password) {
@@ -71,4 +54,3 @@ public class LoginServlet extends HttpServlet {
         req.setAttribute("categories", categories);
     }
 }
-

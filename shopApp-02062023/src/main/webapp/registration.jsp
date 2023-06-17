@@ -14,7 +14,8 @@
         <h2>Регистрация</h2>
         ${info}
         <p>Пожалуйста, введите свои данные:</p>
-        <form method="post" action="/registration" class="needs-validation">
+        <form method="post" class="needs-validation">
+            <input type="hidden" name="command" value="registration-user" required/>
             <div class="form-group">
                 <label for="name">Имя:</label>
                 <input type="text" class="form-control w-25" id="name" placeholder="Введите имя" name="name"
