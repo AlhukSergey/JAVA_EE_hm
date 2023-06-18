@@ -23,15 +23,15 @@
                         <a class="nav-link mx-2 text-uppercase active" aria-current="page" href="#">Главная</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase" href="#">Каталог</a>
+                        <a class="nav-link mx-2 text-uppercase" href="/shop?command=redirect-to-home-page">Каталог</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase" href="#">О нас</a>
+                        <a class="nav-link mx-2 text-uppercase" href="/shop?command=redirect-to-my-page">О нас</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto ">
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase" href="#"><img
+                        <a class="nav-link mx-2 text-uppercase" href="/shop?command=redirect-to-shopping-cart-page"><img
                                 style="border-radius: 50%; max-height: 25px;"
                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRL4ELxVekG-GUDCb6BMDCg-zHhKWfLdNARGCvloOGOSWfthtZAwylrlCT20AT0zGm02LQ&usqp=CAU"
                                 class="fa-solid fa-cart-shopping me-1"> Корзина</a>
@@ -60,7 +60,9 @@
                 </div>
                 <div class="col col align-self-end">
                     <div class="btn-lg d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button class="btn btn-primary" type="button">Купить</button>
+                        <a href="${contextPath}/shop?command=add-product-to-shopping-cart&product_id=${product.getId()}">
+                            <button id="addProductToCart" class="btn btn-primary" type="button" onclick="productAddedToShoppingCartMsg()">Купить</button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -70,5 +72,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+<script>
+    function productAddedToShoppingCartMsg() {
+        window.confirm("Продукт добавлен в корзину!");
+    }
+</script>
 </body>
 </html>

@@ -21,18 +21,19 @@
             <div class=" collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav ms-auto ">
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase active" aria-current="page" href="#">Главная</a>
+                        <a class="nav-link mx-2 text-uppercase active" aria-current="page"
+                           href="/shop?command=redirect-to-home-page">Главная</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase" href="#">Каталог</a>
+                        <a class="nav-link mx-2 text-uppercase" href="/shop?command=redirect-to-home-page">Каталог</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase" href="#">О нас</a>
+                        <a class="nav-link mx-2 text-uppercase" href="/shop?command=redirect-to-my-page">О нас</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto ">
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase" href="#"><img
+                        <a class="nav-link mx-2 text-uppercase" href="/shop?command=redirect-to-shopping-cart-page"><img
                                 style="border-radius: 50%; max-height: 25px;"
                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRL4ELxVekG-GUDCb6BMDCg-zHhKWfLdNARGCvloOGOSWfthtZAwylrlCT20AT0zGm02LQ&usqp=CAU"
                                 class="fa-solid fa-cart-shopping me-1"> Корзина</a>
@@ -57,7 +58,7 @@
                 <c:forEach items="${products}" var="product">
                     <div class="card w-25 m-1" type="product">
                         <div class="card-body" style="flex: 1 1 auto;">
-                            <a href='<c:url value="/product?id=${product.getId()}" />'>
+                            <a href='<c:url value="/shop?command=redirect-to-product-page&product_id=${product.getId()}"/>'>
                                 <h5 class="card-title">${product.getName()}</h5>
                                 <img class="card-img card-scale" style="max-height:300px"
                                      src="${product.getImagePath()}" alt="Card image">
@@ -73,6 +74,7 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+</script>
 </body>
 </html>

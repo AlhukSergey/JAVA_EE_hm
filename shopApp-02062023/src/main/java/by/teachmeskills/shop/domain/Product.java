@@ -1,4 +1,4 @@
-package by.teachmeskills.shop.model;
+package by.teachmeskills.shop.domain;
 
 public class Product {
     private int id;
@@ -17,7 +17,8 @@ public class Product {
         this.imagePath = imagePath;
     }
 
-    public Product(String name, String description, double price, String imagePath) {
+    public Product(int id, String name, String description, double price, String imagePath) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;

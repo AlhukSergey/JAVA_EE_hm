@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
-    <title>Категории</title>
+    <title>Каталог</title>
 </head>
 <body>
 <div class="container">
@@ -18,7 +18,7 @@
             <div class="row justify-content-center">
                 <c:forEach items="${categories}" var="category">
                     <div class="card w-25 m-1" type="category">
-                        <a href='<c:url value="/category?id=${category.getId()}&name=${category.getName()}"  />'>
+                        <a href='<c:url value="/shop?command=redirect-to-category-page&category_id=${category.getId()}"/>'>
                             <div class="card-body">
                                 <h5 class="card-title">${category.getName()}</h5>
                                 <img class="card-img card-scale" style="max-height:300px" src="${category.getImagePath()}"

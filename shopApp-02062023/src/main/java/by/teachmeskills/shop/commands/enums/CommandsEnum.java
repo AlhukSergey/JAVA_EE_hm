@@ -1,8 +1,17 @@
 package by.teachmeskills.shop.commands.enums;
 
 public enum CommandsEnum {
-    REGISTRATION_COMMAND("registration-user"),
-    LOGIN_COMMAND("login");
+    SHOW_LOGIN_PAGE_COMMAND("show-login-page"),
+    REGISTRATION_USER_COMMAND("registration-user"),
+    LOGIN_COMMAND("login"),
+    REDIRECT_TO_REGISTRATION_PAGE_COMMAND("redirect-to-registration-page"),
+    REDIRECT_TO_HOME_PAGE_COMMAND("redirect-to-home-page"),
+    REDIRECT_TO_CATEGORY_PAGE_COMMAND("redirect-to-category-page"),
+    REDIRECT_TO_PRODUCT_PAGE_COMMAND("redirect-to-product-page"),
+    REDIRECT_TO_SHOPPING_CART_PAGE_COMMAND("redirect-to-shopping-cart-page"),
+    REDIRECT_TO_MY_PAGE_COMMAND("redirect-to-my-page"),
+    ADD_PRODUCT_TO_SHOPPING_CART_COMMAND("add-product-to-shopping-cart"),
+    REMOVE_PRODUCT_FROM_SHOPPING_CART_COMMAND("remove-product-from-shopping-cart");
     private final String command;
 
     CommandsEnum(String command) {

@@ -1,11 +1,12 @@
 package by.teachmeskills.shop.commands;
 
 import by.teachmeskills.shop.commands.enums.PagesPathEnum;
+import by.teachmeskills.shop.commands.enums.RequestParamsEnum;
 import by.teachmeskills.shop.exceptions.CommandException;
 import by.teachmeskills.shop.exceptions.IncorrectUserDataException;
 import by.teachmeskills.shop.exceptions.RequestCredentialsNullException;
-import by.teachmeskills.shop.model.Category;
-import by.teachmeskills.shop.model.User;
+import by.teachmeskills.shop.domain.Category;
+import by.teachmeskills.shop.domain.User;
 import by.teachmeskills.shop.utils.CRUDUtils;
 import by.teachmeskills.shop.utils.DateParser;
 import by.teachmeskills.shop.utils.HttpRequestCredentialsValidator;
@@ -16,15 +17,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RegistrationCommandImp implements BaseCommand {
+public class RegistrationUserCommandImpl implements BaseCommand {
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
         Map<String, String> userData = new HashMap<>();
-        userData.put("NAME", req.getParameter("name"));
-        userData.put("SURNAME", req.getParameter("surname"));
-        userData.put("BIRTHDAY", req.getParameter("birthday"));
-        userData.put("EMAIL", req.getParameter("email"));
-        userData.put("PASSWORD", req.getParameter("password"));
+        userData.put("NAME", req.getParameter(RequestParamsEnum.NAME.getValue()));
+        userData.put("SURNAME", req.getParameter(RequestParamsEnum.SURNAME.getValue()));
+        userData.put("BIRTHDAY", req.getParameter(RequestParamsEnum.BIRTHDAY.getValue()));
+        userData.put("EMAIL", req.getParameter(RequestParamsEnum.EMAIL.getValue()));
+        userData.put("PASSWORD", req.getParameter(RequestParamsEnum.PASSWORD.getValue()));
 
         try {
             HttpRequestCredentialsValidator.validateUserData(userData);
@@ -34,13 +35,13 @@ public class RegistrationCommandImp implements BaseCommand {
             return PagesPathEnum.REGISTRATION_PAGE.getPath();
         }
 
-        User user = User.newBuilder()
-                .withId()
-                .withName(userData.get("NAME"))
-                .withSurname(userData.get("SURNAME"))
-                .withBirthday(DateParser.parseToDate(userData.get("BIRTHDAY")))
-                .withEmail(userData.get("EMAIL"))
-                .withPassword(userData.get("PASSWORD"))
+        User user = User.builder()
+                .name(userData.get("NAME"))
+                .surname(userData.get("SURNAME"))
+                .birthday(DateParser.parseToDate(userData.get("BIRTHDAY")))
+                .email(userData.get("EMAIL"))
+                .password(userData.get("PASSWORD"))
+                .balance(0.00)
                 .build();
 
         CRUDUtils.createUser(user);
@@ -59,5 +60,7 @@ public class RegistrationCommandImp implements BaseCommand {
     private void showCategories(HttpServletRequest req) {
         List<Category> categories = CRUDUtils.getCategories();
         req.setAttribute("categories", categories);
+        HttpSession session = req.getSession();
+        session.setAttribute(RequestParamsEnum.CATEGORIES.getValue(), categories);
     }
 }

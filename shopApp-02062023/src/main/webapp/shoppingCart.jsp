@@ -23,19 +23,13 @@
                         <a class="nav-link mx-2 text-uppercase active" aria-current="page" href="#">Главная</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase" href="#">Каталог</a>
+                        <a class="nav-link mx-2 text-uppercase" href="/shop?command=redirect-to-home-page">Каталог</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase" href="#">О нас</a>
+                        <a class="nav-link mx-2 text-uppercase" href="/shop?command=redirect-to-my-page">О нас</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto ">
-                    <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase" href="#"><img
-                                style="border-radius: 50%; max-height: 25px;"
-                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRL4ELxVekG-GUDCb6BMDCg-zHhKWfLdNARGCvloOGOSWfthtZAwylrlCT20AT0zGm02LQ&usqp=CAU"
-                                class="fa-solid fa-cart-shopping me-1"> Корзина</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link mx-2 text-uppercase" href="#"><img
                                 style="border-radius: 50%; max-height: 25px;"
@@ -47,6 +41,7 @@
         </div>
     </nav>
 </div>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <div class="container">
     <h2 style="text-align: center">Корзина</h2>
     <c:if test="${not empty cartProductsList}">
@@ -60,9 +55,9 @@
                             <p>${product.getDescription()}</p>
                             <span>${product.getPrice()} р.</span>
                             <div class="col col align-self-end">
-                                <div class="btn-lg d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <button class="btn btn-primary" type="button">Удалить</button>
-                                </div>
+                                <a href="${contextPath}/shop?command=remove-product-from-shopping-cart&product_id=${product.getId()}">
+                                    <button id="removeProductFromCart" class="btn btn-primary" type="button" onclick="productRemovedFromShoppingCartMsg()">Удалить</button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -76,6 +71,12 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+</script>
+<script>
+    function productRemovedFromShoppingCartMsg() {
+        window.confirm("Продукт удален из корзины!");
+    }
+</script>
 </body>
 </html>

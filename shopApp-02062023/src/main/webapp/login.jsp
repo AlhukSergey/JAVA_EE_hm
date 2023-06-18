@@ -15,7 +15,7 @@
         ${info}
         <p>Пожалуйста, введите свои данные:</p>
         <form method="post" class="needs-validation">
-            <input type="hidden" name="command" value="login" required/>
+            <input type="hidden" name="command" value="login"/>
             <div class="form-group">
                 <label for="email">Логин:</label>
                 <input type="text" class="form-control w-25" id="email" placeholder="Введите email" name="email"
@@ -28,6 +28,7 @@
             </div>
             <button id="loginBtn" type="submit" class="btn btn-primary">Войти</button>
         </form>
+        <a class="btn btn-primary" href="/shop?command=redirect-to-registration-page">Регистрация</a>
     </div>
 </div>
 <script src="script/script.js">

@@ -1,8 +1,8 @@
 package by.teachmeskills.shop.utils;
 
-import by.teachmeskills.shop.model.Category;
-import by.teachmeskills.shop.model.Product;
-import by.teachmeskills.shop.model.User;
+import by.teachmeskills.shop.domain.Category;
+import by.teachmeskills.shop.domain.Product;
+import by.teachmeskills.shop.domain.User;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -15,11 +15,11 @@ import java.util.List;
 
 public class CRUDUtils {
     private static Connection connection;
-    private static final String ADD_USER_QUERY = "INSERT INTO users (id, name, surname, birthday, balance, email, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String ADD_USER_QUERY = "INSERT INTO users (name, surname, birthday, balance, email, password) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String GET_USER_QUERY = "SELECT name, surname, birthday, balance, email, password FROM users WHERE email = ?";
     private static final String GET_CATEGORIES_QUERY = "SELECT * FROM categories";
     private static final String GET_PRODUCTS_QUERY = "SELECT * FROM products WHERE categoryId = ?";
-    private static final String GET_PRODUCT_QUERY = "SELECT name, description, price, imagePath FROM products WHERE id = ?";
+    private static final String GET_PRODUCT_QUERY = "SELECT id, name, description, price, imagePath FROM products WHERE id = ?";
 
     private CRUDUtils() {
     }
@@ -32,13 +32,13 @@ public class CRUDUtils {
             ResultSet resultSet = psGet.executeQuery();
 
             while (resultSet.next()) {
-                user = User.newBuilder()
-                        .withName(resultSet.getString(1))
-                        .withSurname(resultSet.getString(2))
-                        .withBirthday(resultSet.getTimestamp(3).toLocalDateTime().toLocalDate())
-                        .withBalance(resultSet.getBigDecimal(4).doubleValue())
-                        .withEmail(resultSet.getString(5))
-                        .withPassword(EncryptionUtils.decrypt(resultSet.getString(6)))
+                user = User.builder()
+                        .name(resultSet.getString(1))
+                        .surname(resultSet.getString(2))
+                        .birthday(resultSet.getTimestamp(3).toLocalDateTime().toLocalDate())
+                        .balance(resultSet.getBigDecimal(4).doubleValue())
+                        .email(resultSet.getString(5))
+                        .password(EncryptionUtils.decrypt(resultSet.getString(6)))
                         .build();
             }
             resultSet.close();
@@ -97,10 +97,11 @@ public class CRUDUtils {
 
             while (resultSet.next()) {
                 product = new Product(
-                        resultSet.getString(1),
+                        resultSet.getInt(1),
                         resultSet.getString(2),
-                        resultSet.getDouble(3),
-                        resultSet.getString(4)
+                        resultSet.getString(3),
+                        resultSet.getDouble(4),
+                        resultSet.getString(5)
                 );
             }
             resultSet.close();
@@ -112,13 +113,12 @@ public class CRUDUtils {
 
     public static void createUser(User user) {
         try (PreparedStatement psInsert = connection.prepareStatement(ADD_USER_QUERY)) {
-            psInsert.setString(1, user.getId());
-            psInsert.setString(2, user.getName());
-            psInsert.setString(3, user.getSurname());
-            psInsert.setTimestamp(4, Timestamp.valueOf(user.getBirthday().atStartOfDay()));
-            psInsert.setBigDecimal(5, BigDecimal.valueOf(user.getBalance()));
-            psInsert.setString(6, user.getEmail());
-            psInsert.setString(7, EncryptionUtils.encrypt(user.getPassword()));
+            psInsert.setString(1, user.getName());
+            psInsert.setString(2, user.getSurname());
+            psInsert.setTimestamp(3, Timestamp.valueOf(user.getBirthday().atStartOfDay()));
+            psInsert.setBigDecimal(4, BigDecimal.valueOf(user.getBalance()));
+            psInsert.setString(5, user.getEmail());
+            psInsert.setString(6, EncryptionUtils.encrypt(user.getPassword()));
             psInsert.execute();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

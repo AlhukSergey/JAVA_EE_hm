@@ -33,7 +33,7 @@ public class AppServlet extends HttpServlet {
             RequestDispatcher dispatcher = req.getRequestDispatcher(path);
             dispatcher.forward(req, resp);
         } catch (CommandException e) {
-            req.getRequestDispatcher(PagesPathEnum.REGISTRATION_PAGE.getPath()).forward(req, resp);
+            req.getRequestDispatcher(PagesPathEnum.LOGIN_PAGE.getPath()).forward(req, resp);
         }
     }
 }
