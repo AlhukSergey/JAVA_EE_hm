@@ -7,6 +7,7 @@ import by.teachmeskills.shop.exceptions.IncorrectUserDataException;
 import by.teachmeskills.shop.exceptions.RequestCredentialsNullException;
 import by.teachmeskills.shop.domain.Category;
 import by.teachmeskills.shop.domain.User;
+import by.teachmeskills.shop.exceptions.UserAlreadyExistsException;
 import by.teachmeskills.shop.utils.CRUDUtils;
 import by.teachmeskills.shop.utils.DateParser;
 import by.teachmeskills.shop.utils.HttpRequestCredentialsValidator;
@@ -31,6 +32,14 @@ public class RegistrationUserCommandImpl implements BaseCommand {
             HttpRequestCredentialsValidator.validateUserData(userData);
         } catch (IncorrectUserDataException | RequestCredentialsNullException e) {
             String varInfo = "Введены некорректные  данные. " + e.getMessage();
+            req.setAttribute("info", varInfo);
+            return PagesPathEnum.REGISTRATION_PAGE.getPath();
+        }
+
+        try {
+            checkUserAlreadyExists(userData.get("EMAIL"));
+        } catch (UserAlreadyExistsException e) {
+            String varInfo = e.getMessage();
             req.setAttribute("info", varInfo);
             return PagesPathEnum.REGISTRATION_PAGE.getPath();
         }
@@ -62,5 +71,13 @@ public class RegistrationUserCommandImpl implements BaseCommand {
         req.setAttribute("categories", categories);
         HttpSession session = req.getSession();
         session.setAttribute(RequestParamsEnum.CATEGORIES.getValue(), categories);
+    }
+
+    private void checkUserAlreadyExists(String email) throws UserAlreadyExistsException {
+        User user = CRUDUtils.getUser(email);
+        if (user != null) {
+            throw new UserAlreadyExistsException("Пользователь с таким логином уже существует. " +
+                    "Чтобы войти в аккаунт, перейдите на страницу входа...");
+        }
     }
 }

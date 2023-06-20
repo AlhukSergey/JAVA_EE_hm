@@ -48,6 +48,7 @@
             </div>
             <button id="loginBtn" type="submit" class="btn btn-primary">Зарегистрироваться</button>
         </form>
+        <a class="btn btn-primary" href="/shop?show-login-page">На страницу входа</a>
     </div>
 </div>
 <script src="script/script.js"></script>

@@ -32,6 +32,7 @@ public class DataValidator {
     }
 
     //checkEmailFormat
+    //Email example (used for login) : anna18@gmail.com
     public static boolean validateEmail(String email) {
         String regex = "^(.+)@(\\S+)$";
         Pattern pattern = Pattern.compile(regex);
@@ -47,6 +48,7 @@ public class DataValidator {
        (?=.*[@#$%^&+=]) a special character must occur at least once
        (?=\\S+$) no whitespace allowed in the entire string
        .{8,} at least 8 characters
+       Password example (used for login) : A!1+=asasasaas
        */
     public static boolean validatePassword(String password) {
         String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";

@@ -18,7 +18,7 @@ public class CRUDUtils {
     private static final String ADD_USER_QUERY = "INSERT INTO users (name, surname, birthday, balance, email, password) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String GET_USER_QUERY = "SELECT name, surname, birthday, balance, email, password FROM users WHERE email = ?";
     private static final String GET_CATEGORIES_QUERY = "SELECT * FROM categories";
-    private static final String GET_PRODUCTS_QUERY = "SELECT * FROM products WHERE categoryId = ?";
+    private static final String GET_PRODUCTS_BY_ID_QUERY = "SELECT * FROM products WHERE categoryId = ?";
     private static final String GET_PRODUCT_QUERY = "SELECT id, name, description, price, imagePath FROM products WHERE id = ?";
 
     private CRUDUtils() {
@@ -69,17 +69,25 @@ public class CRUDUtils {
     public static List<Product> getCategoryProducts(String categoryId) {
         List<Product> products = new ArrayList<>();
 
-        try (PreparedStatement psGet = connection.prepareStatement(GET_PRODUCTS_QUERY)) {
+        try (PreparedStatement psGet = connection.prepareStatement(GET_PRODUCTS_BY_ID_QUERY)) {
             psGet.setInt(1, Integer.parseInt(categoryId));
             ResultSet resultSet = psGet.executeQuery();
 
             while (resultSet.next()) {
-                products.add(new Product(resultSet.getInt(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3),
-                        resultSet.getDouble(4),
-                        resultSet.getInt(5),
-                        resultSet.getString(6)));
+                /*products.add(Product.builder()
+                        .id((resultSet.getInt(1)))
+                        .name(resultSet.getString(2))
+                        .description(resultSet.getString(3))
+                        .price(resultSet.getDouble(4))
+                        .categoryId(resultSet.getInt(5))
+                        .imagePath(resultSet.getString(6)).build());*/
+                products.add(Product.newBuilder()
+                        .withId((resultSet.getInt(1)))
+                        .withName(resultSet.getString(2))
+                        .withDescription(resultSet.getString(3))
+                        .withPrice(resultSet.getDouble(4))
+                        .withCategoryId(resultSet.getInt(5))
+                        .withImagePath(resultSet.getString(6)).build());
             }
             resultSet.close();
         } catch (SQLException e) {
@@ -95,14 +103,30 @@ public class CRUDUtils {
             psGet.setInt(1, Integer.parseInt(productId));
             ResultSet resultSet = psGet.executeQuery();
 
+
+
+            // Использование lombok builder приводит к ошибке компиляции. Программа работает, все запускается, но
+            // idea подсвечивает ошибку "Lombok builder is missing non nullable fields" и в качестве решения
+            // предлагает add all mandatory fields, но полей, объявленных как обязательные, у меня нет.
+            // Не нашел ни в документации @builder ни в сети.
+            // При реализации паттерна Builder руками подобной ошибки не возникает.
+            // Предположу, что это связано с работой lombok builder и sql.
+
             while (resultSet.next()) {
-                product = new Product(
-                        resultSet.getInt(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3),
-                        resultSet.getDouble(4),
-                        resultSet.getString(5)
-                );
+                /*product = Product.builder()
+                        .id(resultSet.getInt(1))
+                        .name(resultSet.getString(2))
+                        .description(resultSet.getString(3))
+                        .price(resultSet.getDouble(4))
+                        .imagePath(resultSet.getString(5))
+                        .build();*/
+                product = Product.newBuilder()
+                        .withId(resultSet.getInt(1))
+                        .withName(resultSet.getString(2))
+                        .withDescription(resultSet.getString(3))
+                        .withPrice(resultSet.getDouble(4))
+                        .withImagePath(resultSet.getString(5))
+                        .build();
             }
             resultSet.close();
         } catch (SQLException e) {

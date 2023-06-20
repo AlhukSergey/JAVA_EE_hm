@@ -1,5 +1,19 @@
 package by.teachmeskills.shop.domain;
 
+/*import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class Product {
+    private int id;
+    private String name;
+    private String description;
+    private double price;
+    private int categoryId;
+    private String imagePath;
+}*/
+
 public class Product {
     private int id;
     private String name;
@@ -8,68 +22,86 @@ public class Product {
     private int categoryId;
     private String imagePath;
 
-    public Product(int id, String name, String description, double price, int categoryId, String imagePath) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.categoryId = categoryId;
-        this.imagePath = imagePath;
-    }
-
-    public Product(int id, String name, String description, double price, String imagePath) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.imagePath = imagePath;
-    }
-
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public int getCategoryId() {
         return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
     }
 
     public String getImagePath() {
         return imagePath;
     }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    private Product(Builder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+        this.description = builder.description;
+        this.price = builder.price;
+        this.categoryId = builder.categoryId;
+        this.imagePath = builder.imagePath;
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
+    public static final class Builder {
+        private int id;
+        private String name;
+        private String description;
+        private double price;
+        private int categoryId;
+        private String imagePath;
+
+        private Builder() {
+        }
+
+        public Builder withId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder withDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder withPrice(double price) {
+            this.price = price;
+            return this;
+        }
+
+        public Builder withCategoryId(int categoryId) {
+            this.categoryId = categoryId;
+            return this;
+        }
+
+        public Builder withImagePath(String imagePath) {
+            this.imagePath = imagePath;
+            return this;
+        }
+
+        public Product build() {
+            return new Product(this);
+        }
     }
 }

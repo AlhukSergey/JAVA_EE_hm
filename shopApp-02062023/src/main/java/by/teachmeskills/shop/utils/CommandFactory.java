@@ -1,6 +1,17 @@
 package by.teachmeskills.shop.utils;
 
-import by.teachmeskills.shop.commands.*;
+import by.teachmeskills.shop.commands.AddProductToShoppingCartCommandImpl;
+import by.teachmeskills.shop.commands.BaseCommand;
+import by.teachmeskills.shop.commands.LoginCommandImpl;
+import by.teachmeskills.shop.commands.RedirectToCategoryPageImpl;
+import by.teachmeskills.shop.commands.RedirectToHomePageCommandIml;
+import by.teachmeskills.shop.commands.RedirectToMyPageCommandImpl;
+import by.teachmeskills.shop.commands.RedirectToProductPageCommandImpl;
+import by.teachmeskills.shop.commands.RedirectToRegistrationPageCommandImpl;
+import by.teachmeskills.shop.commands.RedirectToShoppingCartPageCommandImpl;
+import by.teachmeskills.shop.commands.RegistrationUserCommandImpl;
+import by.teachmeskills.shop.commands.RemoveProductFromShoppingCartCommandImpl;
+import by.teachmeskills.shop.commands.ShowLoginPageCommandImpl;
 import by.teachmeskills.shop.commands.enums.CommandsEnum;
 import by.teachmeskills.shop.commands.enums.RequestParamsEnum;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,8 +41,8 @@ public class CommandFactory {
 
     public static BaseCommand defineCommand(HttpServletRequest req) {
 
-        //Если первой командой будет LOGIN_COMMAND, то на странице логина выбрасывается ошибка. Чтобы этого избежать, первой командой выступает SHOW_LOGIN_PAGE, которая
-        // просто возвращает страницу логина.
+        //Если первой командой будет LOGIN_COMMAND, то на странице логина выбрасывается ошибка "Учетные данные запроса не инициализированы!".
+        // Чтобы этого избежать, первой командой выступает SHOW_LOGIN_PAGE, которая просто возвращает страницу логина.
 
         String commandKey = req.getParameter(RequestParamsEnum.COMMAND.getValue());
         if (commandKey == null || commandKey.isEmpty()) {
