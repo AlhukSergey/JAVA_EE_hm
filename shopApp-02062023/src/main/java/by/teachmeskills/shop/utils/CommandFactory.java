@@ -40,10 +40,6 @@ public class CommandFactory {
     }
 
     public static BaseCommand defineCommand(HttpServletRequest req) {
-
-        //Если первой командой будет LOGIN_COMMAND, то на странице логина выбрасывается ошибка "Учетные данные запроса не инициализированы!".
-        // Чтобы этого избежать, первой командой выступает SHOW_LOGIN_PAGE, которая просто возвращает страницу логина.
-
         String commandKey = req.getParameter(RequestParamsEnum.COMMAND.getValue());
         if (commandKey == null || commandKey.isEmpty()) {
             commandKey = CommandsEnum.SHOW_LOGIN_PAGE_COMMAND.getCommand();

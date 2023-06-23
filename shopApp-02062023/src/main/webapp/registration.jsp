@@ -14,7 +14,7 @@
         <h2>Регистрация</h2>
         ${info}
         <p>Пожалуйста, введите свои данные:</p>
-        <form method="post" class="needs-validation">
+        <form method="post" action="/shop" class="needs-validation">
             <input type="hidden" name="command" value="registration-user"/>
             <div class="form-group">
                 <label for="name">Имя:</label>
@@ -48,7 +48,7 @@
             </div>
             <button id="loginBtn" type="submit" class="btn btn-primary">Зарегистрироваться</button>
         </form>
-        <a class="btn btn-primary" href="/shop?show-login-page">На страницу входа</a>
+        <a class="btn btn-primary" href="/shop?command=show-login-page">На страницу входа</a>
     </div>
 </div>
 <script src="script/script.js"></script>

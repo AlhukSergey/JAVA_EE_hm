@@ -1,28 +1,25 @@
 package by.teachmeskills.shop.commands;
 
 import by.teachmeskills.shop.commands.enums.PagesPathEnum;
-import by.teachmeskills.shop.exceptions.RequestCredentialsNullException;
-import by.teachmeskills.shop.domain.Category;
+import by.teachmeskills.shop.commands.enums.RequestParamsEnum;
 import by.teachmeskills.shop.domain.User;
+import by.teachmeskills.shop.exceptions.CommandException;
+import by.teachmeskills.shop.exceptions.RequestCredentialsNullException;
 import by.teachmeskills.shop.utils.CRUDUtils;
 import by.teachmeskills.shop.utils.HttpRequestCredentialsValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-import java.util.List;
-
-import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.CATEGORIES;
-import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.INFO;
-import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.LOGIN;
-import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.PASSWORD;
-import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.USER;
+import static by.teachmeskills.shop.utils.HomePageFiller.showCategories;
 
 public class LoginCommandImpl implements BaseCommand {
+    private final String WELCOME_INFO = "Добро пожаловать, ";
+    private final String ERROR_INFO = "Пользователя с таким логином не существует. Пожалуйста, введите данные повторно либо перейдите на страницу регистрации.";
 
     @Override
-    public String execute(HttpServletRequest req) {
-        String email = req.getParameter(LOGIN.getValue());
-        String password = req.getParameter(PASSWORD.getValue());
+    public String execute(HttpServletRequest req) throws CommandException {
+        String email = req.getParameter(RequestParamsEnum.LOGIN.getValue());
+        String password = req.getParameter(RequestParamsEnum.PASSWORD.getValue());
         validateCredentials(email, password);
 
         User user = CRUDUtils.getUser(email);
@@ -30,16 +27,16 @@ public class LoginCommandImpl implements BaseCommand {
         String varInfo;
         if (user != null && user.getPassword().equals(password)) {
             HttpSession session = req.getSession();
-            session.setAttribute(USER.getValue(), user);
+            session.setAttribute(RequestParamsEnum.USER.getValue(), user);
 
-            varInfo = "Добро пожаловать, " + user.getName() + ".";
-            req.setAttribute(INFO.getValue(), varInfo);
+            varInfo = WELCOME_INFO + user.getName() + ".";
+            req.setAttribute(RequestParamsEnum.INFO.getValue(), varInfo);
 
             showCategories(req);
             return PagesPathEnum.HOME_PAGE.getPath();
         } else {
-            varInfo = "Введены неверные данные. Пожалуйста, введите данные повторны либо перейдите на страницу регистрации.";
-            req.setAttribute(INFO.getValue(), varInfo);
+            varInfo = ERROR_INFO;
+            req.setAttribute(RequestParamsEnum.INFO.getValue(), varInfo);
             return PagesPathEnum.LOGIN_PAGE.getPath();
         }
     }
@@ -51,12 +48,5 @@ public class LoginCommandImpl implements BaseCommand {
         } catch (RequestCredentialsNullException e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    private void showCategories(HttpServletRequest req) {
-        List<Category> categories = CRUDUtils.getCategories();
-        req.setAttribute(CATEGORIES.getValue(), categories);
-        HttpSession session = req.getSession();
-        session.setAttribute(CATEGORIES.getValue(), categories);
     }
 }

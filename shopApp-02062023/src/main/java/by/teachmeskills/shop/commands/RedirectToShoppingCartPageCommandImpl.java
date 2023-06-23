@@ -1,6 +1,7 @@
 package by.teachmeskills.shop.commands;
 
 import by.teachmeskills.shop.domain.Cart;
+import by.teachmeskills.shop.exceptions.CommandException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -10,7 +11,7 @@ import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.SHOPPING_CA
 
 public class RedirectToShoppingCartPageCommandImpl implements BaseCommand {
     @Override
-    public String execute(HttpServletRequest req) {
+    public String execute(HttpServletRequest req) throws CommandException {
         HttpSession session = req.getSession();
         Cart shoppingCart = (Cart) session.getAttribute(SHOPPING_CART.getValue());
 

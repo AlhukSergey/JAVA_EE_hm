@@ -14,7 +14,7 @@
         <h2>Вход</h2>
         ${info}
         <p>Пожалуйста, введите свои данные:</p>
-        <form method="post" class="needs-validation">
+        <form method="post" action="/shop" class="needs-validation">
             <input type="hidden" name="command" value="login"/>
             <div class="form-group">
                 <label for="email">Логин:</label>
@@ -28,7 +28,7 @@
             </div>
             <button id="loginBtn" type="submit" class="btn btn-primary">Войти</button>
         </form>
-        <a class="btn btn-primary" href="/shop?command=redirect-to-registration-page">Регистрация</a>
+        <a class="btn btn-primary" href="/shop?command=redirect-to-registration-page">На страницу регистрации</a>
     </div>
 </div>
 <script src="script/script.js">
