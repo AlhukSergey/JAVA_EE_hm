@@ -11,7 +11,10 @@ public enum CommandsEnum {
     REDIRECT_TO_SHOPPING_CART_PAGE_COMMAND("redirect-to-shopping-cart-page"),
     REDIRECT_TO_MY_PAGE_COMMAND("redirect-to-my-page"),
     ADD_PRODUCT_TO_SHOPPING_CART_COMMAND("add-product-to-shopping-cart"),
-    REMOVE_PRODUCT_FROM_SHOPPING_CART_COMMAND("remove-product-from-shopping-cart");
+    REMOVE_PRODUCT_FROM_SHOPPING_CART_COMMAND("remove-product-from-shopping-cart"),
+    REDIRECT_TO_USER_ACCOUNT_PAGE_COMMAND("redirect-to-user-account-page"),
+    SHOW_USER_DATE_COMMAND("show-user-date"),
+    CHANGE_USER_PASSWORD_COMMAND("change-password");
     private final String command;
 
     CommandsEnum(String command) {

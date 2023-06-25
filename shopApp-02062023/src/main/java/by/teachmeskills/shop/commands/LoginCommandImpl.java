@@ -14,7 +14,8 @@ import static by.teachmeskills.shop.utils.HomePageFiller.showCategories;
 
 public class LoginCommandImpl implements BaseCommand {
     private final String WELCOME_INFO = "Добро пожаловать, ";
-    private final String ERROR_INFO = "Пользователя с таким логином не существует. Пожалуйста, введите данные повторно либо перейдите на страницу регистрации.";
+    private final String USER_NOT_FOUND_INFO = "Пользователя с таким логином не существует. Пожалуйста, введите данные повторно либо перейдите на страницу регистрации.";
+    private final String PASSWORD_INCORRECT_INFO = "Введен неверный пароль. Повторите попытку.";
 
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
@@ -25,20 +26,26 @@ public class LoginCommandImpl implements BaseCommand {
         User user = CRUDUtils.getUser(email);
 
         String varInfo;
-        if (user != null && user.getPassword().equals(password)) {
-            HttpSession session = req.getSession();
-            session.setAttribute(RequestParamsEnum.USER.getValue(), user);
-
-            varInfo = WELCOME_INFO + user.getName() + ".";
-            req.setAttribute(RequestParamsEnum.INFO.getValue(), varInfo);
-
-            showCategories(req);
-            return PagesPathEnum.HOME_PAGE.getPath();
-        } else {
-            varInfo = ERROR_INFO;
+        if (user == null) {
+            varInfo = USER_NOT_FOUND_INFO;
             req.setAttribute(RequestParamsEnum.INFO.getValue(), varInfo);
             return PagesPathEnum.LOGIN_PAGE.getPath();
         }
+
+        if (!user.getPassword().equals(password)) {
+            varInfo = PASSWORD_INCORRECT_INFO;
+            req.setAttribute(RequestParamsEnum.INFO.getValue(), varInfo);
+            return PagesPathEnum.LOGIN_PAGE.getPath();
+        }
+
+        HttpSession session = req.getSession();
+        session.setAttribute(RequestParamsEnum.USER.getValue(), user);
+
+        varInfo = WELCOME_INFO + user.getName() + ".";
+        req.setAttribute(RequestParamsEnum.INFO.getValue(), varInfo);
+
+        showCategories(req);
+        return PagesPathEnum.HOME_PAGE.getPath();
     }
 
     private void validateCredentials(String email, String password) {

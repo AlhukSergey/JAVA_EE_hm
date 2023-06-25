@@ -1,17 +1,6 @@
 package by.teachmeskills.shop.utils;
 
-import by.teachmeskills.shop.commands.AddProductToShoppingCartCommandImpl;
-import by.teachmeskills.shop.commands.BaseCommand;
-import by.teachmeskills.shop.commands.LoginCommandImpl;
-import by.teachmeskills.shop.commands.RedirectToCategoryPageImpl;
-import by.teachmeskills.shop.commands.RedirectToHomePageCommandIml;
-import by.teachmeskills.shop.commands.RedirectToMyPageCommandImpl;
-import by.teachmeskills.shop.commands.RedirectToProductPageCommandImpl;
-import by.teachmeskills.shop.commands.RedirectToRegistrationPageCommandImpl;
-import by.teachmeskills.shop.commands.RedirectToShoppingCartPageCommandImpl;
-import by.teachmeskills.shop.commands.RegistrationUserCommandImpl;
-import by.teachmeskills.shop.commands.RemoveProductFromShoppingCartCommandImpl;
-import by.teachmeskills.shop.commands.ShowLoginPageCommandImpl;
+import by.teachmeskills.shop.commands.*;
 import by.teachmeskills.shop.commands.enums.CommandsEnum;
 import by.teachmeskills.shop.commands.enums.RequestParamsEnum;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,6 +26,8 @@ public class CommandFactory {
         COMMAND_LIST.put(CommandsEnum.REDIRECT_TO_MY_PAGE_COMMAND.getCommand(), new RedirectToMyPageCommandImpl());
         COMMAND_LIST.put(CommandsEnum.ADD_PRODUCT_TO_SHOPPING_CART_COMMAND.getCommand(), new AddProductToShoppingCartCommandImpl());
         COMMAND_LIST.put(CommandsEnum.REMOVE_PRODUCT_FROM_SHOPPING_CART_COMMAND.getCommand(), new RemoveProductFromShoppingCartCommandImpl());
+        COMMAND_LIST.put(CommandsEnum.REDIRECT_TO_USER_ACCOUNT_PAGE_COMMAND.getCommand(), new RedirectToUserAccountPageImpl());
+        COMMAND_LIST.put(CommandsEnum.CHANGE_USER_PASSWORD_COMMAND.getCommand(), new ChangeUserPasswordImpl());
     }
 
     public static BaseCommand defineCommand(HttpServletRequest req) {

@@ -20,7 +20,8 @@
             <div class=" collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav ms-auto ">
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase active" aria-current="page" href="#">Главная</a>
+                        <a class="nav-link mx-2 text-uppercase active" aria-current="page"
+                           href="/shop?command=redirect-to-home-page">Главная</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link mx-2 text-uppercase" href="/shop?command=redirect-to-home-page">Каталог</a>
@@ -30,8 +31,14 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto ">
+                    <li class="nav-item" hidden="hidden">
+                        <a class="nav-link mx-2 text-uppercase" href="/shop?command=redirect-to-shopping-cart-page"><img
+                                style="border-radius: 50%; max-height: 25px;"
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRL4ELxVekG-GUDCb6BMDCg-zHhKWfLdNARGCvloOGOSWfthtZAwylrlCT20AT0zGm02LQ&usqp=CAU"
+                                class="fa-solid fa-cart-shopping me-1"> Корзина</a>
+                    </li>
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase" href="#"><img
+                        <a class="nav-link mx-2 text-uppercase" href="/shop?command=redirect-to-user-account-page"><img
                                 style="border-radius: 50%; max-height: 25px;"
                                 src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"
                                 class="fa-solid fa-circle-user me-1"> Аккаунт</a>
