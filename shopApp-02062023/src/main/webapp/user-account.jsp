@@ -7,104 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/user-account.css">
     <title>Личный кабинет</title>
-    <style>
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-            font-size: 16px;
-            font-weight: 400;
-            line-height: 1.5;
-            color: #212529;
-            text-align: left;
-            background-color: #fff;
-        }
-
-        .container {
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 15px;
-            padding-right: 15px;
-        }
-
-        .tabs {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .tabs__links {
-            display: flex;
-            flex-direction: row;
-            order: 0;
-            white-space: nowrap;
-            margin-bottom: 15px;
-            background-color: #fff;
-            border: 1px solid #e3f2fd;
-            box-shadow: 0 2px 4px 0 #e3f2fd;
-        }
-
-        .tabs__links > a {
-            display: inline-block;
-            text-decoration: none;
-            color: #1976d2;
-            padding: 6px 10px;
-            text-align: center;
-        }
-
-        .tabs__links > a:hover {
-            background-color: rgba(227, 242, 253, 0.3);
-        }
-
-        .tabs > #content-1:target ~ .tabs__links > a[href="#content-1"],
-        .tabs > #content-2:target ~ .tabs__links > a[href="#content-2"],
-        .tabs > #content-3:target ~ .tabs__links > a[href="#content-3"],
-        .tabs > #content-4:target ~ .tabs__links > a[href="#content-4"]{
-            background-color: #bbdefb;
-            cursor: default;
-        }
-
-        .tabs > div:not(.tabs__links) {
-            display: none;
-            order: 1;
-            flex-grow: 1;
-        }
-
-        @media (min-width: 576px) {
-            .tabs {
-                flex-direction: row;
-            }
-
-            .tabs__links {
-                flex-direction: column;
-                border: none;
-                box-shadow: none;
-            }
-
-            .tabs__links > a {
-                border: 1px solid #e3f2fd;
-                box-shadow: 0 2px 4px 0 #e3f2fd;
-                margin-bottom: 8px;
-            }
-
-            .tabs__links > a:last-child {
-                margin-bottom: 0;
-            }
-
-            .tabs > div:not(.tabs__links) {
-                padding-left: 15px;
-            }
-        }
-
-        .tabs > div:target {
-            display: block;
-        }
-    </style>
 </head>
 <body>
 <div class="superNav border-bottom py-2 bg-light" style="border-radius: 25px;">
@@ -154,9 +58,8 @@
                 <a href="#content-1">Личные данные</a>
                 <a href="#content-2">Сменить пароль</a>
                 <a href="#content-3">Текущие заказы</a>
-                <a href="#content-4">История заказов</a>
             </div>
-            
+
             ${info}
             <div class="userDate" id="content-1">
                 <div>
@@ -188,7 +91,8 @@
                     </div>
                     <div class="form-group">
                         <label for="newPassword">Новый пароль:</label>
-                        <input type="text" class="form-control w-25" id="newPassword" placeholder="Введите новый пароль"
+                        <input type="text" class="form-control w-25" id="newPassword"
+                               placeholder="Введите новый пароль"
                                name="newPassword"
                                required>
                         <div class="invalid-feedback">Поле должно быть заполнено!</div>
@@ -205,11 +109,20 @@
                     </button>
                 </form>
             </div>
-            <div class="currOrder" id="content-3">
-                Содержимое 3...
-            </div>
-            <div class="orderHistory" id="content-4">
-                Содержимое 4...
+            <div class="activeOrders" id="content-3">
+                <c:if test="${not empty activeOrders}">
+                    <div class="row">
+                        <c:forEach items="${activeOrders}" var="order">
+                            <div class="card w-25 m-1" type="order">
+                                <div class="card-body">
+                                    <h5 class="card-title">Заказ №${order.getId()} / ${order.getCreatedAt()}</h5>
+                                    <div>${order.getOrderStatus().toString()}</div>
+                                    <div>${order.getPrice()} р.</div>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </c:if>
             </div>
         </div>
     </div>

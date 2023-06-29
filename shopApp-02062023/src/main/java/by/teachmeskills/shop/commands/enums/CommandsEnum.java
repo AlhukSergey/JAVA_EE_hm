@@ -13,7 +13,7 @@ public enum CommandsEnum {
     ADD_PRODUCT_TO_SHOPPING_CART_COMMAND("add-product-to-shopping-cart"),
     REMOVE_PRODUCT_FROM_SHOPPING_CART_COMMAND("remove-product-from-shopping-cart"),
     REDIRECT_TO_USER_ACCOUNT_PAGE_COMMAND("redirect-to-user-account-page"),
-    SHOW_USER_DATE_COMMAND("show-user-date"),
+    CHECKOUT_COMMAND("checkout"),
     CHANGE_USER_PASSWORD_COMMAND("change-password");
     private final String command;
 

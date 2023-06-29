@@ -4,7 +4,7 @@ CREATE SCHEMA IF NOT EXISTS shop;
 DROP TABLE IF EXISTS shop.users;
 CREATE TABLE IF NOT EXISTS shop.users
 (
-    id       INT    NOT NULL AUTO_INCREMENT,
+    id       INT            NOT NULL AUTO_INCREMENT,
     name     VARCHAR(45)    NOT NULL,
     surname  VARCHAR(60)    NOT NULL,
     birthday Timestamp      NOT NULL,
@@ -136,3 +136,21 @@ VALUES ('Брюки женские Glissade',
         84,
         6,
         'https://cdnby.sportmaster.com/upload/mdm/media_content/resize/e2e/395_380_caef/54563010299.jpg');
+
+DROP TABLE IF EXISTS shop.orders;
+CREATE TABLE IF NOT EXISTS shop.orders
+(
+    id         INT         NOT NULL AUTO_INCREMENT,
+    userId     INT         NOT NULL,
+    created_at Timestamp   NOT NULL,
+    status     varchar(45) NOT NULL,
+    price      DOUBLE      NOT NULL,
+    PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS shop.product_lists;
+CREATE TABLE IF NOT EXISTS shop.product_lists
+(
+    order_id   INT,
+    product_id INT
+);

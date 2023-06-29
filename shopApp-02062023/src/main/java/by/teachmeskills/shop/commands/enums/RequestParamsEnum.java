@@ -20,7 +20,8 @@ public enum RequestParamsEnum {
     SHOPPING_CART_PRODUCTS("cartProductsList"),
     OLD_PASSWORD("oldPassword"),
     NEW_PASSWORD("newPassword"),
-    NEW_PASSWORD_REP("newPasswordRep");
+    NEW_PASSWORD_REP("newPasswordRep"),
+    ACTIVE_ORDERS("activeOrders");
 
     private final String value;
 

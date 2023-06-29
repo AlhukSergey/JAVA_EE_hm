@@ -1,6 +1,8 @@
 package by.teachmeskills.shop.utils;
 
 import by.teachmeskills.shop.domain.Category;
+import by.teachmeskills.shop.domain.Order;
+import by.teachmeskills.shop.domain.OrderStatus;
 import by.teachmeskills.shop.domain.Product;
 import by.teachmeskills.shop.domain.User;
 
@@ -15,8 +17,13 @@ import java.util.List;
 
 public class CRUDUtils {
     private static Connection connection;
+    private static int lastOrderId;
     private static final String ADD_USER_QUERY = "INSERT INTO users (name, surname, birthday, balance, email, password) VALUES (?, ?, ?, ?, ?, ?)";
-    private static final String GET_USER_QUERY = "SELECT name, surname, birthday, balance, email, password FROM users WHERE email = ?";
+    private static final String ADD_ORDER_QUERY = "INSERT INTO orders (user_id, created_at, status, price) VALUES (?, ?, ?, ?)";
+    private static final String ADD_PRODUCT_LIST_QUERY = "INSERT INTO product_lists (order_id, product_id) VALUES (?, ?)";
+    private static final String GET_LAST_ORDER_ID_QUERY = "SELECT MAX(id) FROM orders";
+    private static final String GET_ACTIVE_ORDERS_BY_USER_ID_QUERY = "SELECT * FROM orders WHERE user_id = ?";
+    private static final String GET_USER_QUERY = "SELECT * FROM users WHERE email = ?";
     private static final String GET_CATEGORIES_QUERY = "SELECT * FROM categories";
     private static final String GET_PRODUCTS_BY_ID_QUERY = "SELECT * FROM products WHERE categoryId = ?";
     private static final String GET_PRODUCT_QUERY = "SELECT id, name, description, price, imagePath FROM products WHERE id = ?";
@@ -34,12 +41,13 @@ public class CRUDUtils {
 
             while (resultSet.next()) {
                 user = User.builder()
-                        .name(resultSet.getString(1))
-                        .surname(resultSet.getString(2))
-                        .birthday(resultSet.getTimestamp(3).toLocalDateTime().toLocalDate())
-                        .balance(resultSet.getBigDecimal(4).doubleValue())
-                        .email(resultSet.getString(5))
-                        .password(EncryptionUtils.decrypt(resultSet.getString(6)))
+                        .id(resultSet.getInt(1))
+                        .name(resultSet.getString(2))
+                        .surname(resultSet.getString(3))
+                        .birthday(resultSet.getTimestamp(4).toLocalDateTime().toLocalDate())
+                        .balance(resultSet.getBigDecimal(5).doubleValue())
+                        .email(resultSet.getString(6))
+                        .password(EncryptionUtils.decrypt(resultSet.getString(7)))
                         .build();
             }
             resultSet.close();
@@ -135,6 +143,70 @@ public class CRUDUtils {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static void addOrder(Order order) {
+        try (PreparedStatement psInsert = connection.prepareStatement(ADD_ORDER_QUERY)) {
+            psInsert.setInt(1, order.getUserId());
+            psInsert.setTimestamp(2, Timestamp.valueOf(order.getCreatedAt()));
+            psInsert.setString(3, OrderStatus.ACTIVE.toString());
+            psInsert.setDouble(4, order.getPrice());
+
+            addProductList(order);
+
+            psInsert.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static void addProductList(Order order) {
+        getLastOrderId();
+        int orderId = ++lastOrderId;
+
+        List<Product> productList = order.getProductList();
+        for (Product product : productList) {
+            try (PreparedStatement psInsert = connection.prepareStatement(ADD_PRODUCT_LIST_QUERY)) {
+                psInsert.setInt(1, orderId);
+                psInsert.setInt(2, product.getId());
+                psInsert.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public static void getLastOrderId() {
+        try (PreparedStatement psGet = connection.prepareStatement(GET_LAST_ORDER_ID_QUERY)) {
+            ResultSet resultSet = psGet.executeQuery();
+            while (resultSet.next()) {
+                lastOrderId = resultSet.getInt(1);
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static List<Order> getActiveOrdersByUserId(User user) {
+        List<Order> orders = new ArrayList<>();
+        try (PreparedStatement psGet = connection.prepareStatement(GET_ACTIVE_ORDERS_BY_USER_ID_QUERY)) {
+            psGet.setInt(1, user.getId());
+            ResultSet resultSet = psGet.executeQuery();
+            while (resultSet.next()) {
+                orders.add(new Order(
+                        resultSet.getInt(1),
+                        resultSet.getInt(2),
+                        resultSet.getTimestamp(3).toLocalDateTime(),
+                        ConverterUtils.toOrderStatus(resultSet.getString(4)),
+                        resultSet.getDouble(5))
+                );
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return orders;
     }
 
     public static void setConnection(ConnectionPool pool) {

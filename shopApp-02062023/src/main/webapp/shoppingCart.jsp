@@ -51,6 +51,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <div class="container">
     <h2 style="text-align: center">Корзина</h2>
+    ${info}
     <c:if test="${not empty cartProductsList}">
         <div class="container-fluid mb-4">
             <c:forEach items="${cartProductsList}" var="product">
@@ -72,9 +73,9 @@
             </c:forEach>
         </div>
     </c:if>
-    <div class="btn-lg d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-primary" type="button">Оформить заказ</button>
-    </div>
+    <a href="${contextPath}/shop?command=checkout" class="btn-lg d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-primary" type="button" onclick="successfulCheckoutMsg()" >Оформить заказ</button>
+    </a>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
@@ -83,6 +84,9 @@
 <script>
     function productRemovedFromShoppingCartMsg() {
         window.confirm("Продукт удален из корзины!");
+    }
+    function successfulCheckoutMsg() {
+        window.confirm("Заказ успешно оформлен! Историю заказов можно просмотреть в личном кабинете.");
     }
 </script>
 </body>
