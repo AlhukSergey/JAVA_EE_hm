@@ -10,6 +10,8 @@ import by.teachmeskills.shop.exceptions.CommandException;
 import by.teachmeskills.shop.utils.CRUDUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -17,6 +19,7 @@ import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.SHOPPING_CA
 import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.USER;
 
 public class CheckoutCommandImpl implements BaseCommand {
+    private final static Logger log = LoggerFactory.getLogger(ChangeUserPasswordImpl.class);
     private final String IS_EMPTY_INFO = "В корзине еще нет продуктов. Чтобы оформить заказ, добавьте продукты.";
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
@@ -35,6 +38,7 @@ public class CheckoutCommandImpl implements BaseCommand {
 
         Order order = new Order(user, productList, shoppingCart.getTotalPrice());
         CRUDUtils.addOrder(order);
+        log.info("Successful new order registration.");
         shoppingCart.clear();
         return PagesPathEnum.SHOPPING_CART_PAGE.getPath();
     }

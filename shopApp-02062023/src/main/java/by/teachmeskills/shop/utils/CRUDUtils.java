@@ -5,6 +5,8 @@ import by.teachmeskills.shop.domain.Order;
 import by.teachmeskills.shop.domain.OrderStatus;
 import by.teachmeskills.shop.domain.Product;
 import by.teachmeskills.shop.domain.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CRUDUtils {
+    private final static Logger log = LoggerFactory.getLogger(CRUDUtils.class);
     private static Connection connection;
     private static int lastOrderId;
     private static final String ADD_USER_QUERY = "INSERT INTO users (name, surname, birthday, balance, email, password) VALUES (?, ?, ?, ?, ?, ?)";
@@ -33,6 +36,7 @@ public class CRUDUtils {
     }
 
     public static User getUser(String email) {
+        log.info("Trying to get an existing user from the database.");
         User user = null;
 
         try (PreparedStatement psGet = connection.prepareStatement(GET_USER_QUERY)) {
@@ -52,6 +56,7 @@ public class CRUDUtils {
             }
             resultSet.close();
         } catch (SQLException e) {
+            log.error(e.getMessage());
             System.out.println(e.getMessage());
         }
         return user;
@@ -122,6 +127,7 @@ public class CRUDUtils {
     }
 
     public static void createUser(User user) {
+        log.info("Trying to add a new user to the database.");
         try (PreparedStatement psInsert = connection.prepareStatement(ADD_USER_QUERY)) {
             psInsert.setString(1, user.getName());
             psInsert.setString(2, user.getSurname());
@@ -131,21 +137,25 @@ public class CRUDUtils {
             psInsert.setString(6, EncryptionUtils.encrypt(user.getPassword()));
             psInsert.execute();
         } catch (SQLException e) {
+            log.error(e.getMessage());
             System.out.println(e.getMessage());
         }
     }
 
     public static void updateUserPassword(User user) {
+        log.info("Trying to change the user password in the database.");
         try (PreparedStatement psUpdate = connection.prepareStatement(UPDATE_USER_PASSWORD_QUERY)) {
             psUpdate.setString(1, EncryptionUtils.encrypt(user.getPassword()));
             psUpdate.setString(2, user.getEmail());
             psUpdate.execute();
         } catch (SQLException e) {
+            log.error(e.getMessage());
             System.out.println(e.getMessage());
         }
     }
 
     public static void addOrder(Order order) {
+        log.info("Trying to add the new order to the database.");
         try (PreparedStatement psInsert = connection.prepareStatement(ADD_ORDER_QUERY)) {
             psInsert.setInt(1, order.getUserId());
             psInsert.setTimestamp(2, Timestamp.valueOf(order.getCreatedAt()));
@@ -156,6 +166,7 @@ public class CRUDUtils {
 
             psInsert.execute();
         } catch (SQLException e) {
+            log.error(e.getMessage());
             System.out.println(e.getMessage());
         }
     }
@@ -204,15 +215,19 @@ public class CRUDUtils {
             }
             resultSet.close();
         } catch (SQLException e) {
+            log.error(e.getMessage());
             System.out.println(e.getMessage());
         }
         return orders;
     }
 
     public static void setConnection(ConnectionPool pool) {
+        log.info("Trying set the new connection with the database.");
         try {
             connection = pool.getConnection();
+            log.info("The connection successfully established.");
         } catch (Exception e) {
+            log.error(e.getMessage());
             System.out.println(e.getMessage());
         }
     }

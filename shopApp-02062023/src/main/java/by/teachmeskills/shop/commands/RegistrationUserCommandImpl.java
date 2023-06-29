@@ -12,6 +12,8 @@ import by.teachmeskills.shop.utils.DateParser;
 import by.teachmeskills.shop.utils.HttpRequestCredentialsValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +21,7 @@ import java.util.Map;
 import static by.teachmeskills.shop.utils.HomePageFiller.showCategories;
 
 public class RegistrationUserCommandImpl implements BaseCommand {
+    private final static Logger log = LoggerFactory.getLogger(RegistrationUserCommandImpl.class);
     private final String WELCOME_INFO = "Добро пожаловать, ";
     private final String ERROR_DATA_INFO = "Введены некорректные  данные. ";
 
@@ -54,6 +57,7 @@ public class RegistrationUserCommandImpl implements BaseCommand {
                 .build();
 
         CRUDUtils.createUser(user);
+        log.info("Successful registration of a new user '" + user.getEmail() + "'.");
 
 
         HttpSession session = req.getSession();

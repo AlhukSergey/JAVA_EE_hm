@@ -9,10 +9,13 @@ import by.teachmeskills.shop.utils.CRUDUtils;
 import by.teachmeskills.shop.utils.HttpRequestCredentialsValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static by.teachmeskills.shop.utils.HomePageFiller.showCategories;
 
 public class LoginCommandImpl implements BaseCommand {
+    private final static Logger log = LoggerFactory.getLogger(LoginCommandImpl.class);
     private final String WELCOME_INFO = "Добро пожаловать, ";
     private final String USER_NOT_FOUND_INFO = "Пользователя с таким логином не существует. Пожалуйста, введите данные повторно либо перейдите на страницу регистрации.";
     private final String PASSWORD_INCORRECT_INFO = "Введен неверный пароль. Повторите попытку.";
@@ -33,6 +36,7 @@ public class LoginCommandImpl implements BaseCommand {
         }
 
         if (!user.getPassword().equals(password)) {
+            log.info("Wrong password entered.");
             varInfo = PASSWORD_INCORRECT_INFO;
             req.setAttribute(RequestParamsEnum.INFO.getValue(), varInfo);
             return PagesPathEnum.LOGIN_PAGE.getPath();
@@ -43,6 +47,7 @@ public class LoginCommandImpl implements BaseCommand {
 
         varInfo = WELCOME_INFO + user.getName() + ".";
         req.setAttribute(RequestParamsEnum.INFO.getValue(), varInfo);
+        log.info("Successful login '" + user.getEmail() + "'.");
 
         showCategories(req);
         return PagesPathEnum.HOME_PAGE.getPath();

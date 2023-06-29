@@ -10,11 +10,14 @@ import by.teachmeskills.shop.utils.CRUDUtils;
 import by.teachmeskills.shop.utils.HttpRequestCredentialsValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ChangeUserPasswordImpl implements BaseCommand {
+    private final static Logger log = LoggerFactory.getLogger(ChangeUserPasswordImpl.class);
     private static final String SUCCESS_INFO = "Пароль успешно изменен!";
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
@@ -30,6 +33,7 @@ public class ChangeUserPasswordImpl implements BaseCommand {
             HttpRequestCredentialsValidator.validatePasswords(passwords, user);
         } catch (IncorrectUserDataException | RequestCredentialsNullException e) {
             String varInfo = e.getMessage();
+            log.info("Wrong password entered. " + user.getEmail() + ".");
             req.setAttribute("info", varInfo);
             return PagesPathEnum.USER_ACCOUNT_PAGE.getPath();
         }
@@ -37,6 +41,7 @@ public class ChangeUserPasswordImpl implements BaseCommand {
         user.setPassword(passwords.get("NEW_PASSWORD"));
 
         CRUDUtils.updateUserPassword(user);
+        log.info("The password of the user '" + user.getEmail() + "' successful changed.");
         req.setAttribute("info", SUCCESS_INFO);
         return PagesPathEnum.USER_ACCOUNT_PAGE.getPath();
     }
