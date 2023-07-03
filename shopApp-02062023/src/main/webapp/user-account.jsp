@@ -53,62 +53,58 @@
 <div class="container">
     <h2 style="text-align: center">Личный кабинет</h2>
     <div class="row">
-        <div class="col tabs">
-            <div class="col-md-auto d-flex flex-column mb-3 tabs__links">
+        <span>
+            ${info}
+        </span>
+        <div class="tabs">
+            <div class="col-md-auto tabs__links">
                 <a href="#content-1">Личные данные</a>
                 <a href="#content-2">Сменить пароль</a>
                 <a href="#content-3">Текущие заказы</a>
             </div>
 
-            ${info}
-            <div class="userDate" id="content-1">
-                <div>
-                    <span>Имя: </span>
-                    <span>${name}</span>
-                </div>
-                <div>
-                    <span>Фамилия: </span>
-                    <span>${surname}</span>
-                </div>
-                <div>
-                    <span>Дата рождения: </span>
-                    <span>${birthday}</span>
-                </div>
-                <div>
-                    <span>Почта: </span>
-                    <span>${email}</span>
-                </div>
+            <div class="userData" id="content-1">
+                <form action="/shop" autocomplete="off" method="post" class="needs-validation">
+                    <input type="hidden" name="command" value="update-user-data"/>
+                    <div class="form-group">
+                        <label for="name">Имя:</label>
+                        <input type="text" class="form-control w-25" id="name" value="${name}" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="surname">Фамилия:</label>
+                        <input type="text" class="form-control w-25" id="surname" value="${surname}" name="surname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="birthday">Дата рождения:</label>
+                        <input type="date" class="form-control w-25" id="birthday" value="${birthday}" name="birthday">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Почта:</label>
+                        <input type="text" class="form-control w-25" id="email" value="${email}" name="email" required>
+                    </div>
+                    <button id="formDataBtn" type="submit" class="btn btn-primary">Сохранить</button>
+                </form>
             </div>
+
             <div class="changePass" id="content-2">
-                <form method="post" action="/shop">
-                    <input type="hidden" name="command" value="change-password"/>
+                <form method="post" autocomplete="off" action="/shop" class="needs-validation">
+                    <input type="hidden" name="command" value="update-password"/>
                     <div class="form-group">
                         <label for="oldPassword">Старый пароль:</label>
-                        <input type="text" class="form-control w-25" id="oldPassword"
-                               placeholder="Введите старый пароль" name="oldPassword"
-                               required>
-                        <div class="invalid-feedback">Поле должно быть заполнено!</div>
+                        <input type="text" class="form-control w-25" id="oldPassword" placeholder="Введите старый пароль" name="oldPassword" required>
                     </div>
                     <div class="form-group">
                         <label for="newPassword">Новый пароль:</label>
-                        <input type="text" class="form-control w-25" id="newPassword"
-                               placeholder="Введите новый пароль"
-                               name="newPassword"
-                               required>
-                        <div class="invalid-feedback">Поле должно быть заполнено!</div>
+                        <input type="text" class="form-control w-25" id="newPassword" placeholder="Введите новый пароль" name="newPassword" required>
                     </div>
                     <div class="form-group">
                         <label for="newPasswordRep">Введите новый пароль повторно:</label>
-                        <input type="text" class="form-control w-25" id="newPasswordRep"
-                               placeholder="Введите новый пароль повторно" name="newPasswordRep"
-                               required>
-                        <div class="invalid-feedback">Поле должно быть заполнено!</div>
+                        <input type="text" class="form-control w-25" id="newPasswordRep" placeholder="Введите новый пароль повторно" name="newPasswordRep" required>
                     </div>
-                    <button id="formBtn" type="submit" class="btn btn-primary">
-                        Отправить
-                    </button>
+                    <button id="formPassBtn" type="submit" class="btn btn-primary">Сохранить</button>
                 </form>
             </div>
+
             <div class="activeOrders" id="content-3">
                 <c:if test="${not empty activeOrders}">
                     <div class="row">
@@ -127,5 +123,6 @@
         </div>
     </div>
 </div>
+<script src="script/validation-script.js"></script>
 </body>
 </html>

@@ -22,26 +22,32 @@ public class HttpRequestCredentialsValidator {
         // check all data for empty or null
         checkNotNullAndNotEmpty(credentials);
 
-        // check date format
-        if (!DataValidator.validateDateFormat(credentials.get("BIRTHDAY"))) {
-            throw new IncorrectUserDataException("Неверный формат даты!");
-        }
+        if (credentials.containsKey("BIRTHDAY")) {
+            // check date format
+            if (!DataValidator.validateDateFormat(credentials.get("BIRTHDAY"))) {
+                throw new IncorrectUserDataException("Неверный формат даты!");
+            }
 
-        //checking that user is at least 16 years old, not older 73.
-        if (!DataValidator.validateDate(credentials.get("BIRTHDAY"))) {
-            throw new IncorrectUserDataException("Введен неверный возраст. Возраст не может быть меньше 16 и больше 73 лет!");
+            //checking that user is at least 16 years old, not older 73.
+            if (!DataValidator.validateDate(credentials.get("BIRTHDAY"))) {
+                throw new IncorrectUserDataException("Введен неверный возраст. Возраст не может быть меньше 16 и больше 73 лет!");
+            }
         }
 
         //check email
-        if (!DataValidator.validateEmail(credentials.get("EMAIL"))) {
-            throw new IncorrectUserDataException("Неверный формат адреса электронной почты!");
+        if (credentials.containsKey("EMAIL")){
+            if (!DataValidator.validateEmail(credentials.get("EMAIL"))) {
+                throw new IncorrectUserDataException("Неверный формат адреса электронной почты!");
+            }
         }
 
         //check password
-        if (!DataValidator.validatePassword(credentials.get("PASSWORD"))) {
-            throw new IncorrectUserDataException("Неверный формат пароля! " +
-                    "Длина пароля должна быть не короче 8 символов. Пароль должен содержать как минимум одну цифру," +
-                    "одну заглавную букву, одну букву нижнего регистра, один специальный символ.");
+        if (credentials.containsKey("PASSWORD")) {
+            if (!DataValidator.validatePassword(credentials.get("PASSWORD"))) {
+                throw new IncorrectUserDataException("Неверный формат пароля! " +
+                        "Длина пароля должна быть не короче 8 символов. Пароль должен содержать как минимум одну цифру," +
+                        "одну заглавную букву, одну букву нижнего регистра, один специальный символ.");
+            }
         }
     }
 

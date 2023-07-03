@@ -30,6 +30,7 @@ public class CRUDUtils {
     private static final String GET_CATEGORIES_QUERY = "SELECT * FROM categories";
     private static final String GET_PRODUCTS_BY_ID_QUERY = "SELECT * FROM products WHERE categoryId = ?";
     private static final String GET_PRODUCT_QUERY = "SELECT id, name, description, price, imagePath FROM products WHERE id = ?";
+    private static final String UPDATE_USER_DATA_QUERY = "UPDATE users SET name = ?, surname = ?, birthday = ?, email =? WHERE email = ?";
     private static final String UPDATE_USER_PASSWORD_QUERY = "UPDATE users SET password = ? WHERE email = ?";
 
     private CRUDUtils() {
@@ -136,6 +137,21 @@ public class CRUDUtils {
             psInsert.setString(5, user.getEmail());
             psInsert.setString(6, EncryptionUtils.encrypt(user.getPassword()));
             psInsert.execute();
+        } catch (SQLException e) {
+            log.error(e.getMessage());
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void updateUserData(User user) {
+        log.info("Trying to change the user data in the database.");
+        try (PreparedStatement psUpdate = connection.prepareStatement(UPDATE_USER_DATA_QUERY)) {
+            psUpdate.setString(1, user.getName());
+            psUpdate.setString(2, user.getSurname());
+            psUpdate.setTimestamp(3, Timestamp.valueOf(user.getBirthday().atStartOfDay()));
+            psUpdate.setString(4, user.getEmail());
+            psUpdate.setString(5, user.getEmail());
+            psUpdate.execute();
         } catch (SQLException e) {
             log.error(e.getMessage());
             System.out.println(e.getMessage());

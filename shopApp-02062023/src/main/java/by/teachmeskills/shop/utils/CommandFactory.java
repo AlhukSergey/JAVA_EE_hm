@@ -27,8 +27,9 @@ public class CommandFactory {
         COMMAND_LIST.put(CommandsEnum.ADD_PRODUCT_TO_SHOPPING_CART_COMMAND.getCommand(), new AddProductToShoppingCartCommandImpl());
         COMMAND_LIST.put(CommandsEnum.REMOVE_PRODUCT_FROM_SHOPPING_CART_COMMAND.getCommand(), new RemoveProductFromShoppingCartCommandImpl());
         COMMAND_LIST.put(CommandsEnum.REDIRECT_TO_USER_ACCOUNT_PAGE_COMMAND.getCommand(), new RedirectToUserAccountPageImpl());
-        COMMAND_LIST.put(CommandsEnum.CHANGE_USER_PASSWORD_COMMAND.getCommand(), new ChangeUserPasswordImpl());
+        COMMAND_LIST.put(CommandsEnum.UPDATE_USER_PASSWORD_COMMAND.getCommand(), new UpdateUserPasswordImpl());
         COMMAND_LIST.put(CommandsEnum.CHECKOUT_COMMAND.getCommand(), new CheckoutCommandImpl());
+        COMMAND_LIST.put(CommandsEnum.UPDATE_USER_DATA_COMMAND.getCommand(), new UpdateUserDataCommandImpl());
     }
 
     public static BaseCommand defineCommand(HttpServletRequest req) {

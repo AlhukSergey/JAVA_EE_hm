@@ -4,7 +4,7 @@ import by.teachmeskills.shop.commands.enums.PagesPathEnum;
 import by.teachmeskills.shop.exceptions.CommandException;
 import jakarta.servlet.http.HttpServletRequest;
 
-import static by.teachmeskills.shop.utils.HomePageFiller.showCategories;
+import static by.teachmeskills.shop.utils.PageFiller.showCategories;
 
 public class RedirectToHomePageCommandIml implements BaseCommand {
     @Override

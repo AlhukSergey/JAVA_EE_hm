@@ -7,12 +7,15 @@ import by.teachmeskills.shop.exceptions.CommandException;
 import by.teachmeskills.shop.exceptions.RequestCredentialsNullException;
 import by.teachmeskills.shop.utils.CRUDUtils;
 import by.teachmeskills.shop.utils.HttpRequestCredentialsValidator;
+import by.teachmeskills.shop.utils.RequestDataGetter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static by.teachmeskills.shop.utils.HomePageFiller.showCategories;
+import java.util.Map;
+
+import static by.teachmeskills.shop.utils.PageFiller.showCategories;
 
 public class LoginCommandImpl implements BaseCommand {
     private final static Logger log = LoggerFactory.getLogger(LoginCommandImpl.class);
@@ -22,11 +25,11 @@ public class LoginCommandImpl implements BaseCommand {
 
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
-        String email = req.getParameter(RequestParamsEnum.LOGIN.getValue());
-        String password = req.getParameter(RequestParamsEnum.PASSWORD.getValue());
-        validateCredentials(email, password);
+        Map<String, String> userData = RequestDataGetter.getData(req);
 
-        User user = CRUDUtils.getUser(email);
+        validateCredentials(userData.get("EMAIL"), userData.get("PASSWORD"));
+
+        User user = CRUDUtils.getUser(userData.get("EMAIL"));
 
         String varInfo;
         if (user == null) {
@@ -35,7 +38,7 @@ public class LoginCommandImpl implements BaseCommand {
             return PagesPathEnum.LOGIN_PAGE.getPath();
         }
 
-        if (!user.getPassword().equals(password)) {
+        if (!user.getPassword().equals(userData.get("PASSWORD"))) {
             log.info("Wrong password entered.");
             varInfo = PASSWORD_INCORRECT_INFO;
             req.setAttribute(RequestParamsEnum.INFO.getValue(), varInfo);

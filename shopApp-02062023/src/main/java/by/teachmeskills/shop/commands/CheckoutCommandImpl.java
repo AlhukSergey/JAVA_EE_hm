@@ -19,7 +19,7 @@ import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.SHOPPING_CA
 import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.USER;
 
 public class CheckoutCommandImpl implements BaseCommand {
-    private final static Logger log = LoggerFactory.getLogger(ChangeUserPasswordImpl.class);
+    private final static Logger log = LoggerFactory.getLogger(CheckoutCommandImpl.class);
     private final String IS_EMPTY_INFO = "В корзине еще нет продуктов. Чтобы оформить заказ, добавьте продукты.";
     @Override
     public String execute(HttpServletRequest req) throws CommandException {

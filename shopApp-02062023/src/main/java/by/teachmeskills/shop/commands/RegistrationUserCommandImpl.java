@@ -1,7 +1,6 @@
 package by.teachmeskills.shop.commands;
 
 import by.teachmeskills.shop.commands.enums.PagesPathEnum;
-import by.teachmeskills.shop.commands.enums.RequestParamsEnum;
 import by.teachmeskills.shop.domain.User;
 import by.teachmeskills.shop.exceptions.CommandException;
 import by.teachmeskills.shop.exceptions.IncorrectUserDataException;
@@ -10,15 +9,15 @@ import by.teachmeskills.shop.exceptions.UserAlreadyExistsException;
 import by.teachmeskills.shop.utils.CRUDUtils;
 import by.teachmeskills.shop.utils.DateParser;
 import by.teachmeskills.shop.utils.HttpRequestCredentialsValidator;
+import by.teachmeskills.shop.utils.RequestDataGetter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import static by.teachmeskills.shop.utils.HomePageFiller.showCategories;
+import static by.teachmeskills.shop.utils.PageFiller.showCategories;
 
 public class RegistrationUserCommandImpl implements BaseCommand {
     private final static Logger log = LoggerFactory.getLogger(RegistrationUserCommandImpl.class);
@@ -27,12 +26,7 @@ public class RegistrationUserCommandImpl implements BaseCommand {
 
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
-        Map<String, String> userData = new HashMap<>();
-        userData.put("NAME", req.getParameter(RequestParamsEnum.NAME.getValue()));
-        userData.put("SURNAME", req.getParameter(RequestParamsEnum.SURNAME.getValue()));
-        userData.put("BIRTHDAY", req.getParameter(RequestParamsEnum.BIRTHDAY.getValue()));
-        userData.put("EMAIL", req.getParameter(RequestParamsEnum.EMAIL.getValue()));
-        userData.put("PASSWORD", req.getParameter(RequestParamsEnum.PASSWORD.getValue()));
+        Map<String, String> userData = RequestDataGetter.getData(req);
 
         try {
             HttpRequestCredentialsValidator.validateUserData(userData);
