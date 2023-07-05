@@ -18,9 +18,9 @@ public enum RequestParamsEnum {
     PRODUCT_ID("product_id"),
     SHOPPING_CART("shopping-cart"),
     SHOPPING_CART_PRODUCTS("cartProductsList"),
-    OLD_PASSWORD("oldPassword"),
-    NEW_PASSWORD("newPassword"),
-    NEW_PASSWORD_REP("newPasswordRep"),
+    OLD_PASSWORD("old_password"),
+    NEW_PASSWORD("new_password"),
+    NEW_PASSWORD_REP("new_password_rep"),
     ACTIVE_ORDERS("activeOrders");
 
     private final String value;

@@ -1,10 +1,8 @@
 package by.teachmeskills.shop.utils;
 
-import by.teachmeskills.shop.domain.Category;
-import by.teachmeskills.shop.domain.Order;
-import by.teachmeskills.shop.domain.OrderStatus;
-import by.teachmeskills.shop.domain.Product;
-import by.teachmeskills.shop.domain.User;
+import by.teachmeskills.shop.commands.enums.MapKeys;
+import by.teachmeskills.shop.commands.enums.StatementActions;
+import by.teachmeskills.shop.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +13,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.BiConsumer;
 
 public class CRUDUtils {
     private final static Logger log = LoggerFactory.getLogger(CRUDUtils.class);
@@ -30,8 +32,13 @@ public class CRUDUtils {
     private static final String GET_CATEGORIES_QUERY = "SELECT * FROM categories";
     private static final String GET_PRODUCTS_BY_ID_QUERY = "SELECT * FROM products WHERE categoryId = ?";
     private static final String GET_PRODUCT_QUERY = "SELECT id, name, description, price, imagePath FROM products WHERE id = ?";
-    private static final String UPDATE_USER_DATA_QUERY = "UPDATE users SET name = ?, surname = ?, birthday = ?, email =? WHERE email = ?";
-    private static final String UPDATE_USER_PASSWORD_QUERY = "UPDATE users SET password = ? WHERE email = ?";
+
+    private static final Map<String, BiConsumer<String, StringBuilder>> statementMap = Map.of(
+            MapKeys.NAME.getKey(), StatementActions.NAME_ACTION.getAction(),
+            MapKeys.SURNAME.getKey(), StatementActions.SURNAME_ACTION.getAction(),
+            MapKeys.BIRTHDAY.getKey(), StatementActions.BIRTHDAY_ACTION.getAction(),
+            MapKeys.EMAIL.getKey(), StatementActions.EMAIL_ACTION.getAction(),
+            MapKeys.PASSWORD.getKey(), StatementActions.PASSWORD_ACTION.getAction());
 
     private CRUDUtils() {
     }
@@ -143,26 +150,9 @@ public class CRUDUtils {
         }
     }
 
-    public static void updateUserData(User user) {
+    public static void updateUserData(String statement) {
         log.info("Trying to change the user data in the database.");
-        try (PreparedStatement psUpdate = connection.prepareStatement(UPDATE_USER_DATA_QUERY)) {
-            psUpdate.setString(1, user.getName());
-            psUpdate.setString(2, user.getSurname());
-            psUpdate.setTimestamp(3, Timestamp.valueOf(user.getBirthday().atStartOfDay()));
-            psUpdate.setString(4, user.getEmail());
-            psUpdate.setString(5, user.getEmail());
-            psUpdate.execute();
-        } catch (SQLException e) {
-            log.error(e.getMessage());
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public static void updateUserPassword(User user) {
-        log.info("Trying to change the user password in the database.");
-        try (PreparedStatement psUpdate = connection.prepareStatement(UPDATE_USER_PASSWORD_QUERY)) {
-            psUpdate.setString(1, EncryptionUtils.encrypt(user.getPassword()));
-            psUpdate.setString(2, user.getEmail());
+        try (PreparedStatement psUpdate = connection.prepareStatement(statement)) {
             psUpdate.execute();
         } catch (SQLException e) {
             log.error(e.getMessage());
@@ -235,6 +225,50 @@ public class CRUDUtils {
             System.out.println(e.getMessage());
         }
         return orders;
+    }
+
+    public static String generateUpdateStatement(Map<String, String> userData, int userId) {
+        StringBuilder statement = new StringBuilder("UPDATE users SET ");
+
+        List<String> paramNames = Arrays.asList("name", "surname", "birthday", "email", "new_password");
+        Set<String> keys = userData.keySet();
+
+        for (String name : paramNames) {
+            if (keys.contains(name)) {
+                statementMap.get(name).accept(userData.get(name), statement);
+            }
+        }
+
+        return statement.append("' WHERE id = '").append(userId).append("'").toString();
+
+        /*if (userData.containsKey("name")) {
+            statement.append(UsersTableRowName.NAME.getRowName()).append(" = '").append(userData.get("name"));
+        }
+
+        if (userData.containsKey("surname")) {
+            statement.append(UsersTableRowName.SURNAME.getRowName()).append(" = '").append(userData.get("surname"));
+        }
+
+        if (userData.containsKey("birthday")) {
+            statement.append(UsersTableRowName.BIRTHDAY.getRowName()).append(" = '").append(userData.get("birthday"));
+        }
+
+        if (userData.containsKey("email")) {
+            statement.append(UsersTableRowName.EMAIL.getRowName()).append(" = '").append(userData.get("email"));
+        }
+
+        if (userData.containsKey("new_password")) {
+            statement.append(UsersTableRowName.PASSWORD.getRowName()).append(" = '").append(EncryptionUtils.encrypt(userData.get("new_password")));
+        }*/
+
+
+
+        //to generate a request from a generic form
+        /*for (Map.Entry<String, String> item : userData.entrySet()) {
+            statement.append(item.getKey().toLowerCase()).append(" = '").append(item.getValue()).append("', ");
+        }
+        statement.deleteCharAt(statement.lastIndexOf(","));
+        statement.append(" WHERE email = '").append(user.getEmail()).append("'");*/
     }
 
     public static void setConnection(ConnectionPool pool) {

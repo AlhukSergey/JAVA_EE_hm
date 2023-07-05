@@ -64,7 +64,7 @@
             </div>
 
             <div class="userData" id="content-1">
-                <form action="/shop" autocomplete="off" method="post" class="needs-validation">
+                <%--<form action="/shop" autocomplete="off" method="post" class="needs-validation">
                     <input type="hidden" name="command" value="update-user-data"/>
                     <div class="form-group">
                         <label for="name">Имя:</label>
@@ -83,23 +83,60 @@
                         <input type="text" class="form-control w-25" id="email" value="${email}" name="email" required>
                     </div>
                     <button id="formDataBtn" type="submit" class="btn btn-primary">Сохранить</button>
+                </form>--%>
+
+                <form action="/shop" autocomplete="off" method="post" class="needs-validation">
+                    <input type="hidden" name="command" value="update-user-data"/>
+                    <div class="form-group">
+                        <label for="name">Имя:</label>
+                        <input type="text" class="form-control w-25" id="name" value="${name}" name="name" required>
+                    </div>
+                    <button id="formNameBtn" type="submit" class="btn btn-primary">Сохранить</button>
+                </form>
+                <form action="/shop" autocomplete="off" method="post" class="needs-validation">
+                    <input type="hidden" name="command" value="update-user-data"/>
+                    <div class="form-group">
+                        <label for="surname">Фамилия:</label>
+                        <input type="text" class="form-control w-25" id="surname" value="${surname}" name="surname"
+                               required>
+                    </div>
+                    <button id="formSurnameBtn" type="submit" class="btn btn-primary">Сохранить</button>
+                </form>
+                <form action="/shop" autocomplete="off" method="post" class="needs-validation">
+                    <input type="hidden" name="command" value="update-user-data"/>
+                    <div class="form-group">
+                        <label for="birthday">Дата рождения:</label>
+                        <input type="date" class="form-control w-25" id="birthday" value="${birthday}" name="birthday">
+                    </div>
+                    <button id="formBirthdayBtn" type="submit" class="btn btn-primary">Сохранить</button>
+                </form>
+                <form action="/shop" autocomplete="off" method="post" class="needs-validation">
+                    <input type="hidden" name="command" value="update-user-data"/>
+                    <div class="form-group">
+                        <label for="email">Почта:</label>
+                        <input type="text" class="form-control w-25" id="email" value="${email}" name="email" required>
+                    </div>
+                    <button id="formEmailBtn" type="submit" class="btn btn-primary">Сохранить</button>
                 </form>
             </div>
 
             <div class="changePass" id="content-2">
                 <form method="post" autocomplete="off" action="/shop" class="needs-validation">
-                    <input type="hidden" name="command" value="update-password"/>
+                    <input type="hidden" name="command" value="update-user-data"/>
                     <div class="form-group">
-                        <label for="oldPassword">Старый пароль:</label>
-                        <input type="text" class="form-control w-25" id="oldPassword" placeholder="Введите старый пароль" name="oldPassword" required>
+                        <label for="old_password">Старый пароль:</label>
+                        <input type="text" class="form-control w-25" id="old_password"
+                               placeholder="Введите старый пароль" name="old_password" required>
                     </div>
                     <div class="form-group">
-                        <label for="newPassword">Новый пароль:</label>
-                        <input type="text" class="form-control w-25" id="newPassword" placeholder="Введите новый пароль" name="newPassword" required>
+                        <label for="new_password">Новый пароль:</label>
+                        <input type="text" class="form-control w-25" id="new_password"
+                               placeholder="Введите новый пароль" name="new_password" required>
                     </div>
                     <div class="form-group">
-                        <label for="newPasswordRep">Введите новый пароль повторно:</label>
-                        <input type="text" class="form-control w-25" id="newPasswordRep" placeholder="Введите новый пароль повторно" name="newPasswordRep" required>
+                        <label for="new_password_rep">Введите новый пароль повторно:</label>
+                        <input type="text" class="form-control w-25" id="new_password_rep"
+                               placeholder="Введите новый пароль повторно" name="new_password_rep" required>
                     </div>
                     <button id="formPassBtn" type="submit" class="btn btn-primary">Сохранить</button>
                 </form>

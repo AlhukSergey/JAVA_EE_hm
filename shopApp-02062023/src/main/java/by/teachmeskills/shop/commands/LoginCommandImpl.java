@@ -27,9 +27,9 @@ public class LoginCommandImpl implements BaseCommand {
     public String execute(HttpServletRequest req) throws CommandException {
         Map<String, String> userData = RequestDataGetter.getData(req);
 
-        validateCredentials(userData.get("EMAIL"), userData.get("PASSWORD"));
+        validateCredentials(userData.get("email"), userData.get("password"));
 
-        User user = CRUDUtils.getUser(userData.get("EMAIL"));
+        User user = CRUDUtils.getUser(userData.get("email"));
 
         String varInfo;
         if (user == null) {
@@ -38,7 +38,7 @@ public class LoginCommandImpl implements BaseCommand {
             return PagesPathEnum.LOGIN_PAGE.getPath();
         }
 
-        if (!user.getPassword().equals(userData.get("PASSWORD"))) {
+        if (!user.getPassword().equals(userData.get("password"))) {
             log.info("Wrong password entered.");
             varInfo = PASSWORD_INCORRECT_INFO;
             req.setAttribute(RequestParamsEnum.INFO.getValue(), varInfo);
