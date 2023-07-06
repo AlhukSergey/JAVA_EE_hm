@@ -1,6 +1,6 @@
 package by.teachmeskills.shop.utils;
 
-import by.teachmeskills.shop.commands.enums.UsersTableRowName;
+import by.teachmeskills.shop.commands.enums.UsersTableColumnNames;
 import by.teachmeskills.shop.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -266,7 +266,7 @@ public class CRUDUtils {
         //generation using common form
         if (userData.containsKey("new_password")) {
             return statement
-                    .append(UsersTableRowName.PASSWORD.getRowName())
+                    .append(UsersTableColumnNames.PASSWORD.getRowName())
                     .append(" = '")
                     .append(EncryptionUtils.encrypt(userData.get("new_password")))
                     .append(" WHERE id = '")
@@ -274,8 +274,8 @@ public class CRUDUtils {
                     .append("'").toString();
         }
 
-        List<UsersTableRowName> usersTableRowNames = List.of(UsersTableRowName.values());
-        for(UsersTableRowName name: usersTableRowNames) {
+        List<UsersTableColumnNames> usersTableColumnNames = List.of(UsersTableColumnNames.values());
+        for(UsersTableColumnNames name: usersTableColumnNames) {
             if (userData.containsKey(name.getRowName())) {
                 statement
                         .append(name.getRowName())

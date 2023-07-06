@@ -1,6 +1,6 @@
 package by.teachmeskills.shop.commands.enums;
 
-public enum UsersTableRowName {
+public enum UsersTableColumnNames {
     ID("id"),
     NAME("name"),
     SURNAME("surname"),
@@ -11,7 +11,7 @@ public enum UsersTableRowName {
 
     private final String rowName;
 
-    UsersTableRowName(String rowName) {
+    UsersTableColumnNames(String rowName) {
         this.rowName = rowName;
     }
 
