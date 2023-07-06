@@ -64,7 +64,7 @@
             </div>
 
             <div class="userData" id="content-1">
-                <%--<form action="/shop" autocomplete="off" method="post" class="needs-validation">
+                <form action="/shop" autocomplete="off" method="post" class="needs-validation">
                     <input type="hidden" name="command" value="update-user-data"/>
                     <div class="form-group">
                         <label for="name">Имя:</label>
@@ -83,9 +83,9 @@
                         <input type="text" class="form-control w-25" id="email" value="${email}" name="email" required>
                     </div>
                     <button id="formDataBtn" type="submit" class="btn btn-primary">Сохранить</button>
-                </form>--%>
+                </form>
 
-                <form action="/shop" autocomplete="off" method="post" class="needs-validation">
+                <%--<form action="/shop" autocomplete="off" method="post" class="needs-validation">
                     <input type="hidden" name="command" value="update-user-data"/>
                     <div class="form-group">
                         <label for="name">Имя:</label>
@@ -117,7 +117,7 @@
                         <input type="text" class="form-control w-25" id="email" value="${email}" name="email" required>
                     </div>
                     <button id="formEmailBtn" type="submit" class="btn btn-primary">Сохранить</button>
-                </form>
+                </form>--%>
             </div>
 
             <div class="changePass" id="content-2">

@@ -18,14 +18,14 @@
 })();
 
 // Disable submit button if all fields are empty
-document.getElementById('formNameBtn').disabled = true;
+/*document.getElementById('formNameBtn').disabled = true;
 document.getElementById('formSurnameBtn').disabled = true;
 document.getElementById('formBirthdayBtn').disabled = true;
-document.getElementById('formEmailBtn').disabled = true;
+document.getElementById('formEmailBtn').disabled = true;*/
 document.getElementById('formPassBtn').disabled = true;
 
-// document.getElementById('formDataBtn').disabled = true;
-/*document.getElementById('name').addEventListener('keyup', e => {
+document.getElementById('formDataBtn').disabled = true;
+document.getElementById('name').addEventListener('keyup', e => {
     //Check for the input's value
     document.getElementById('formDataBtn').disabled = e.target.value === "";
 });
@@ -33,12 +33,16 @@ document.getElementById('surname').addEventListener('keyup', e => {
     //Check for the input's value
     document.getElementById('formDataBtn').disabled = e.target.value === "";
 });
+document.getElementById('birthday').addEventListener('keyup', e => {
+    //Check for the input's value
+    document.getElementById('formBirthdayBtn').disabled = e.target.value === "";
+});
 document.getElementById('email').addEventListener('keyup', e => {
     //Check for the input's value
     document.getElementById('formDataBtn').disabled = e.target.value === "";
-});*/
+});
 
-document.getElementById('name').addEventListener('keyup', e => {
+/*document.getElementById('name').addEventListener('keyup', e => {
     //Check for the input's value
     document.getElementById('formNameBtn').disabled = e.target.value === "";
 });
@@ -53,7 +57,7 @@ document.getElementById('birthday').addEventListener('keyup', e => {
 document.getElementById('email').addEventListener('keyup', e => {
     //Check for the input's value
     document.getElementById('formEmailBtn').disabled = e.target.value === "";
-});
+});*/
 document.getElementById('old_password').addEventListener('keyup', e => {
     //Check for the input's value
     document.getElementById('formPassBtn').disabled = e.target.value === "";

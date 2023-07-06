@@ -1,7 +1,6 @@
 package by.teachmeskills.shop.utils;
 
-import by.teachmeskills.shop.commands.enums.MapKeys;
-import by.teachmeskills.shop.commands.enums.StatementActions;
+import by.teachmeskills.shop.commands.enums.UsersTableRowName;
 import by.teachmeskills.shop.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,11 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.function.BiConsumer;
 
 public class CRUDUtils {
     private final static Logger log = LoggerFactory.getLogger(CRUDUtils.class);
@@ -33,12 +29,13 @@ public class CRUDUtils {
     private static final String GET_PRODUCTS_BY_ID_QUERY = "SELECT * FROM products WHERE categoryId = ?";
     private static final String GET_PRODUCT_QUERY = "SELECT id, name, description, price, imagePath FROM products WHERE id = ?";
 
-    private static final Map<String, BiConsumer<String, StringBuilder>> statementMap = Map.of(
+    //for generation update statement
+    /*private static final Map<String, BiConsumer<String, StringBuilder>> statementMap = Map.of(
             MapKeys.NAME.getKey(), StatementActions.NAME_ACTION.getAction(),
             MapKeys.SURNAME.getKey(), StatementActions.SURNAME_ACTION.getAction(),
             MapKeys.BIRTHDAY.getKey(), StatementActions.BIRTHDAY_ACTION.getAction(),
             MapKeys.EMAIL.getKey(), StatementActions.EMAIL_ACTION.getAction(),
-            MapKeys.PASSWORD.getKey(), StatementActions.PASSWORD_ACTION.getAction());
+            MapKeys.PASSWORD.getKey(), StatementActions.PASSWORD_ACTION.getAction());*/
 
     private CRUDUtils() {
     }
@@ -230,7 +227,8 @@ public class CRUDUtils {
     public static String generateUpdateStatement(Map<String, String> userData, int userId) {
         StringBuilder statement = new StringBuilder("UPDATE users SET ");
 
-        List<String> paramNames = Arrays.asList("name", "surname", "birthday", "email", "new_password");
+        //generation using statementMap
+        /*List<String> paramNames = Arrays.asList("name", "surname", "birthday", "email", "new_password");
         Set<String> keys = userData.keySet();
 
         for (String name : paramNames) {
@@ -239,8 +237,10 @@ public class CRUDUtils {
             }
         }
 
-        return statement.append("' WHERE id = '").append(userId).append("'").toString();
+        return statement.append("' WHERE id = '").append(userId).append("'").toString();*/
 
+
+        //generation using if
         /*if (userData.containsKey("name")) {
             statement.append(UsersTableRowName.NAME.getRowName()).append(" = '").append(userData.get("name"));
         }
@@ -259,16 +259,35 @@ public class CRUDUtils {
 
         if (userData.containsKey("new_password")) {
             statement.append(UsersTableRowName.PASSWORD.getRowName()).append(" = '").append(EncryptionUtils.encrypt(userData.get("new_password")));
-        }*/
-
-
-
-        //to generate a request from a generic form
-        /*for (Map.Entry<String, String> item : userData.entrySet()) {
-            statement.append(item.getKey().toLowerCase()).append(" = '").append(item.getValue()).append("', ");
         }
+        return statement.append("' WHERE id = '").append(userId).append("'").toString();*/
+
+
+        //generation using common form
+        if (userData.containsKey("new_password")) {
+            return statement
+                    .append(UsersTableRowName.PASSWORD.getRowName())
+                    .append(" = '")
+                    .append(EncryptionUtils.encrypt(userData.get("new_password")))
+                    .append(" WHERE id = '")
+                    .append(userId)
+                    .append("'").toString();
+        }
+
+        List<UsersTableRowName> usersTableRowNames = List.of(UsersTableRowName.values());
+        for(UsersTableRowName name: usersTableRowNames) {
+            if (userData.containsKey(name.getRowName())) {
+                statement
+                        .append(name.getRowName())
+                        .append(" = '")
+                        .append(userData.get(name.getRowName()))
+                        .append("', ");
+            }
+        }
+
         statement.deleteCharAt(statement.lastIndexOf(","));
-        statement.append(" WHERE email = '").append(user.getEmail()).append("'");*/
+
+        return statement.append(" WHERE id = '").append(userId).append("'").toString();
     }
 
     public static void setConnection(ConnectionPool pool) {
