@@ -6,14 +6,14 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-@Data
-@SuperBuilder
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class Product extends BaseEntity{
-    private String name;
-    private String description;
-    private double price;
+@SuperBuilder
+@Data
+public class Image extends BaseEntity {
+    private String imagePath;
     private int categoryId;
+    private int productId;
+    private int primary;
 }

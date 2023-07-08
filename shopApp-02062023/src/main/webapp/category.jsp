@@ -60,8 +60,12 @@
                         <div class="card-body" style="flex: 1 1 auto;">
                             <a href='<c:url value="/shop?command=redirect-to-product-page&product_id=${product.getId()}"/>'>
                                 <h5 class="card-title">${product.getName()}</h5>
-                                <img class="card-img card-scale" style="max-height:300px"
-                                     src="${product.getImagePath()}" alt="Card image">
+                                <c:forEach items="${images}" var="image">
+                                    <c:if test="${product.getId() == image.getProductId() && image.getPrimary() == 1}">
+                                        <img class="card-img card-scale" style="max-height:300px"
+                                             src="${image.getImagePath()}" alt="Card image">
+                                    </c:if>
+                                </c:forEach>
                             </a>
                             <p class="card-text">${product.getDescription()}</p>
                         </div>

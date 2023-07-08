@@ -11,6 +11,7 @@ public enum RequestParamsEnum {
     USER("user"),
     INFO("info"),
     CATEGORIES("categories"),
+    IMAGES("images"),
     CATEGORY("category"),
     CATEGORY_ID("category_id"),
     PRODUCTS("products"),

@@ -1,4 +1,4 @@
-package by.teachmeskills.shop.utils;
+package by.teachmeskills.shop.repositories;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,7 +16,7 @@ public class ConnectionPool {
     private static final String DB_URL = "db.url";
     private static final String DB_LOGIN = "db.login";
     private static final String DB_PASS = "db.pass";
-    private static final int MAX_CONNECTION_COUNT = 10;
+    private static final int MAX_CONNECTION_COUNT = 100;
     private static final int MIN_CONNECTION_COUNT = 5;
 
     private static String url;

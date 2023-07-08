@@ -53,8 +53,11 @@
         <div class="container">
             <div class="row">
                 <div class="col align-self-start">
-                    <img class="card-img" style="max-height:700px; width: auto;"
-                         src="${product.getImagePath()}" alt="product image">
+                    <c:forEach items="${images}" var="image">
+                        <c:if test="${image.getPrimary() == 1}">
+                                <img src="${image.getImagePath()}" class="d-block" style="max-height:700px; width: auto;">
+                        </c:if>
+                    </c:forEach>
                     <p>${product.getDescription()}</p>
                     <p>${product.getPrice()} р.</p>
                 </div>
@@ -69,9 +72,7 @@
         </div>
     </c:if>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     function productAddedToShoppingCartMsg() {
         window.confirm("Продукт добавлен в корзину!");

@@ -60,8 +60,13 @@
                         <a href='<c:url value="/shop?command=redirect-to-category-page&category_id=${category.getId()}"/>'>
                             <div class="card-body">
                                 <h5 class="card-title">${category.getName()}</h5>
-                                <img class="card-img card-scale" style="max-height:300px" src="${category.getImagePath()}"
-                                     alt="Card image">
+                                <c:forEach items="${images}" var="image">
+                                    <c:if test="${category.getId() == image.getCategoryId()}">
+                                        <img class="card-img card-scale" style="max-height:300px"
+                                             src="${image.getImagePath()}"
+                                             alt="Card image">
+                                    </c:if>
+                                </c:forEach>
                             </div>
                         </a>
                     </div>
