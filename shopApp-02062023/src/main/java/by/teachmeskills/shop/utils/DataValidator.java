@@ -54,6 +54,6 @@ public class DataValidator {
         String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(password);
-        return matcher.matches();
+        return !matcher.matches();
     }
 }

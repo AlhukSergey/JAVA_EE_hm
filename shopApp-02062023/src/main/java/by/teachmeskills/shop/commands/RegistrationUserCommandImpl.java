@@ -1,6 +1,9 @@
 package by.teachmeskills.shop.commands;
 
+import by.teachmeskills.shop.commands.enums.InfoEnum;
+import by.teachmeskills.shop.commands.enums.MapKeysEnum;
 import by.teachmeskills.shop.commands.enums.PagesPathEnum;
+import by.teachmeskills.shop.commands.enums.RequestParamsEnum;
 import by.teachmeskills.shop.domain.User;
 import by.teachmeskills.shop.exceptions.CommandException;
 import by.teachmeskills.shop.exceptions.IncorrectUserDataException;
@@ -21,8 +24,6 @@ import static by.teachmeskills.shop.utils.PageFiller.showCategories;
 
 public class RegistrationUserCommandImpl implements BaseCommand {
     private final static Logger log = LoggerFactory.getLogger(RegistrationUserCommandImpl.class);
-    private final String WELCOME_INFO = "Добро пожаловать, ";
-    private final String ERROR_DATA_INFO = "Введены некорректные  данные. ";
 
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
@@ -30,23 +31,21 @@ public class RegistrationUserCommandImpl implements BaseCommand {
 
         try {
             HttpRequestCredentialsValidator.validateUserData(userData);
-            checkUserAlreadyExists(userData.get("EMAIL"));
+            checkUserAlreadyExists(userData.get(MapKeysEnum.EMAIL.getKey()));
         } catch (IncorrectUserDataException | RequestCredentialsNullException e) {
-            String varInfo = ERROR_DATA_INFO + e.getMessage();
-            req.setAttribute("info", varInfo);
+            req.setAttribute(RequestParamsEnum.INFO.getValue(), InfoEnum.ERROR_DATA_INFO.getInfo() + e.getMessage());
             return PagesPathEnum.REGISTRATION_PAGE.getPath();
         } catch (UserAlreadyExistsException e) {
-            String varInfo = e.getMessage();
-            req.setAttribute("info", varInfo);
+            req.setAttribute(RequestParamsEnum.INFO.getValue(), e.getMessage());
             return PagesPathEnum.REGISTRATION_PAGE.getPath();
         }
 
         User user = User.builder()
-                .name(userData.get("NAME"))
-                .surname(userData.get("SURNAME"))
-                .birthday(DateParser.parseToDate(userData.get("BIRTHDAY")))
-                .email(userData.get("EMAIL"))
-                .password(userData.get("PASSWORD"))
+                .name(userData.get(MapKeysEnum.NAME.getKey()))
+                .surname(userData.get(MapKeysEnum.SURNAME.getKey()))
+                .birthday(DateParser.parseToDate(userData.get(MapKeysEnum.BIRTHDAY.getKey())))
+                .email(userData.get(MapKeysEnum.EMAIL.getKey()))
+                .password(userData.get(MapKeysEnum.PASSWORD.getKey()))
                 .balance(0.00)
                 .build();
 
@@ -55,10 +54,9 @@ public class RegistrationUserCommandImpl implements BaseCommand {
 
 
         HttpSession session = req.getSession();
-        session.setAttribute("user", user);
+        session.setAttribute(RequestParamsEnum.USER.getValue(), user);
 
-        String varInfo = WELCOME_INFO + user.getName() + ".";
-        req.setAttribute("info", varInfo);
+        req.setAttribute(RequestParamsEnum.INFO.getValue(), InfoEnum.WELCOME_INFO.getInfo() + user.getName() + ".");
 
         showCategories(req);
         return PagesPathEnum.HOME_PAGE.getPath();

@@ -1,8 +1,6 @@
 package by.teachmeskills.shop.commands;
 
-import by.teachmeskills.shop.commands.enums.MapKeys;
-import by.teachmeskills.shop.commands.enums.PagesPathEnum;
-import by.teachmeskills.shop.commands.enums.SetterActions;
+import by.teachmeskills.shop.commands.enums.*;
 import by.teachmeskills.shop.domain.User;
 import by.teachmeskills.shop.exceptions.CommandException;
 import by.teachmeskills.shop.exceptions.IncorrectUserDataException;
@@ -25,38 +23,36 @@ import java.util.function.BiConsumer;
 
 public class UpdateUserDataCommandImpl implements BaseCommand {
     private final static Logger log = LoggerFactory.getLogger(UpdateUserDataCommandImpl.class);
-    private static final String SUCCESS_INFO = "Данные успешно изменены!";
     private static final Map<String, BiConsumer<String, User>> settersMap = Map.of(
-            MapKeys.NAME.getKey(), SetterActions.NAME_ACTION.getAction(),
-            MapKeys.SURNAME.getKey(), SetterActions.SURNAME_ACTION.getAction(),
-            MapKeys.BIRTHDAY.getKey(), SetterActions.BIRTHDAY_ACTION.getAction(),
-            MapKeys.EMAIL.getKey(), SetterActions.EMAIL_ACTION.getAction(),
-            MapKeys.PASSWORD.getKey(), SetterActions.PASSWORD_ACTION.getAction());
+            MapKeysEnum.NAME.getKey(), SetterActionsEnum.NAME_ACTION.getAction(),
+            MapKeysEnum.SURNAME.getKey(), SetterActionsEnum.SURNAME_ACTION.getAction(),
+            MapKeysEnum.BIRTHDAY.getKey(), SetterActionsEnum.BIRTHDAY_ACTION.getAction(),
+            MapKeysEnum.EMAIL.getKey(), SetterActionsEnum.EMAIL_ACTION.getAction(),
+            MapKeysEnum.NEW_PASSWORD.getKey(), SetterActionsEnum.PASSWORD_ACTION.getAction());
 
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
         Map<String, String> userData = RequestDataGetter.getData(req);
 
         HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute(RequestParamsEnum.USER.getValue());
 
         try {
-            if (userData.containsKey("new_password")) {
+            if (userData.containsKey(MapKeysEnum.NEW_PASSWORD.getKey())) {
                 HttpRequestCredentialsValidator.validatePasswords(userData, user);
             } else {
                 HttpRequestCredentialsValidator.validateUserData(userData);
             }
         } catch (IncorrectUserDataException | RequestCredentialsNullException e) {
-            String varInfo = e.getMessage();
             log.info(e.getMessage());
-            req.setAttribute("info", varInfo);
+            req.setAttribute(RequestParamsEnum.INFO.getValue(), e.getMessage());
             return PagesPathEnum.USER_ACCOUNT_PAGE.getPath();
         }
 
         setNewUserData(userData, user);
         CRUDUtils.updateUserData(CRUDUtils.generateUpdateStatement(userData, user.getId()));
         log.info("The data of the user '" + user.getEmail() + "' successful changed.");
-        req.setAttribute("info", SUCCESS_INFO);
+        req.setAttribute(RequestParamsEnum.INFO.getValue(), InfoEnum.DATA_SUCCESSFUL_CHANGED_INFO.getInfo());
 
         PageFiller.showUserData(req);
         return PagesPathEnum.USER_ACCOUNT_PAGE.getPath();

@@ -5,7 +5,7 @@ import by.teachmeskills.shop.domain.User;
 import java.time.LocalDate;
 import java.util.function.BiConsumer;
 
-public enum SetterActions {
+public enum SetterActionsEnum {
     NAME_ACTION((name, user) -> user.setName(name)),
     SURNAME_ACTION((surname, user) -> user.setSurname(surname)),
     BIRTHDAY_ACTION((birthday, user) -> user.setBirthday(LocalDate.parse(birthday))),
@@ -14,7 +14,7 @@ public enum SetterActions {
 
     private final BiConsumer<String, User> action;
 
-    SetterActions(BiConsumer<String, User> action) {
+    SetterActionsEnum(BiConsumer<String, User> action) {
         this.action = action;
     }
 
