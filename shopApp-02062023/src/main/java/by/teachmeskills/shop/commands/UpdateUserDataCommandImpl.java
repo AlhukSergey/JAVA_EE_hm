@@ -44,7 +44,7 @@ public class UpdateUserDataCommandImpl implements BaseCommand {
                 HttpRequestCredentialsValidator.validateUserData(userData);
             }
         } catch (IncorrectUserDataException | RequestCredentialsNullException e) {
-            log.info(e.getMessage());
+            log.error(e.getMessage());
             req.setAttribute(RequestParamsEnum.INFO.getValue(), e.getMessage());
             return PagesPathEnum.USER_ACCOUNT_PAGE.getPath();
         }

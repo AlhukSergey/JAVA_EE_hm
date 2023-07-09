@@ -1,11 +1,15 @@
 package by.teachmeskills.shop.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DataValidator {
+    private final static Logger log = LoggerFactory.getLogger(CRUDUtils.class);
     private DataValidator() {
     }
 
@@ -18,7 +22,7 @@ public class DataValidator {
             dateFormat.parse(str);
             result = true;
         } catch (ParseException e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
         return result;
     }

@@ -33,9 +33,11 @@ public class RegistrationUserCommandImpl implements BaseCommand {
             HttpRequestCredentialsValidator.validateUserData(userData);
             checkUserAlreadyExists(userData.get(MapKeysEnum.EMAIL.getKey()));
         } catch (IncorrectUserDataException | RequestCredentialsNullException e) {
+            log.error(e.getMessage());
             req.setAttribute(RequestParamsEnum.INFO.getValue(), InfoEnum.ERROR_DATA_INFO.getInfo() + e.getMessage());
             return PagesPathEnum.REGISTRATION_PAGE.getPath();
         } catch (UserAlreadyExistsException e) {
+            log.error(e.getMessage());
             req.setAttribute(RequestParamsEnum.INFO.getValue(), e.getMessage());
             return PagesPathEnum.REGISTRATION_PAGE.getPath();
         }

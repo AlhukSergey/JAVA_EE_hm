@@ -62,7 +62,6 @@ public class CRUDUtils {
             resultSet.close();
         } catch (SQLException e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
         return user;
     }
@@ -80,7 +79,7 @@ public class CRUDUtils {
             }
             resultSet.close();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
         return categories;
     }
@@ -103,7 +102,7 @@ public class CRUDUtils {
             }
             resultSet.close();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
         return products;
     }
@@ -126,7 +125,7 @@ public class CRUDUtils {
             }
             resultSet.close();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
         return product;
     }
@@ -143,7 +142,6 @@ public class CRUDUtils {
             psInsert.execute();
         } catch (SQLException e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
     }
 
@@ -153,7 +151,6 @@ public class CRUDUtils {
             psUpdate.execute();
         } catch (SQLException e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
     }
 
@@ -170,7 +167,6 @@ public class CRUDUtils {
             psInsert.execute();
         } catch (SQLException e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
     }
 
@@ -185,7 +181,7 @@ public class CRUDUtils {
                 psInsert.setInt(2, product.getId());
                 psInsert.executeUpdate();
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                log.error(e.getMessage());
             }
         }
     }
@@ -198,7 +194,7 @@ public class CRUDUtils {
             }
             resultSet.close();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -219,7 +215,6 @@ public class CRUDUtils {
             resultSet.close();
         } catch (SQLException e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
         return orders;
     }
@@ -259,7 +254,6 @@ public class CRUDUtils {
             log.info("The connection successfully established.");
         } catch (Exception e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
     }
 
@@ -267,7 +261,7 @@ public class CRUDUtils {
         try {
             pool.closeConnection(connection);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 }

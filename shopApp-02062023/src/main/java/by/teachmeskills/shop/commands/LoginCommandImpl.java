@@ -58,7 +58,7 @@ public class LoginCommandImpl implements BaseCommand {
             HttpRequestCredentialsValidator.validateCredential(email);
             HttpRequestCredentialsValidator.validateCredential(password);
         } catch (RequestCredentialsNullException e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 }
