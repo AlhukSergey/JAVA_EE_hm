@@ -22,7 +22,9 @@ public enum RequestParamsEnum {
     OLD_PASSWORD("old_password"),
     NEW_PASSWORD("new_password"),
     NEW_PASSWORD_REP("new_password_rep"),
-    ORDERS("orders");
+    ORDERS("orders"),
+    ACTIVE_ORDERS("activeOrders"),
+    FINISHED_ORDERS("finishedOrders");
 
     private final String value;
 

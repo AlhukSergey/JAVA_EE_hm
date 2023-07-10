@@ -61,7 +61,7 @@ public class RegistrationUserCommandImpl implements BaseCommand {
         log.info("Successful registration of a new user: '" + user.getEmail() + "'.");
 
         HttpSession session = req.getSession();
-        session.setAttribute(RequestParamsEnum.USER.getValue(), user);
+        session.setAttribute(RequestParamsEnum.USER.getValue(), userService.findByEmailAndPassword(userData));
 
         req.setAttribute(RequestParamsEnum.INFO.getValue(), InfoEnum.WELCOME_INFO.getInfo() + user.getName() + ".");
 

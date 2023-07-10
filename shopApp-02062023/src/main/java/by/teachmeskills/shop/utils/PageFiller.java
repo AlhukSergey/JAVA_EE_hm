@@ -1,10 +1,7 @@
 package by.teachmeskills.shop.utils;
 
 import by.teachmeskills.shop.commands.enums.RequestParamsEnum;
-import by.teachmeskills.shop.domain.Category;
-import by.teachmeskills.shop.domain.Image;
-import by.teachmeskills.shop.domain.Product;
-import by.teachmeskills.shop.domain.User;
+import by.teachmeskills.shop.domain.*;
 import by.teachmeskills.shop.services.CategoryService;
 import by.teachmeskills.shop.services.ImageService;
 import by.teachmeskills.shop.services.OrderService;
@@ -60,11 +57,25 @@ public class PageFiller {
         req.setAttribute(IMAGES.getValue(), imageService.findByProductId(productId));
     }
 
+    public static void showShoppingCartProducts(HttpServletRequest req, Cart shoppingCart, ImageService imageService) {
+        List<Product> products = shoppingCart.getProducts();
+        List<List<Image>> images = new ArrayList<>();
+
+        for (Product product : products) {
+            images.add(imageService.findByProductId(product.getId()));
+        }
+
+        req.setAttribute(RequestParamsEnum.SHOPPING_CART_PRODUCTS.getValue(), products);
+        req.setAttribute(IMAGES.getValue(), images.stream().flatMap(Collection::stream).collect(Collectors.toList()));
+    }
+
     public static void showUserData(HttpServletRequest req, OrderService orderService, User user) {
         req.setAttribute(RequestParamsEnum.NAME.getValue(), user.getName());
         req.setAttribute(RequestParamsEnum.SURNAME.getValue(), user.getSurname());
         req.setAttribute(RequestParamsEnum.BIRTHDAY.getValue(), user.getBirthday().toString());
         req.setAttribute(RequestParamsEnum.EMAIL.getValue(), user.getEmail());
-        req.setAttribute(RequestParamsEnum.ORDERS.getValue(), orderService.read());
+        List<Order> orders = orderService.findByUserId(user.getId());
+        req.setAttribute(RequestParamsEnum.ACTIVE_ORDERS.getValue(), orders.stream().filter(order -> order.getOrderStatus() == OrderStatus.ACTIVE).collect(Collectors.toList()));
+        req.setAttribute(RequestParamsEnum.FINISHED_ORDERS.getValue(), orders.stream().filter(order -> order.getOrderStatus() == OrderStatus.FINISHED).collect(Collectors.toList()));
     }
 }

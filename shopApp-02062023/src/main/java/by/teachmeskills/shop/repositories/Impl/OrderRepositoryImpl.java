@@ -16,6 +16,7 @@ import java.util.List;
 public class OrderRepositoryImpl implements OrderRepository {
     private static final String ADD_ORDER_QUERY = "INSERT INTO orders (userId, createdAt, status, price) VALUES (?, ?, ?, ?)";
     private static final String GET_ALL_ORDERS_QUERY = "SELECT * FROM orders";
+    private static final String GET_ALL_ORDERS_BY_USER_ID_QUERY = "SELECT * FROM orders WHERE userId = ?";
     private static final String DELETE_ORDER_QUERY = "UPDATE orders SET status = ? WHERE id = ?";
 
     @Override
@@ -29,8 +30,6 @@ public class OrderRepositoryImpl implements OrderRepository {
             psInsert.setTimestamp(2, Timestamp.valueOf(entity.getCreatedAt()));
             psInsert.setString(3, entity.getOrderStatus().toString());
             psInsert.setDouble(4, entity.getPrice());
-            psInsert.execute();
-
             psInsert.execute();
 
             pool.closeConnection(connection);
@@ -102,5 +101,36 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public List<Order> findByDate(LocalDateTime date) {
         return null;
+    }
+
+    @Override
+    public List<Order> findByUserId(int id) {
+        log.info("Trying to get all user orders from the database.");
+
+        List<Order> orders = new ArrayList<>();
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psGet = connection.prepareStatement(GET_ALL_ORDERS_BY_USER_ID_QUERY);
+            psGet.setInt(1, id);
+
+            ResultSet resultSet = psGet.executeQuery();
+            while (resultSet.next()) {
+                orders.add(Order.builder()
+                        .id(resultSet.getInt(1))
+                        .userId(resultSet.getInt(2))
+                        .createdAt(resultSet.getTimestamp(3).toLocalDateTime())
+                        .orderStatus(ConverterUtils.toOrderStatus(resultSet.getString(4)))
+                        .price(resultSet.getDouble(5))
+                        .build()
+                );
+            }
+            resultSet.close();
+
+            pool.closeConnection(connection);
+            psGet.close();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return orders;
     }
 }

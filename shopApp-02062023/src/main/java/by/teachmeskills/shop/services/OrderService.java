@@ -9,4 +9,5 @@ public interface OrderService extends BaseService<Order> {
     Order findById(int id);
 
     List<Order> findByDate(LocalDateTime date);
+    List<Order> findByUserId(int id);
 }

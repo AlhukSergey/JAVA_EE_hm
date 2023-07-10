@@ -53,14 +53,15 @@
 <div class="container">
     <h2 style="text-align: center">Личный кабинет</h2>
     <div class="row">
-        <span>
-            ${info}
-        </span>
+<span>
+    ${info}
+</span>
         <div class="tabs">
             <div class="col-md-auto tabs__links">
                 <a href="#content-1">Личные данные</a>
                 <a href="#content-2">Сменить пароль</a>
                 <a href="#content-3">Текущие заказы</a>
+                <a href="#content-4">Завершенные заказы</a>
             </div>
 
             <div class="userData" id="content-1">
@@ -72,7 +73,8 @@
                     </div>
                     <div class="form-group">
                         <label for="surname">Фамилия:</label>
-                        <input type="text" class="form-control w-25" id="surname" value="${surname}" name="surname" required>
+                        <input type="text" class="form-control w-25" id="surname" value="${surname}" name="surname"
+                               required>
                     </div>
                     <div class="form-group">
                         <label for="birthday">Дата рождения:</label>
@@ -109,39 +111,43 @@
             </div>
 
             <div class="activeOrders" id="content-3">
-                <c:if test="${not empty orders}">
-                    <div class="row">
-                        <c:forEach items="${orders}" var="order">
+                <div class="row">
+                    <c:if test="${not empty activeOrders}">
+                        <c:forEach items="${activeOrders}" var="order">
                             <div class="card w-25 m-1" type="order">
                                 <div class="card-body">
-                                    <c:if test="${order.getOrderStatus().toString().equals('ACTIVE')}">
-                                        <h5 class="card-title">Заказ №${order.getId()} / ${order.getCreatedAt()}</h5>
-                                        <div>${order.getOrderStatus().toString()}</div>
-                                        <div>${order.getPrice()} р.</div>
-                                    </c:if>
+                                    <h5 class="card-title">Заказ №${order.getId()}
+                                        / ${order.getCreatedAt()}</h5>
+                                    <div>${order.getOrderStatus().toString()}</div>
+                                    <div>${order.getPrice()} р.</div>
                                 </div>
                             </div>
                         </c:forEach>
-                    </div>
-                </c:if>
+                    </c:if>
+                    <c:if test="${empty activeOrders}">
+                        <p>Активных заказов не найдено. Для оформления нового заказа перейдите в каталог.</p>
+                    </c:if>
+                </div>
             </div>
 
-            <div class="finishedOrders" id="content-4">
-                <c:if test="${not empty orders}">
-                    <div class="row">
-                        <c:forEach items="${orders}" var="order">
+            <div class="activeOrders" id="content-4">
+                <div class="row">
+                    <c:if test="${not empty finishedOrders}">
+                        <c:forEach items="${finishedOrders}" var="order">
                             <div class="card w-25 m-1" type="order">
                                 <div class="card-body">
-                                    <c:if test="${order.getOrderStatus().toString().equals('FINISHED')}">
-                                        <h5 class="card-title">Заказ №${order.getId()} / ${order.getCreatedAt()}</h5>
-                                        <div>${order.getOrderStatus().toString()}</div>
-                                        <div>${order.getPrice()} р.</div>
-                                    </c:if>
+                                    <h5 class="card-title">Заказ №${order.getId()}
+                                        / ${order.getCreatedAt()}</h5>
+                                    <div>${order.getOrderStatus().toString()}</div>
+                                    <div>${order.getPrice()} р.</div>
                                 </div>
                             </div>
                         </c:forEach>
-                    </div>
-                </c:if>
+                    </c:if>
+                    <c:if test="${empty finishedOrders}">
+                        <p>Завершенных заказов не найдено.</p>
+                    </c:if>
+                </div>
             </div>
         </div>
     </div>

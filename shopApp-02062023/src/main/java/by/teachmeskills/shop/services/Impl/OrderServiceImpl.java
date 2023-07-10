@@ -40,4 +40,9 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> findByDate(LocalDateTime date) {
         return orderRepository.findByDate(date);
     }
+
+    @Override
+    public List<Order> findByUserId(int id) {
+        return orderRepository.findByUserId(id);
+    }
 }

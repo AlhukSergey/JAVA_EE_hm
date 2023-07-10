@@ -56,8 +56,8 @@
         <div class="container-fluid d-flex mb-4">
             <c:forEach items="${cartProductsList}" var="product">
                 <div class="card w-25 m-1" type="product">
-                    <div class="card-body">
-                        <div class="col align-self-start">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
                             <c:forEach items="${images}" var="image">
                                 <c:if test="${product.getId() == image.getProductId() && image.getPrimary() == 1}">
                                     <img class="card-img card-scale" style="max-height:300px"
@@ -65,12 +65,12 @@
                                 </c:if>
                             </c:forEach>
                             <p>${product.getDescription()}</p>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
                             <span>${product.getPrice()} р.</span>
-                            <div class="col col align-self-end">
-                                <a href="${contextPath}/shop?command=remove-product-from-shopping-cart&product_id=${product.getId()}">
-                                    <button id="removeProductFromCart" class="btn btn-primary" type="button" onclick="productRemovedFromShoppingCartMsg()">Удалить</button>
-                                </a>
-                            </div>
+                            <a href="${contextPath}/shop?command=remove-product-from-shopping-cart&product_id=${product.getId()}">
+                                <button id="removeProductFromCart" class="btn btn-primary" type="button" onclick="productRemovedFromShoppingCartMsg()">Удалить</button>
+                            </a>
                         </div>
                     </div>
                 </div>

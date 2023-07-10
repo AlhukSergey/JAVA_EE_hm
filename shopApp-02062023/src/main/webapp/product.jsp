@@ -62,7 +62,7 @@
                     <p>${product.getDescription()}</p>
                     <p>${product.getPrice()} р.</p>
                 </div>
-                <div class="col col align-self-end">
+                <div class="col align-self-end">
                     <div class="btn-lg d-grid gap-2 d-md-flex justify-content-md-end">
                         <a href="${contextPath}/shop?command=add-product-to-shopping-cart&product_id=${product.getId()}">
                             <button id="addProductToCart" class="btn btn-primary" type="button" onclick="productAddedToShoppingCartMsg()">Купить</button>
