@@ -43,8 +43,10 @@ public class ImageRepositoryImpl implements ImageRepository {
         log.info("Trying to get the image from the database.");
 
         Image image = null;
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psGet = connection.prepareStatement(GET_IMAGE_BY_CATEGORY_ID_QUERY)) {
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psGet = connection.prepareStatement(GET_IMAGE_BY_CATEGORY_ID_QUERY);
+
             psGet.setInt(1, categoryId);
             ResultSet resultSet = psGet.executeQuery();
             while (resultSet.next()) {
@@ -55,6 +57,9 @@ public class ImageRepositoryImpl implements ImageRepository {
                         .build();
             }
             resultSet.close();
+
+            pool.closeConnection(connection);
+            psGet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -66,8 +71,10 @@ public class ImageRepositoryImpl implements ImageRepository {
         log.info("Trying to get the image from the database.");
 
         List<Image> images = new ArrayList<>();
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psGet = connection.prepareStatement(GET_IMAGES_BY_PRODUCT_ID_QUERY)) {
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psGet = connection.prepareStatement(GET_IMAGES_BY_PRODUCT_ID_QUERY);
+
             psGet.setInt(1, productId);
             ResultSet resultSet = psGet.executeQuery();
             while (resultSet.next()) {
@@ -81,6 +88,9 @@ public class ImageRepositoryImpl implements ImageRepository {
                 );
             }
             resultSet.close();
+
+            pool.closeConnection(connection);
+            psGet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }

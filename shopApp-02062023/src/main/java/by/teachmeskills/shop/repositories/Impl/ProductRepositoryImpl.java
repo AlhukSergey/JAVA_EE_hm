@@ -26,13 +26,18 @@ public class ProductRepositoryImpl implements ProductRepository {
     public Product create(Product entity) {
         log.info("Trying to add a new product to the database.");
 
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psInsert = connection.prepareStatement(ADD_PRODUCT_QUERY)) {
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psInsert = connection.prepareStatement(ADD_PRODUCT_QUERY);
+
             psInsert.setString(1, entity.getName());
             psInsert.setString(2, entity.getDescription());
             psInsert.setDouble(3, entity.getPrice());
             psInsert.setInt(4, entity.getCategoryId());
             psInsert.execute();
+
+            pool.closeConnection(connection);
+            psInsert.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -44,8 +49,10 @@ public class ProductRepositoryImpl implements ProductRepository {
         log.info("Trying to get all products from the database.");
 
         List<Product> products = new ArrayList<>();
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psGet = connection.prepareStatement(GET_ALL_PRODUCTS_QUERY)) {
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psGet = connection.prepareStatement(GET_ALL_PRODUCTS_QUERY);
+
             ResultSet resultSet = psGet.executeQuery();
             while (resultSet.next()) {
                 products.add(Product.builder()
@@ -58,6 +65,9 @@ public class ProductRepositoryImpl implements ProductRepository {
                 );
             }
             resultSet.close();
+
+            pool.closeConnection(connection);
+            psGet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -78,8 +88,10 @@ public class ProductRepositoryImpl implements ProductRepository {
         log.info("Trying to get the product from the database.");
 
         Product product = null;
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psGet = connection.prepareStatement(GET_PRODUCT_BY_ID_QUERY)) {
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psGet = connection.prepareStatement(GET_PRODUCT_BY_ID_QUERY);
+
             psGet.setInt(1, id);
             ResultSet resultSet = psGet.executeQuery();
             while (resultSet.next()) {
@@ -92,6 +104,9 @@ public class ProductRepositoryImpl implements ProductRepository {
                         .build();
             }
             resultSet.close();
+
+            pool.closeConnection(connection);
+            psGet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -103,11 +118,12 @@ public class ProductRepositoryImpl implements ProductRepository {
         log.info("Trying to get all the category products from the database.");
         List<Product> products = new ArrayList<>();
 
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psGet = connection.prepareStatement(GET_PRODUCT_BY_CATEGORY_ID_QUERY)) {
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psGet = connection.prepareStatement(GET_PRODUCT_BY_CATEGORY_ID_QUERY);
+
             psGet.setInt(1, categoryId);
             ResultSet resultSet = psGet.executeQuery();
-
             while (resultSet.next()) {
                 products.add(Product.builder()
                         .id(resultSet.getInt("id"))
@@ -118,6 +134,9 @@ public class ProductRepositoryImpl implements ProductRepository {
                         .build());
             }
             resultSet.close();
+
+            pool.closeConnection(connection);
+            psGet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }

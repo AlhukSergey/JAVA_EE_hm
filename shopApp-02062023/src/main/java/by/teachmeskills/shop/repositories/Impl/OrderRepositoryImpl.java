@@ -21,8 +21,10 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public Order create(Order entity) {
         log.info("Trying to add the new order to the database.");
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psInsert = connection.prepareStatement(ADD_ORDER_QUERY)) {
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psInsert = connection.prepareStatement(ADD_ORDER_QUERY);
+
             psInsert.setInt(1, entity.getUserId());
             psInsert.setTimestamp(2, Timestamp.valueOf(entity.getCreatedAt()));
             psInsert.setString(3, entity.getOrderStatus().toString());
@@ -30,6 +32,9 @@ public class OrderRepositoryImpl implements OrderRepository {
             psInsert.execute();
 
             psInsert.execute();
+
+            pool.closeConnection(connection);
+            psInsert.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -41,8 +46,10 @@ public class OrderRepositoryImpl implements OrderRepository {
         log.info("Trying to get all orders from the database.");
 
         List<Order> orders = new ArrayList<>();
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psGet = connection.prepareStatement(GET_ALL_ORDERS_QUERY)) {
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psGet = connection.prepareStatement(GET_ALL_ORDERS_QUERY);
+
             ResultSet resultSet = psGet.executeQuery();
             while (resultSet.next()) {
                 orders.add(Order.builder()
@@ -55,6 +62,9 @@ public class OrderRepositoryImpl implements OrderRepository {
                 );
             }
             resultSet.close();
+
+            pool.closeConnection(connection);
+            psGet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -69,11 +79,16 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public void delete(int id) {
         log.info("Trying to delete the order from the database.");
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psDelete = connection.prepareStatement(DELETE_ORDER_QUERY)) {
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psDelete = connection.prepareStatement(DELETE_ORDER_QUERY);
+
             psDelete.setInt(1, id);
             psDelete.setString(2, String.valueOf(OrderStatus.FINISHED));
             psDelete.execute();
+
+            pool.closeConnection(connection);
+            psDelete.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }

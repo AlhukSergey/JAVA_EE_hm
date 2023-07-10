@@ -34,8 +34,10 @@ public class UserRepositoryImpl implements UserRepository {
     public User create(User entity) {
         log.info("Trying to add a new user to the database.");
 
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psInsert = connection.prepareStatement(ADD_USER_QUERY)) {
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psInsert = connection.prepareStatement(ADD_USER_QUERY);
+
             psInsert.setString(1, entity.getName());
             psInsert.setString(2, entity.getSurname());
             psInsert.setTimestamp(3, Timestamp.valueOf(entity.getBirthday().atStartOfDay()));
@@ -43,6 +45,9 @@ public class UserRepositoryImpl implements UserRepository {
             psInsert.setString(5, entity.getEmail());
             psInsert.setString(6, EncryptionUtils.encrypt(entity.getPassword()));
             psInsert.execute();
+
+            pool.closeConnection(connection);
+            psInsert.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -54,8 +59,10 @@ public class UserRepositoryImpl implements UserRepository {
         log.info("Trying to get all users from the database.");
 
         List<User> users = new ArrayList<>();
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psGet = connection.prepareStatement(GET_ALL_USERS_QUERY)) {
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psGet = connection.prepareStatement(GET_ALL_USERS_QUERY);
+
             ResultSet resultSet = psGet.executeQuery();
             while (resultSet.next()) {
                 users.add(User.builder()
@@ -69,7 +76,10 @@ public class UserRepositoryImpl implements UserRepository {
                         .build()
                 );
             }
+
             resultSet.close();
+            pool.closeConnection(connection);
+            psGet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -79,9 +89,14 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User update(User entity) {
         log.info("Trying to change the user data in the database.");
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psUpdate = connection.prepareStatement(updateQuery)) {
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psUpdate = connection.prepareStatement(updateQuery);
+
             psUpdate.execute();
+
+            pool.closeConnection(connection);
+            psUpdate.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -91,10 +106,16 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void delete(int id) {
         log.info("Trying to delete the user from the database.");
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psDelete = connection.prepareStatement(DELETE_USER_QUERY)) {
+
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psDelete = connection.prepareStatement(DELETE_USER_QUERY);
+
             psDelete.setInt(1, id);
             psDelete.execute();
+
+            pool.closeConnection(connection);
+            psDelete.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -105,8 +126,10 @@ public class UserRepositoryImpl implements UserRepository {
         log.info("Trying to get the user from the database.");
 
         User user = null;
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psGet = connection.prepareStatement(GET_USER_BY_ID_QUERY)) {
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psGet = connection.prepareStatement(GET_USER_BY_ID_QUERY);
+
             psGet.setInt(1, id);
             ResultSet resultSet = psGet.executeQuery();
             while (resultSet.next()) {
@@ -121,6 +144,9 @@ public class UserRepositoryImpl implements UserRepository {
                         .build();
             }
             resultSet.close();
+
+            pool.closeConnection(connection);
+            psGet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -132,8 +158,10 @@ public class UserRepositoryImpl implements UserRepository {
         log.info("Trying to get an existing user from the database.");
         User user = null;
 
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psGet = connection.prepareStatement(GET_USER_BY_EMAIL_AND_PASS_QUERY)) {
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psGet = connection.prepareStatement(GET_USER_BY_EMAIL_AND_PASS_QUERY);
+
             psGet.setString(1, data.get("email"));
             psGet.setString(2, EncryptionUtils.encrypt(data.get("password")));
             ResultSet resultSet = psGet.executeQuery();
@@ -150,6 +178,9 @@ public class UserRepositoryImpl implements UserRepository {
                         .build();
             }
             resultSet.close();
+
+            pool.closeConnection(connection);
+            psGet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }

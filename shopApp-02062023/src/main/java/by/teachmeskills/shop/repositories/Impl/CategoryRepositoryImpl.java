@@ -20,10 +20,15 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     public Category create(Category entity) {
         log.info("Trying to add a new category to the database.");
 
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psInsert = connection.prepareStatement(ADD_CATEGORY_QUERY)) {
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psInsert = connection.prepareStatement(ADD_CATEGORY_QUERY);
+
             psInsert.setString(1, entity.getName());
             psInsert.execute();
+
+            pool.closeConnection(connection);
+            psInsert.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -35,8 +40,10 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         log.info("Trying to get all categories from the database.");
 
         List<Category> categories = new ArrayList<>();
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psGet = connection.prepareStatement(GET_ALL_CATEGORIES_QUERY)) {
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psGet = connection.prepareStatement(GET_ALL_CATEGORIES_QUERY);
+
             ResultSet resultSet = psGet.executeQuery();
             while (resultSet.next()) {
                 categories.add(Category.builder()
@@ -46,6 +53,9 @@ public class CategoryRepositoryImpl implements CategoryRepository {
                 );
             }
             resultSet.close();
+
+            pool.closeConnection(connection);
+            psGet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -55,11 +65,16 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     @Override
     public Category update(Category entity) {
         log.info("Trying to change the category data in the database.");
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psUpdate = connection.prepareStatement(UPDATE_CATEGORY_QUERY)) {
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psUpdate = connection.prepareStatement(UPDATE_CATEGORY_QUERY);
+
             psUpdate.setInt(1, entity.getId());
             psUpdate.setString(2, entity.getName());
             psUpdate.execute();
+
+            pool.closeConnection(connection);
+            psUpdate.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -69,10 +84,15 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     @Override
     public void delete(int id) {
         log.info("Trying to delete the category from the database.");
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psDelete = connection.prepareStatement(DELETE_CATEGORY_QUERY)) {
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psDelete = connection.prepareStatement(DELETE_CATEGORY_QUERY);
+
             psDelete.setInt(1, id);
             psDelete.execute();
+
+            pool.closeConnection(connection);
+            psDelete.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -83,8 +103,10 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         log.info("Trying to get the category from the database.");
 
         Category category = null;
-        try (Connection connection = pool.getConnection();
-             PreparedStatement psGet = connection.prepareStatement(GET_CATEGORY_BY_ID_QUERY)) {
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psGet = connection.prepareStatement(GET_CATEGORY_BY_ID_QUERY);
+
             psGet.setInt(1, id);
             ResultSet resultSet = psGet.executeQuery();
             while (resultSet.next()) {
@@ -94,6 +116,9 @@ public class CategoryRepositoryImpl implements CategoryRepository {
                         .build();
             }
             resultSet.close();
+
+            pool.closeConnection(connection);
+            psGet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
