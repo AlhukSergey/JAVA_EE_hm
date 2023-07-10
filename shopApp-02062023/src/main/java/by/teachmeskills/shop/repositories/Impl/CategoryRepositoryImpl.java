@@ -26,7 +26,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             psInsert.execute();
         } catch (Exception e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
         return entity;
     }
@@ -49,7 +48,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             resultSet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
         return categories;
     }
@@ -64,7 +62,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             psUpdate.execute();
         } catch (Exception e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
         return entity;
     }
@@ -78,7 +75,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             psDelete.execute();
         } catch (Exception e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
     }
 
@@ -100,7 +96,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             resultSet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
         return category;
     }

@@ -17,6 +17,7 @@ public class RemoveProductFromShoppingCartCommandImpl implements BaseCommand {
         Cart shoppCart = (Cart) session.getAttribute(SHOPPING_CART.getValue());
 
         shoppCart.removeProduct(Integer.parseInt(productId));
+
         req.setAttribute(SHOPPING_CART_PRODUCTS.getValue(), shoppCart.getProducts());
         return SHOPPING_CART_PAGE.getPath();
     }

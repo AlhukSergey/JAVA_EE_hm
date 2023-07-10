@@ -1,6 +1,6 @@
 package by.teachmeskills.shop.repositories.Impl;
 
-import by.teachmeskills.shop.commands.enums.UsersTableColumnNames;
+import by.teachmeskills.shop.commands.enums.MapKeysEnum;
 import by.teachmeskills.shop.domain.User;
 import by.teachmeskills.shop.repositories.UserRepository;
 import by.teachmeskills.shop.utils.EncryptionUtils;
@@ -21,6 +21,14 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String DELETE_USER_QUERY = "DELETE FROM users WHERE id = ?";
     private static final String GET_USER_BY_ID_QUERY = "SELECT * FROM users WHERE id = ?";
     private static final String GET_USER_BY_EMAIL_AND_PASS_QUERY = "SELECT * FROM users WHERE email = ? AND password = ?";
+    private static final Map<String, String> usersTableColumnNames = Map.of(
+            MapKeysEnum.ID.getKey(), "id",
+            MapKeysEnum.NAME.getKey(), "name",
+            MapKeysEnum.SURNAME.getKey(), "surname",
+            MapKeysEnum.BIRTHDAY.getKey(), "birthday",
+            MapKeysEnum.BALANCE.getKey(), "balance",
+            MapKeysEnum.EMAIL.getKey(), "email",
+            MapKeysEnum.PASSWORD.getKey(), "password");
 
     @Override
     public User create(User entity) {
@@ -37,7 +45,6 @@ public class UserRepositoryImpl implements UserRepository {
             psInsert.execute();
         } catch (Exception e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
         return entity;
     }
@@ -65,7 +72,6 @@ public class UserRepositoryImpl implements UserRepository {
             resultSet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
         return users;
     }
@@ -78,7 +84,6 @@ public class UserRepositoryImpl implements UserRepository {
             psUpdate.execute();
         } catch (Exception e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
         return entity;
     }
@@ -91,7 +96,7 @@ public class UserRepositoryImpl implements UserRepository {
             psDelete.setInt(1, id);
             psDelete.execute();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
     }
 
@@ -118,7 +123,6 @@ public class UserRepositoryImpl implements UserRepository {
             resultSet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
         return user;
     }
@@ -148,7 +152,6 @@ public class UserRepositoryImpl implements UserRepository {
             resultSet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
         return user;
     }
@@ -157,24 +160,22 @@ public class UserRepositoryImpl implements UserRepository {
     public void generateUpdateQuery(Map<String, String> userData, int userId) {
         StringBuilder query = new StringBuilder("UPDATE users SET ");
 
-        //generation using common form
-        if (userData.containsKey("new_password")) {
+        if (userData.containsKey(MapKeysEnum.NEW_PASSWORD.getKey())) {
             updateQuery = query
-                    .append(UsersTableColumnNames.PASSWORD.getRowName())
+                    .append(usersTableColumnNames.get(MapKeysEnum.PASSWORD.getKey()))
                     .append(" = '")
-                    .append(EncryptionUtils.encrypt(userData.get("new_password")))
+                    .append(EncryptionUtils.encrypt(userData.get(MapKeysEnum.NEW_PASSWORD.getKey())))
                     .append(" WHERE id = '")
                     .append(userId)
                     .append("'").toString();
         }
 
-        List<UsersTableColumnNames> usersTableColumnNames = List.of(UsersTableColumnNames.values());
-        for (UsersTableColumnNames name : usersTableColumnNames) {
-            if (userData.containsKey(name.getRowName())) {
+        for (Map.Entry<String, String> name : usersTableColumnNames.entrySet()) {
+            if (userData.containsKey(name.getKey())) {
                 query
-                        .append(name.getRowName())
+                        .append(name.getKey())
                         .append(" = '")
-                        .append(userData.get(name.getRowName()))
+                        .append(userData.get(name.getKey()))
                         .append("', ");
             }
         }

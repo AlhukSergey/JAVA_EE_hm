@@ -39,7 +39,7 @@
                                 class="fa-solid fa-cart-shopping me-1"> Корзина</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase" href="#"><img
+                        <a class="nav-link mx-2 text-uppercase" href="/shop?command=redirect-to-user-account-page"><img
                                 style="border-radius: 50%; max-height: 25px;"
                                 src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"
                                 class="fa-solid fa-circle-user me-1"> Аккаунт</a>

@@ -2,23 +2,20 @@ package by.teachmeskills.shop.commands;
 
 import by.teachmeskills.shop.commands.enums.PagesPathEnum;
 import by.teachmeskills.shop.exceptions.CommandException;
-import by.teachmeskills.shop.repositories.ImageRepository;
-import by.teachmeskills.shop.repositories.Impl.ImageRepositoryImpl;
-import by.teachmeskills.shop.repositories.Impl.ProductRepositoryImpl;
-import by.teachmeskills.shop.repositories.ProductRepository;
+import by.teachmeskills.shop.services.ImageService;
+import by.teachmeskills.shop.services.Impl.ImageServiceImpl;
+import by.teachmeskills.shop.services.Impl.ProductServiceImpl;
+import by.teachmeskills.shop.services.ProductService;
+import by.teachmeskills.shop.utils.PageFiller;
 import jakarta.servlet.http.HttpServletRequest;
 
-import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.*;
-
 public class RedirectToProductPageCommandImpl implements BaseCommand {
-    private final ProductRepository productRepository = new ProductRepositoryImpl();
-    private final ImageRepository imageRepository = new ImageRepositoryImpl();
+    private final ProductService productService = new ProductServiceImpl();
+    private final ImageService imageService = new ImageServiceImpl();
 
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
-        int productId = Integer.parseInt(req.getParameter(PRODUCT_ID.getValue()));
-        req.setAttribute(PRODUCT.getValue(), productRepository.findById(productId));
-        req.setAttribute(IMAGES.getValue(), imageRepository.findByProductId(productId));
+        PageFiller.showProduct(req, productService, imageService);
         return PagesPathEnum.PRODUCT_PAGE.getPath();
     }
 }

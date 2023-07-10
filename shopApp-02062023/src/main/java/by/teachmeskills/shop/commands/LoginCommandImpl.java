@@ -1,78 +1,63 @@
 package by.teachmeskills.shop.commands;
 
+import by.teachmeskills.shop.commands.enums.InfoEnum;
+import by.teachmeskills.shop.commands.enums.MapKeysEnum;
 import by.teachmeskills.shop.commands.enums.PagesPathEnum;
 import by.teachmeskills.shop.commands.enums.RequestParamsEnum;
-import by.teachmeskills.shop.domain.Category;
-import by.teachmeskills.shop.domain.Image;
 import by.teachmeskills.shop.domain.User;
 import by.teachmeskills.shop.exceptions.CommandException;
 import by.teachmeskills.shop.exceptions.RequestCredentialsNullException;
-import by.teachmeskills.shop.repositories.CategoryRepository;
-import by.teachmeskills.shop.repositories.ImageRepository;
-import by.teachmeskills.shop.repositories.Impl.CategoryRepositoryImpl;
-import by.teachmeskills.shop.repositories.Impl.ImageRepositoryImpl;
-import by.teachmeskills.shop.repositories.Impl.UserRepositoryImpl;
-import by.teachmeskills.shop.repositories.UserRepository;
+import by.teachmeskills.shop.services.CategoryService;
+import by.teachmeskills.shop.services.ImageService;
+import by.teachmeskills.shop.services.Impl.CategoryServiceImpl;
+import by.teachmeskills.shop.services.Impl.ImageServiceImpl;
+import by.teachmeskills.shop.services.Impl.UserServiceImpl;
+import by.teachmeskills.shop.services.UserService;
 import by.teachmeskills.shop.utils.HttpRequestCredentialsValidator;
+import by.teachmeskills.shop.utils.PageFiller;
 import by.teachmeskills.shop.utils.RequestDataGetter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.CATEGORIES;
-import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.IMAGES;
-
 public class LoginCommandImpl implements BaseCommand {
-    private final CategoryRepository categoryRepository = new CategoryRepositoryImpl();
-    private final UserRepository userRepository = new UserRepositoryImpl();
-    private final ImageRepository imageRepository = new ImageRepositoryImpl();
+    private final UserService userService = new UserServiceImpl();
+    private final CategoryService categoryService = new CategoryServiceImpl();
+    private final ImageService imageService = new ImageServiceImpl();
     private final static Logger log = LoggerFactory.getLogger(LoginCommandImpl.class);
-    private final String WELCOME_INFO = "Добро пожаловать, ";
-    private final String USER_NOT_FOUND_INFO = "Пользователя с таким логином не существует. Пожалуйста, введите данные повторно либо перейдите на страницу регистрации.";
-    private final String PASSWORD_INCORRECT_INFO = "Введен неверный пароль. Повторите попытку.";
 
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
         Map<String, String> userData = RequestDataGetter.getData(req);
 
-        validateCredentials(userData.get("email"), userData.get("password"));
+        validateCredentials(userData.get(MapKeysEnum.EMAIL.getKey()), userData.get(MapKeysEnum.PASSWORD.getKey()));
 
-        User user = userRepository.findByEmailAndPassword(userData);
+        User user = userService.findByEmailAndPassword(userData);
 
-        String varInfo;
         if (user == null) {
-            varInfo = USER_NOT_FOUND_INFO;
-            req.setAttribute(RequestParamsEnum.INFO.getValue(), varInfo);
+            req.setAttribute(RequestParamsEnum.INFO.getValue(), InfoEnum.USER_NOT_FOUND_INFO.getInfo());
+
             return PagesPathEnum.LOGIN_PAGE.getPath();
         }
 
-        if (!user.getPassword().equals(userData.get("password"))) {
+        if (!user.getPassword().equals(userData.get(MapKeysEnum.PASSWORD.getKey()))) {
             log.info("Wrong password entered.");
-            varInfo = PASSWORD_INCORRECT_INFO;
-            req.setAttribute(RequestParamsEnum.INFO.getValue(), varInfo);
+
+            req.setAttribute(RequestParamsEnum.INFO.getValue(), InfoEnum.PASSWORD_INCORRECT_INFO.getInfo());
             return PagesPathEnum.LOGIN_PAGE.getPath();
         }
 
         HttpSession session = req.getSession();
         session.setAttribute(RequestParamsEnum.USER.getValue(), user);
 
-        varInfo = WELCOME_INFO + user.getName() + ".";
-        req.setAttribute(RequestParamsEnum.INFO.getValue(), varInfo);
+        req.setAttribute(RequestParamsEnum.INFO.getValue(), InfoEnum.WELCOME_INFO.getInfo() + user.getName() + ".");
+
         log.info("Successful login '" + user.getEmail() + "'.");
 
-        List<Category> categories = categoryRepository.read();
-        List<Image> images = new ArrayList<>();
-        for (Category category : categories) {
-            images.add(imageRepository.findByCategoryId(category.getId()));
-        }
-
-        req.setAttribute(CATEGORIES.getValue(), categories);
-        req.setAttribute(IMAGES.getValue(), images);
+        PageFiller.showCategories(req, categoryService, imageService);
         return PagesPathEnum.HOME_PAGE.getPath();
     }
 

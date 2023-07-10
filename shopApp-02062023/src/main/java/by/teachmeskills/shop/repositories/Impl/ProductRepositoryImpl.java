@@ -35,7 +35,6 @@ public class ProductRepositoryImpl implements ProductRepository {
             psInsert.execute();
         } catch (Exception e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
         return entity;
     }
@@ -61,7 +60,6 @@ public class ProductRepositoryImpl implements ProductRepository {
             resultSet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
         return products;
     }
@@ -96,7 +94,6 @@ public class ProductRepositoryImpl implements ProductRepository {
             resultSet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
         return product;
     }
@@ -123,7 +120,6 @@ public class ProductRepositoryImpl implements ProductRepository {
             resultSet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
         return products;
     }

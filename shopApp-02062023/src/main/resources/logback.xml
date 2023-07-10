@@ -15,6 +15,9 @@
                 7
             </maxHistory>
         </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>10KB</maxFileSize>
+        </triggeringPolicy>
         <encoder>
             <pattern>%-4relative [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>

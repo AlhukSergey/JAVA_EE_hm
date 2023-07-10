@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS shop.orders
 (
     id         INT         NOT NULL AUTO_INCREMENT,
     userId     INT         NOT NULL,
-    created_at Timestamp   NOT NULL,
+    createdAt Timestamp   NOT NULL,
     status     varchar(45) NOT NULL,
     price      DOUBLE      NOT NULL,
     PRIMARY KEY (id),

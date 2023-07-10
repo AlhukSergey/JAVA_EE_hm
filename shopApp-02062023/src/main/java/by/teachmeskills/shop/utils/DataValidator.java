@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DataValidator {
-    private final static Logger log = LoggerFactory.getLogger(CRUDUtils.class);
+    private final static Logger log = LoggerFactory.getLogger(DataValidator.class);
     private DataValidator() {
     }
 

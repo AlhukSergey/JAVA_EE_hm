@@ -16,22 +16,22 @@ public class ConnectionPool {
     private static final String DB_URL = "db.url";
     private static final String DB_LOGIN = "db.login";
     private static final String DB_PASS = "db.pass";
-    private static final int MAX_CONNECTION_COUNT = 100;
+    private static final int MAX_CONNECTION_COUNT = 10;
     private static final int MIN_CONNECTION_COUNT = 5;
 
-    private static String url;
-    private static String login;
-    private static String pass;
+    private static final String URL;
+    private static final String LOGIN;
+    private static final String PASS;
 
     static {
         ResourceBundle resourceBundle = ResourceBundle.getBundle(DB_PROPERTY_FILE);
-        url = resourceBundle.getString(DB_URL);
-        login = resourceBundle.getString(DB_LOGIN);
-        pass = resourceBundle.getString(DB_PASS);
+        URL = resourceBundle.getString(DB_URL);
+        LOGIN = resourceBundle.getString(DB_LOGIN);
+        PASS = resourceBundle.getString(DB_PASS);
     }
 
     private volatile int currentConnectionNumber = MIN_CONNECTION_COUNT;
-    private BlockingQueue<Connection> pool = new ArrayBlockingQueue<>(MAX_CONNECTION_COUNT, true);
+    private final BlockingQueue<Connection> pool = new ArrayBlockingQueue<>(MAX_CONNECTION_COUNT, true);
 
     //Singleton
     public static ConnectionPool getInstance() {
@@ -51,7 +51,7 @@ public class ConnectionPool {
         for (int i = 0; i < MIN_CONNECTION_COUNT; i++) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                pool.add(DriverManager.getConnection(url, login, pass));
+                pool.add(DriverManager.getConnection(URL, LOGIN, PASS));
             } catch (SQLException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -62,7 +62,7 @@ public class ConnectionPool {
 
     private void openAdditionalConnection() throws Exception {
         try {
-            pool.add(DriverManager.getConnection(url, login, pass));
+            pool.add(DriverManager.getConnection(URL, LOGIN, PASS));
             currentConnectionNumber++;
         } catch (SQLException e) {
             throw new Exception("New connection wasn't add in the connection pool", e);

@@ -84,40 +84,6 @@
                     </div>
                     <button id="formDataBtn" type="submit" class="btn btn-primary">Сохранить</button>
                 </form>
-
-                <%--<form action="/shop" autocomplete="off" method="post" class="needs-validation">
-                    <input type="hidden" name="command" value="update-user-data"/>
-                    <div class="form-group">
-                        <label for="name">Имя:</label>
-                        <input type="text" class="form-control w-25" id="name" value="${name}" name="name" required>
-                    </div>
-                    <button id="formNameBtn" type="submit" class="btn btn-primary">Сохранить</button>
-                </form>
-                <form action="/shop" autocomplete="off" method="post" class="needs-validation">
-                    <input type="hidden" name="command" value="update-user-data"/>
-                    <div class="form-group">
-                        <label for="surname">Фамилия:</label>
-                        <input type="text" class="form-control w-25" id="surname" value="${surname}" name="surname"
-                               required>
-                    </div>
-                    <button id="formSurnameBtn" type="submit" class="btn btn-primary">Сохранить</button>
-                </form>
-                <form action="/shop" autocomplete="off" method="post" class="needs-validation">
-                    <input type="hidden" name="command" value="update-user-data"/>
-                    <div class="form-group">
-                        <label for="birthday">Дата рождения:</label>
-                        <input type="date" class="form-control w-25" id="birthday" value="${birthday}" name="birthday">
-                    </div>
-                    <button id="formBirthdayBtn" type="submit" class="btn btn-primary">Сохранить</button>
-                </form>
-                <form action="/shop" autocomplete="off" method="post" class="needs-validation">
-                    <input type="hidden" name="command" value="update-user-data"/>
-                    <div class="form-group">
-                        <label for="email">Почта:</label>
-                        <input type="text" class="form-control w-25" id="email" value="${email}" name="email" required>
-                    </div>
-                    <button id="formEmailBtn" type="submit" class="btn btn-primary">Сохранить</button>
-                </form>--%>
             </div>
 
             <div class="changePass" id="content-2">
@@ -143,14 +109,34 @@
             </div>
 
             <div class="activeOrders" id="content-3">
-                <c:if test="${not empty activeOrders}">
+                <c:if test="${not empty orders}">
                     <div class="row">
-                        <c:forEach items="${activeOrders}" var="order">
+                        <c:forEach items="${orders}" var="order">
                             <div class="card w-25 m-1" type="order">
                                 <div class="card-body">
-                                    <h5 class="card-title">Заказ №${order.getId()} / ${order.getCreatedAt()}</h5>
-                                    <div>${order.getOrderStatus().toString()}</div>
-                                    <div>${order.getPrice()} р.</div>
+                                    <c:if test="${order.getOrderStatus().toString().equals('ACTIVE')}">
+                                        <h5 class="card-title">Заказ №${order.getId()} / ${order.getCreatedAt()}</h5>
+                                        <div>${order.getOrderStatus().toString()}</div>
+                                        <div>${order.getPrice()} р.</div>
+                                    </c:if>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </c:if>
+            </div>
+
+            <div class="finishedOrders" id="content-4">
+                <c:if test="${not empty orders}">
+                    <div class="row">
+                        <c:forEach items="${orders}" var="order">
+                            <div class="card w-25 m-1" type="order">
+                                <div class="card-body">
+                                    <c:if test="${order.getOrderStatus().toString().equals('FINISHED')}">
+                                        <h5 class="card-title">Заказ №${order.getId()} / ${order.getCreatedAt()}</h5>
+                                        <div>${order.getOrderStatus().toString()}</div>
+                                        <div>${order.getPrice()} р.</div>
+                                    </c:if>
                                 </div>
                             </div>
                         </c:forEach>

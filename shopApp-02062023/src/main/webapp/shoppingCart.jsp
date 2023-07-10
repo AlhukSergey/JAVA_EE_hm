@@ -53,13 +53,17 @@
     <h2 style="text-align: center">Корзина</h2>
     ${info}
     <c:if test="${not empty cartProductsList}">
-        <div class="container-fluid mb-4">
+        <div class="container-fluid d-flex mb-4">
             <c:forEach items="${cartProductsList}" var="product">
                 <div class="card w-25 m-1" type="product">
                     <div class="card-body">
                         <div class="col align-self-start">
-                            <img class="card-img" style="max-height:700px; width: auto;"
-                                 src="${product.getImagePath()}" alt="product image">
+                            <c:forEach items="${images}" var="image">
+                                <c:if test="${product.getId() == image.getProductId() && image.getPrimary() == 1}">
+                                    <img class="card-img card-scale" style="max-height:300px"
+                                         src="${image.getImagePath()}" alt="Card image">
+                                </c:if>
+                            </c:forEach>
                             <p>${product.getDescription()}</p>
                             <span>${product.getPrice()} р.</span>
                             <div class="col col align-self-end">

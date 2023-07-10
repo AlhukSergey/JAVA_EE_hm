@@ -1,11 +1,18 @@
 package by.teachmeskills.shop.commands;
 
-import by.teachmeskills.shop.commands.enums.*;
+import by.teachmeskills.shop.commands.enums.InfoEnum;
+import by.teachmeskills.shop.commands.enums.MapKeysEnum;
+import by.teachmeskills.shop.commands.enums.PagesPathEnum;
+import by.teachmeskills.shop.commands.enums.RequestParamsEnum;
+import by.teachmeskills.shop.commands.enums.SetterActionsEnum;
 import by.teachmeskills.shop.domain.User;
 import by.teachmeskills.shop.exceptions.CommandException;
 import by.teachmeskills.shop.exceptions.IncorrectUserDataException;
 import by.teachmeskills.shop.exceptions.RequestCredentialsNullException;
-import by.teachmeskills.shop.utils.CRUDUtils;
+import by.teachmeskills.shop.services.Impl.OrderServiceImpl;
+import by.teachmeskills.shop.services.Impl.UserServiceImpl;
+import by.teachmeskills.shop.services.OrderService;
+import by.teachmeskills.shop.services.UserService;
 import by.teachmeskills.shop.utils.HttpRequestCredentialsValidator;
 import by.teachmeskills.shop.utils.PageFiller;
 import by.teachmeskills.shop.utils.RequestDataGetter;
@@ -22,6 +29,8 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 
 public class UpdateUserDataCommandImpl implements BaseCommand {
+    private final UserService userService = new UserServiceImpl();
+    private final OrderService orderService = new OrderServiceImpl();
     private final static Logger log = LoggerFactory.getLogger(UpdateUserDataCommandImpl.class);
     private static final Map<String, BiConsumer<String, User>> settersMap = Map.of(
             MapKeysEnum.NAME.getKey(), SetterActionsEnum.NAME_ACTION.getAction(),
@@ -50,11 +59,15 @@ public class UpdateUserDataCommandImpl implements BaseCommand {
         }
 
         setNewUserData(userData, user);
-        CRUDUtils.updateUserData(CRUDUtils.generateUpdateStatement(userData, user.getId()));
-        log.info("The data of the user '" + user.getEmail() + "' successful changed.");
+
+        userService.generateUpdateQuery(userData, user.getId());
+        userService.update(user);
+
+        log.info(InfoEnum.DATA_SUCCESSFUL_CHANGED_INFO.getInfo() + user.getEmail() + "'.");
+
         req.setAttribute(RequestParamsEnum.INFO.getValue(), InfoEnum.DATA_SUCCESSFUL_CHANGED_INFO.getInfo());
 
-        PageFiller.showUserData(req);
+        PageFiller.showUserData(req, orderService, user);
         return PagesPathEnum.USER_ACCOUNT_PAGE.getPath();
     }
 

@@ -1,26 +1,31 @@
 package by.teachmeskills.shop.commands;
 
+import by.teachmeskills.shop.commands.enums.InfoEnum;
 import by.teachmeskills.shop.commands.enums.PagesPathEnum;
 import by.teachmeskills.shop.commands.enums.RequestParamsEnum;
 import by.teachmeskills.shop.domain.Cart;
 import by.teachmeskills.shop.domain.Order;
+import by.teachmeskills.shop.domain.OrderStatus;
 import by.teachmeskills.shop.domain.Product;
 import by.teachmeskills.shop.domain.User;
 import by.teachmeskills.shop.exceptions.CommandException;
-import by.teachmeskills.shop.utils.CRUDUtils;
+import by.teachmeskills.shop.services.Impl.OrderServiceImpl;
+import by.teachmeskills.shop.services.OrderService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.SHOPPING_CART;
 import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.USER;
 
 public class CheckoutCommandImpl implements BaseCommand {
+    private final OrderService orderService = new OrderServiceImpl();
     private final static Logger log = LoggerFactory.getLogger(CheckoutCommandImpl.class);
-    private final String IS_EMPTY_INFO = "В корзине еще нет продуктов. Чтобы оформить заказ, добавьте продукты.";
+
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
         HttpSession session = req.getSession();
@@ -28,17 +33,23 @@ public class CheckoutCommandImpl implements BaseCommand {
         User user = (User) session.getAttribute(USER.getValue());
 
         List<Product> productList = shoppingCart.getProducts();
-        String varInfo;
 
         if (productList.isEmpty()) {
-            varInfo = IS_EMPTY_INFO;
-            req.setAttribute(RequestParamsEnum.INFO.getValue(), varInfo);
+            req.setAttribute(RequestParamsEnum.INFO.getValue(), InfoEnum.SHOP_CART_IS_EMPTY_INFO.getInfo());
             return PagesPathEnum.SHOPPING_CART_PAGE.getPath();
         }
 
-        Order order = new Order(user, productList, shoppingCart.getTotalPrice());
-        CRUDUtils.addOrder(order);
-        log.info("Successful new order registration.");
+        Order order = Order.builder()
+                .userId(user.getId())
+                .createdAt(LocalDateTime.now())
+                .orderStatus(OrderStatus.ACTIVE)
+                .price(shoppingCart.getTotalPrice())
+                .build();
+
+        orderService.create(order);
+
+        log.info("Successful registration a new order.");
+
         shoppingCart.clear();
         return PagesPathEnum.SHOPPING_CART_PAGE.getPath();
     }

@@ -3,8 +3,8 @@ package by.teachmeskills.shop.commands;
 import by.teachmeskills.shop.domain.Cart;
 import by.teachmeskills.shop.domain.Product;
 import by.teachmeskills.shop.exceptions.CommandException;
-import by.teachmeskills.shop.repositories.Impl.ProductRepositoryImpl;
-import by.teachmeskills.shop.repositories.ProductRepository;
+import by.teachmeskills.shop.services.Impl.ProductServiceImpl;
+import by.teachmeskills.shop.services.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -14,7 +14,7 @@ import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.PRODUCT_ID;
 import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.SHOPPING_CART;
 
 public class AddProductToShoppingCartCommandImpl implements BaseCommand {
-    private final ProductRepository productRepository = new ProductRepositoryImpl();
+    private final ProductService productService = new ProductServiceImpl();
 
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
@@ -30,7 +30,7 @@ public class AddProductToShoppingCartCommandImpl implements BaseCommand {
             session.setAttribute(SHOPPING_CART.getValue(), shoppCart);
         }
 
-        Product product = productRepository.findById(productId);
+        Product product = productService.findById(productId);
         shoppCart.addProduct(product);
         req.setAttribute(PRODUCT.getValue(), product);
 

@@ -57,7 +57,6 @@ public class ImageRepositoryImpl implements ImageRepository {
             resultSet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
         return image;
     }
@@ -84,7 +83,6 @@ public class ImageRepositoryImpl implements ImageRepository {
             resultSet.close();
         } catch (Exception e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
         }
         return images;
     }
