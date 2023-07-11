@@ -1,4 +1,4 @@
-package by.teachmeskills.shop.MyLinkedKist;
+package by.teachmeskills.MyLinkedKist;
 
 import java.util.NoSuchElementException;
 

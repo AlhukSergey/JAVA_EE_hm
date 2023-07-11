@@ -53,14 +53,35 @@
         <h2 style="text-align: center">${product.getName()}</h2>
         <div class="container">
             <div class="row">
-                <div class="col align-self-start">
-                    <c:forEach items="${images}" var="image">
-                        <c:if test="${image.getPrimary() == 1}">
-                                <img src="${image.getImagePath()}" class="d-block" style="max-height:700px; width: auto;">
-                        </c:if>
-                    </c:forEach>
-                    <p>${product.getDescription()}</p>
-                    <p>${product.getPrice()} р.</p>
+                <div class="d-flex flex-column align-items-center">
+                    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="margin-top: 20px; margin-bottom: 20px">
+                        <div class="carousel-inner">
+                            <c:forEach items="${images}" var="image">
+                                <c:if test="${image.getPrimary() == 1}">
+                                    <div class="carousel-item active">
+                                        <img src="${image.getImagePath()}" class="d-block" style="max-height:700px; width: auto;">
+                                    </div>
+                                </c:if>
+                                <c:if test="${image.getPrimary() == 0}">
+                                    <div class="carousel-item">
+                                        <img src="${image.getImagePath()}" class="d-block" style="max-height:700px; width: auto;">
+                                    </div>
+                                </c:if>
+                            </c:forEach>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Предыдущий</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Следующий</span>
+                        </button>
+                    </div>
+                    <div style="max-width: 700px">
+                        <p>${product.getDescription()}</p>
+                        <p>${product.getPrice()} р.</p>
+                    </div>
                 </div>
                 <div class="col align-self-end">
                     <div class="btn-lg d-grid gap-2 d-md-flex justify-content-md-end">
