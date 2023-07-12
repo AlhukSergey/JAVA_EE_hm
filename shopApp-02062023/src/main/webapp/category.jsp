@@ -44,6 +44,12 @@
                                 src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"
                                 class="fa-solid fa-circle-user me-1"> Аккаунт</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-2 text-uppercase" href="/shop?command=redirect-to-search-page"><img
+                                style="border-radius: 50%; max-height: 25px;"
+                                src="https://e7.pngegg.com/pngimages/605/56/png-clipart-search-icon-computer-icons-android-desktop-search-button-internet-share-icon-thumbnail.png"
+                                class="fa-solid fa-circle-user me-1">Поиск</a>
+                    </li>
                 </ul>
             </div>
         </div>

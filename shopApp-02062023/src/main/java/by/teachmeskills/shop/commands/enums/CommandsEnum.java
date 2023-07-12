@@ -14,7 +14,9 @@ public enum CommandsEnum {
     REMOVE_PRODUCT_FROM_SHOPPING_CART_COMMAND("remove-product-from-shopping-cart"),
     REDIRECT_TO_USER_ACCOUNT_PAGE_COMMAND("redirect-to-user-account-page"),
     CHECKOUT_COMMAND("checkout"),
-    UPDATE_USER_DATA_COMMAND("update-user-data");
+    UPDATE_USER_DATA_COMMAND("update-user-data"),
+    REDIRECT_TO_SEARCH_PAGE_COMMAND("redirect-to-search-page"),
+    SEARCH_COMMAND("search");
     private final String command;
 
     CommandsEnum(String command) {
