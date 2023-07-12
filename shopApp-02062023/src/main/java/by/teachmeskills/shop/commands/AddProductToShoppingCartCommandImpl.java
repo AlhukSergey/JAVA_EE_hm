@@ -31,7 +31,7 @@ public class AddProductToShoppingCartCommandImpl implements BaseCommand {
             session.setAttribute(SHOPPING_CART.getValue(), shoppCart);
         }
 
-        shoppCart.addProduct(productService.findById(Integer.parseInt(req.getParameter(PRODUCT_ID.getValue()))));
+        shoppCart.addProduct(productService.getProductById(Integer.parseInt(req.getParameter(PRODUCT_ID.getValue()))));
 
         PageFiller.showProduct(req, productService, imageService);
 

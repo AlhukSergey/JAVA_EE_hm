@@ -1,6 +1,5 @@
 package by.teachmeskills.MyLinkedList;
 
-import by.teachmeskills.MyLinkedKist.MyLinkedList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

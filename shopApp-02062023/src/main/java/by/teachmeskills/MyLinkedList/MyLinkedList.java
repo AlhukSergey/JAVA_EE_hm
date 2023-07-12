@@ -1,10 +1,10 @@
-package by.teachmeskills.MyLinkedKist;
+package by.teachmeskills.MyLinkedList;
 
 import java.util.NoSuchElementException;
 
 public class MyLinkedList<T> {
     private Node<T> head;
-    int size;
+    private int size;
 
     public boolean isEmpty() {
         return size == 0;

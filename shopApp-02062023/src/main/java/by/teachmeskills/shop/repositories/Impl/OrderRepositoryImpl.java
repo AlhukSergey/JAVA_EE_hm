@@ -15,8 +15,11 @@ import java.util.List;
 
 public class OrderRepositoryImpl implements OrderRepository {
     private static final String ADD_ORDER_QUERY = "INSERT INTO orders (userId, createdAt, status, price) VALUES (?, ?, ?, ?)";
+    private static final String UPDATE_ORDER_QUERY = "UPDATE orders SET status = ? WHERE id = ?";
     private static final String GET_ALL_ORDERS_QUERY = "SELECT * FROM orders";
     private static final String GET_ALL_ORDERS_BY_USER_ID_QUERY = "SELECT * FROM orders WHERE userId = ?";
+    private static final String GET_ORDER_BY_ID_QUERY = "SELECT * FROM orders WHERE id = ?";
+    private static final String GET_ORDERS_BY_DATE_QUERY = "SELECT * FROM orders WHERE createAt = ?";
     private static final String DELETE_ORDER_QUERY = "UPDATE orders SET status = ? WHERE id = ?";
 
     @Override
@@ -72,7 +75,21 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public Order update(Order entity) {
-        return null;
+        log.info("Trying to change the order data in the database.");
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psUpdate = connection.prepareStatement(UPDATE_ORDER_QUERY);
+
+            psUpdate.setString(1, entity.getOrderStatus().toString());
+            psUpdate.setInt(2, entity.getId());
+            psUpdate.execute();
+
+            pool.closeConnection(connection);
+            psUpdate.close();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return entity;
     }
 
     @Override
@@ -95,12 +112,63 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public Order findById(int id) {
-        return null;
+        log.info("Trying to get the order from the database.");
+
+        Order order = null;
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psGet = connection.prepareStatement(GET_ORDER_BY_ID_QUERY);
+
+            psGet.setInt(1, id);
+            ResultSet resultSet = psGet.executeQuery();
+            while (resultSet.next()) {
+                order = Order.builder()
+                        .id(resultSet.getInt(1))
+                        .userId(resultSet.getInt(2))
+                        .createdAt(resultSet.getTimestamp(3).toLocalDateTime())
+                        .orderStatus(ConverterUtils.toOrderStatus(resultSet.getString(4)))
+                        .price(resultSet.getDouble(5))
+                        .build();
+            }
+            resultSet.close();
+
+            pool.closeConnection(connection);
+            psGet.close();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return order;
     }
 
     @Override
     public List<Order> findByDate(LocalDateTime date) {
-        return null;
+        log.info("Trying to orders by date from the database.");
+
+        List<Order> orders = new ArrayList<>();
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psGet = connection.prepareStatement(GET_ORDERS_BY_DATE_QUERY);
+            psGet.setTimestamp(1, Timestamp.valueOf(date));
+
+            ResultSet resultSet = psGet.executeQuery();
+            while (resultSet.next()) {
+                orders.add(Order.builder()
+                        .id(resultSet.getInt(1))
+                        .userId(resultSet.getInt(2))
+                        .createdAt(resultSet.getTimestamp(3).toLocalDateTime())
+                        .orderStatus(ConverterUtils.toOrderStatus(resultSet.getString(4)))
+                        .price(resultSet.getDouble(5))
+                        .build()
+                );
+            }
+            resultSet.close();
+
+            pool.closeConnection(connection);
+            psGet.close();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return orders;
     }
 
     @Override

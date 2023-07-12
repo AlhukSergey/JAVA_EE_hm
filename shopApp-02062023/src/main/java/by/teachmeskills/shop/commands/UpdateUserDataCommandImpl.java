@@ -60,7 +60,7 @@ public class UpdateUserDataCommandImpl implements BaseCommand {
 
         setNewUserData(userData, user);
 
-        userService.generateUpdateQuery(userData, user.getId());
+        userService.generateForUpdate(userData, user.getId());
         userService.update(user);
 
         log.info(InfoEnum.DATA_SUCCESSFUL_CHANGED_INFO.getInfo() + user.getEmail() + "'.");

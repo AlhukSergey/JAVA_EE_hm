@@ -19,7 +19,6 @@ public class ProductRepositoryImpl implements ProductRepository {
     private static final String DELETE_PRODUCT_QUERY = "DELETE FROM products WHERE id = ?";
     private static final String GET_PRODUCT_BY_ID_QUERY = "SELECT * FROM products WHERE id = ?";
     private static final String GET_PRODUCT_BY_CATEGORY_ID_QUERY = "SELECT * FROM products WHERE categoryId = ?";
-
     private static String GET_PRODUCT_QUANTITY = "SELECT quantity FROM order_lists ol JOIN orders o ON ol.orderId = o.id WHERE orderId = ?";
 
     @Override
@@ -76,11 +75,25 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public Product update(Product entity) {
+        //Реализация обновления продукта по типу обновления данных пользователя. Нужно понимать, что обновлять.
         return null;
     }
 
     @Override
     public void delete(int id) {
+        log.info("Trying to delete the product data from the database.");
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psDelete = connection.prepareStatement(DELETE_PRODUCT_QUERY);
+            psDelete.setInt(1, id);
+
+            psDelete.execute();
+
+            pool.closeConnection(connection);
+            psDelete.close();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 
     @Override

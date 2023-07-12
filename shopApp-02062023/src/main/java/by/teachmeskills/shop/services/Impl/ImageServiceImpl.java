@@ -30,17 +30,17 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Image findById(int id) {
+    public Image getImageById(int id) {
         return imageRepository.findById(id);
     }
 
     @Override
-    public Image findByCategoryId(int categoryId) {
+    public Image getImageByCategoryId(int categoryId) {
         return imageRepository.findByCategoryId(categoryId);
     }
 
     @Override
-    public List<Image> findByProductId(int productId) {
+    public List<Image> getImagesByProductId(int productId) {
         return imageRepository.findByProductId(productId);
     }
 }

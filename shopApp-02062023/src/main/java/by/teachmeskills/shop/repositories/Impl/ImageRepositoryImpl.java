@@ -10,32 +10,131 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImageRepositoryImpl implements ImageRepository {
+    private static final String ADD_IMAGE_QUERY = "INSERT INTO images (imagePath, categoryId, productId, primaryImage) VALUES (?, ?, ?, ?)";
+    private static final String GET_ALL_IMAGES_QUERY = "SELECT * FROM images";
+    private static final String UPDATE_IMAGE_QUERY = "UPDATE images SET imagePath = ? WHERE id = ?";
+    private static final String DELETE_IMAGE_QUERY = "DELETE FROM images WHERE id = ?";
+    private static final String GET_IMAGE_BY_ID_QUERY = "SELECT * FROM images WHERE id = ?";
     private static final String GET_IMAGE_BY_CATEGORY_ID_QUERY = "SELECT * FROM images WHERE categoryId = ?";
     private static final String GET_IMAGES_BY_PRODUCT_ID_QUERY = "SELECT * FROM images WHERE productId = ?";
 
     @Override
     public Image create(Image entity) {
-        return null;
+        log.info("Trying to add a new image to the database.");
+
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psInsert = connection.prepareStatement(ADD_IMAGE_QUERY);
+
+            psInsert.setString(1, entity.getImagePath());
+            psInsert.setInt(2, entity.getCategoryId());
+            psInsert.setInt(3, entity.getProductId());
+            psInsert.setInt(4, entity.getPrimary());
+            psInsert.execute();
+
+            pool.closeConnection(connection);
+            psInsert.close();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return entity;
     }
 
     @Override
     public List<Image> read() {
-        return null;
+        log.info("Trying to get all images from the database.");
+
+        List<Image> images = new ArrayList<>();
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psGet = connection.prepareStatement(GET_ALL_IMAGES_QUERY);
+
+            ResultSet resultSet = psGet.executeQuery();
+            while (resultSet.next()) {
+                images.add(Image.builder()
+                        .id(resultSet.getInt(1))
+                        .imagePath(resultSet.getString(2))
+                        .categoryId(resultSet.getInt(3))
+                        .productId(resultSet.getInt(4))
+                        .primary(resultSet.getInt(5))
+                        .build()
+                );
+            }
+
+            resultSet.close();
+            pool.closeConnection(connection);
+            psGet.close();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return images;
     }
 
     @Override
     public Image update(Image entity) {
-        return null;
+        log.info("Trying to change the image data in the database.");
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psUpdate = connection.prepareStatement(UPDATE_IMAGE_QUERY);
+
+            psUpdate.setString(1, entity.getImagePath());
+            psUpdate.setInt(2, entity.getId());
+
+            psUpdate.execute();
+
+            pool.closeConnection(connection);
+            psUpdate.close();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return entity;
     }
 
     @Override
     public void delete(int id) {
+        log.info("Trying to delete the image data from the database.");
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psDelete = connection.prepareStatement(DELETE_IMAGE_QUERY);
+            psDelete.setInt(1, id);
 
+            psDelete.execute();
+
+            pool.closeConnection(connection);
+            psDelete.close();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 
     @Override
     public Image findById(int id) {
-        return null;
+        log.info("Trying to get the image from the database.");
+
+        Image image = null;
+        try {
+            Connection connection = pool.getConnection();
+            PreparedStatement psGet = connection.prepareStatement(GET_IMAGE_BY_ID_QUERY);
+
+            psGet.setInt(1, id);
+            ResultSet resultSet = psGet.executeQuery();
+            while (resultSet.next()) {
+                image = Image.builder()
+                        .id(resultSet.getInt("id"))
+                        .imagePath(resultSet.getString("imagePath"))
+                        .categoryId(resultSet.getInt("categoryId"))
+                        .productId(resultSet.getInt("productId"))
+                        .primary(resultSet.getInt("primaryImage"))
+                        .build();
+            }
+            resultSet.close();
+
+            pool.closeConnection(connection);
+            psGet.close();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return image;
     }
 
     @Override

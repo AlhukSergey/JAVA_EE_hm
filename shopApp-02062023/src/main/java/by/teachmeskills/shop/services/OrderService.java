@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface OrderService extends BaseService<Order> {
-    Order findById(int id);
+    Order getOrderById(int id);
 
-    List<Order> findByDate(LocalDateTime date);
-    List<Order> findByUserId(int id);
+    List<Order> getOrderByDate(LocalDateTime date);
+    List<Order> getOrdersByUserId(int id);
 }

@@ -29,7 +29,7 @@ public class PageFiller {
         List<Image> images = new ArrayList<>();
 
         for (Category category : categories) {
-            images.add(imageService.findByCategoryId(category.getId()));
+            images.add(imageService.getImageByCategoryId(category.getId()));
         }
 
         req.setAttribute(CATEGORIES.getValue(), categories);
@@ -39,11 +39,11 @@ public class PageFiller {
     public static void showProducts(HttpServletRequest req, ProductService productService, ImageService imageService) {
         int categoryId = Integer.parseInt(req.getParameter(CATEGORY_ID.getValue()));
 
-        List<Product> products = productService.findByCategoryId(categoryId);
+        List<Product> products = productService.getProductsByCategoryId(categoryId);
         List<List<Image>> images = new ArrayList<>();
 
         for (Product product : products) {
-            images.add(imageService.findByProductId(product.getId()));
+            images.add(imageService.getImagesByProductId(product.getId()));
         }
 
         req.setAttribute(PRODUCTS.getValue(), products);
@@ -53,8 +53,8 @@ public class PageFiller {
     public static void showProduct(HttpServletRequest req, ProductService productService, ImageService imageService) {
         int productId = Integer.parseInt(req.getParameter(PRODUCT_ID.getValue()));
 
-        req.setAttribute(PRODUCT.getValue(), productService.findById(productId));
-        req.setAttribute(IMAGES.getValue(), imageService.findByProductId(productId));
+        req.setAttribute(PRODUCT.getValue(), productService.getProductById(productId));
+        req.setAttribute(IMAGES.getValue(), imageService.getImagesByProductId(productId));
     }
 
     public static void showShoppingCartProducts(HttpServletRequest req, Cart shoppingCart, ImageService imageService) {
@@ -62,7 +62,7 @@ public class PageFiller {
         List<List<Image>> images = new ArrayList<>();
 
         for (Product product : products) {
-            images.add(imageService.findByProductId(product.getId()));
+            images.add(imageService.getImagesByProductId(product.getId()));
         }
 
         req.setAttribute(RequestParamsEnum.SHOPPING_CART_PRODUCTS.getValue(), products);
@@ -74,7 +74,7 @@ public class PageFiller {
         req.setAttribute(RequestParamsEnum.SURNAME.getValue(), user.getSurname());
         req.setAttribute(RequestParamsEnum.BIRTHDAY.getValue(), user.getBirthday().toString());
         req.setAttribute(RequestParamsEnum.EMAIL.getValue(), user.getEmail());
-        List<Order> orders = orderService.findByUserId(user.getId());
+        List<Order> orders = orderService.getOrdersByUserId(user.getId());
         req.setAttribute(RequestParamsEnum.ACTIVE_ORDERS.getValue(), orders.stream().filter(order -> order.getOrderStatus() == OrderStatus.ACTIVE).collect(Collectors.toList()));
         req.setAttribute(RequestParamsEnum.FINISHED_ORDERS.getValue(), orders.stream().filter(order -> order.getOrderStatus() == OrderStatus.FINISHED).collect(Collectors.toList()));
     }

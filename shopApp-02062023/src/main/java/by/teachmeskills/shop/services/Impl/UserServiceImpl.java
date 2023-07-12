@@ -32,17 +32,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(int id) {
+    public User getUserById(int id) {
         return userRepository.findById(id);
     }
 
     @Override
-    public User findByEmailAndPassword(Map<String, String> data) {
+    public User getUserByEmailAndPassword(Map<String, String> data) {
         return userRepository.findByEmailAndPassword(data);
     }
 
     @Override
-    public void generateUpdateQuery(Map<String, String> userData, int id) {
+    public void generateForUpdate(Map<String, String> userData, int id) {
         userRepository.generateUpdateQuery(userData, id);
     }
 }

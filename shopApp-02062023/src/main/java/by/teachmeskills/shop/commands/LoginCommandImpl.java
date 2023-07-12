@@ -35,7 +35,7 @@ public class LoginCommandImpl implements BaseCommand {
 
         validateCredentials(userData.get(MapKeysEnum.EMAIL.getKey()), userData.get(MapKeysEnum.PASSWORD.getKey()));
 
-        User user = userService.findByEmailAndPassword(userData);
+        User user = userService.getUserByEmailAndPassword(userData);
 
         if (user == null) {
             req.setAttribute(RequestParamsEnum.INFO.getValue(), InfoEnum.USER_NOT_FOUND_INFO.getInfo());

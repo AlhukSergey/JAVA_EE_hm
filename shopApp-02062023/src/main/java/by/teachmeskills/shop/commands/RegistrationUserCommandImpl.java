@@ -61,7 +61,7 @@ public class RegistrationUserCommandImpl implements BaseCommand {
         log.info("Successful registration of a new user: '" + user.getEmail() + "'.");
 
         HttpSession session = req.getSession();
-        session.setAttribute(RequestParamsEnum.USER.getValue(), userService.findByEmailAndPassword(userData));
+        session.setAttribute(RequestParamsEnum.USER.getValue(), userService.getUserByEmailAndPassword(userData));
 
         req.setAttribute(RequestParamsEnum.INFO.getValue(), InfoEnum.WELCOME_INFO.getInfo() + user.getName() + ".");
 
@@ -70,7 +70,7 @@ public class RegistrationUserCommandImpl implements BaseCommand {
     }
 
     private void checkUserAlreadyExists(Map<String, String> data) throws UserAlreadyExistsException {
-        User user = userService.findByEmailAndPassword(data);
+        User user = userService.getUserByEmailAndPassword(data);
         if (user != null) {
             throw new UserAlreadyExistsException("Пользователь с таким логином уже существует. " +
                     "Чтобы войти в аккаунт, перейдите на страницу входа...");

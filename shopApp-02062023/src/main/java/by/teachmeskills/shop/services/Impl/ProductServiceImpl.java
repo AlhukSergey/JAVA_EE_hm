@@ -30,12 +30,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product findById(int id) {
+    public Product getProductById(int id) {
         return productRepository.findById(id);
     }
 
     @Override
-    public List<Product> findByCategoryId(int categoryId) {
+    public List<Product> getProductsByCategoryId(int categoryId) {
         return productRepository.findByCategoryId(categoryId);
     }
 }

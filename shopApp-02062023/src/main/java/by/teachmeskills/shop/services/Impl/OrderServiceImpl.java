@@ -32,17 +32,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order findById(int id) {
+    public Order getOrderById(int id) {
         return orderRepository.findById(id);
     }
 
     @Override
-    public List<Order> findByDate(LocalDateTime date) {
+    public List<Order> getOrderByDate(LocalDateTime date) {
         return orderRepository.findByDate(date);
     }
 
     @Override
-    public List<Order> findByUserId(int id) {
+    public List<Order> getOrdersByUserId(int id) {
         return orderRepository.findByUserId(id);
     }
 }

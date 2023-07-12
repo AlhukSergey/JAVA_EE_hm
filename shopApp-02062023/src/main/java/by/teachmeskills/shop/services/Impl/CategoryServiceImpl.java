@@ -30,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category findById(int id) {
+    public Category getCategoryById(int id) {
         return categoryRepository.findById(id);
     }
 }

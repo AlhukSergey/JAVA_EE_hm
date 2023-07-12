@@ -5,7 +5,7 @@ import by.teachmeskills.shop.domain.Image;
 import java.util.List;
 
 public interface ImageService extends BaseService<Image> {
-    Image findById(int id);
-    Image findByCategoryId(int categoryId);
-    List<Image> findByProductId(int productId);
+    Image getImageById(int id);
+    Image getImageByCategoryId(int categoryId);
+    List<Image> getImagesByProductId(int productId);
 }
