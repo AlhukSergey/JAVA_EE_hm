@@ -9,6 +9,12 @@ a {
     min-height: 70px;
 }
 
+.card-img {
+    max-height: 355px;
+    margin-bottom: 20px;
+}
+
+
 .superNav {
     font-size: 13px;
 }

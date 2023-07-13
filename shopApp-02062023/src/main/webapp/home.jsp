@@ -68,7 +68,7 @@
                                 <h5 class="card-title">${category.getName()}</h5>
                                 <c:forEach items="${images}" var="image">
                                     <c:if test="${category.getId() == image.getCategoryId()}">
-                                        <img class="card-img card-scale" style="max-height:300px"
+                                        <img class="card-img card-scale"
                                              src="${image.getImagePath()}"
                                              alt="Card image">
                                     </c:if>

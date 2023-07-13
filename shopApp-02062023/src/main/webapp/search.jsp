@@ -59,7 +59,7 @@
                 <i class="fa fa-search"></i>
                 <form method="post" action="/shop">
                     <input type="hidden" name="command" value="search"/>
-                    <input type="text" class="form-control" placeholder="Введите название либо описание товара..." name="search_param">
+                    <input type="text" class="form-control" placeholder="Введите название либо описание товара..." name="search_param" minlength="3" required>
                     <button class="btn btn-primary">Найти</button>
                 </form>
             </div>
@@ -76,7 +76,7 @@
                                 <h5 class="card-title">${product.getName()}</h5>
                                 <c:forEach items="${images}" var="image">
                                     <c:if test="${product.getId() == image.getProductId() && image.getPrimary() == 1}">
-                                        <img class="card-img card-scale" style="max-height:300px"
+                                        <img class="card-img card-scale"
                                              src="${image.getImagePath()}" alt="Card image">
                                     </c:if>
                                 </c:forEach>

@@ -17,7 +17,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.*;
+import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.IMAGES;
+import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.PRODUCTS;
+import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.SEARCH_PARAM;
 
 public class SearchCommandImpl implements BaseCommand {
     private final ProductService productService = new ProductServiceImpl();
@@ -26,29 +28,24 @@ public class SearchCommandImpl implements BaseCommand {
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
 
-        String searchParam = req.getParameter(SEARCH_PARAM.getValue());
+        String searchParameter = req.getParameter(SEARCH_PARAM.getValue().toLowerCase());
 
-        List<Product> products = productService.read();
+        List<Product> products = productService.getProductsBySearchParameter(searchParameter);
 
-        List<Product> foundProducts = products.stream().filter(product -> product.getName().toLowerCase().contains(searchParam.toLowerCase())).toList();
+        if (!products.isEmpty()) {
+            List<List<Image>> images = new ArrayList<>();
 
-        if (foundProducts.isEmpty()) {
-            foundProducts = products.stream().filter(product -> product.getDescription().toLowerCase().contains(searchParam.toLowerCase())).toList();
-
-            if (foundProducts.isEmpty()) {
-                req.setAttribute(RequestParamsEnum.INFO.getValue(), InfoEnum.PRODUCTS_NOT_FOUND_INFO.getInfo());
+            for (Product product : products) {
+                images.add(imageService.getImagesByProductId(product.getId()));
             }
+
+            req.setAttribute(PRODUCTS.getValue(), products);
+            req.setAttribute(IMAGES.getValue(), images.stream().flatMap(Collection::stream).collect(Collectors.toList()));
+
+            return PagesPathEnum.SEARCH_PAGE.getPath();
         }
 
-        List<List<Image>> images = new ArrayList<>();
-
-        for (Product product : foundProducts) {
-            images.add(imageService.getImagesByProductId(product.getId()));
-        }
-
-        req.setAttribute(PRODUCTS.getValue(), foundProducts);
-        req.setAttribute(IMAGES.getValue(), images.stream().flatMap(Collection::stream).collect(Collectors.toList()));
-
+        req.setAttribute(RequestParamsEnum.INFO.getValue(), InfoEnum.PRODUCTS_NOT_FOUND_INFO.getInfo());
         return PagesPathEnum.SEARCH_PAGE.getPath();
     }
 }
