@@ -1,29 +1,29 @@
 package by.teachmeskills.shop.utils;
 
 import by.teachmeskills.shop.commands.enums.RequestParamsEnum;
-import by.teachmeskills.shop.domain.*;
+import by.teachmeskills.shop.domain.Cart;
+import by.teachmeskills.shop.domain.Category;
+import by.teachmeskills.shop.domain.Image;
+import by.teachmeskills.shop.domain.Order;
+import by.teachmeskills.shop.domain.OrderStatus;
+import by.teachmeskills.shop.domain.Product;
+import by.teachmeskills.shop.domain.User;
 import by.teachmeskills.shop.services.CategoryService;
 import by.teachmeskills.shop.services.ImageService;
 import by.teachmeskills.shop.services.OrderService;
 import by.teachmeskills.shop.services.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.CATEGORIES;
-import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.CATEGORY_ID;
-import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.IMAGES;
-import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.PRODUCT;
-import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.PRODUCTS;
-import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.PRODUCT_ID;
+import static by.teachmeskills.shop.commands.enums.RequestParamsEnum.*;
 
+@UtilityClass
 public class PageFiller {
-    private PageFiller() {
-    }
-
     public static void showCategories(HttpServletRequest req, CategoryService categoryService, ImageService imageService) {
         List<Category> categories = categoryService.read();
         List<Image> images = new ArrayList<>();
@@ -36,7 +36,7 @@ public class PageFiller {
         req.setAttribute(IMAGES.getValue(), images);
     }
 
-    public static void showProducts(HttpServletRequest req, ProductService productService, ImageService imageService) {
+    public static void showCategoryProducts(HttpServletRequest req, ProductService productService, ImageService imageService) {
         int categoryId = Integer.parseInt(req.getParameter(CATEGORY_ID.getValue()));
 
         List<Product> products = productService.getProductsByCategoryId(categoryId);

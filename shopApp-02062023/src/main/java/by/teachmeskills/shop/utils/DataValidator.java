@@ -1,5 +1,6 @@
 package by.teachmeskills.shop.utils;
 
+import lombok.experimental.UtilityClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,10 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@UtilityClass
 public class DataValidator {
     private final static Logger log = LoggerFactory.getLogger(DataValidator.class);
-    private DataValidator() {
-    }
 
     //check date format
     public static boolean validateDateFormat(String str) {

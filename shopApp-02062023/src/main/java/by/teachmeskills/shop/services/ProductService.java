@@ -8,4 +8,6 @@ public interface ProductService extends BaseService<Product>{
     Product getProductById(int id);
 
     List<Product> getProductsByCategoryId(int categoryId);
+
+    List<Product> getProductsBySearchParameter(String parameter);
 }

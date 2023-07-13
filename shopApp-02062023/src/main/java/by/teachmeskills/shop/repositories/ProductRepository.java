@@ -8,4 +8,5 @@ public interface ProductRepository extends BaseRepository<Product> {
     Product findById(int id);
 
     List<Product> findByCategoryId(int categoryId);
+    List<Product> findBySearchParameter(String parameter);
 }

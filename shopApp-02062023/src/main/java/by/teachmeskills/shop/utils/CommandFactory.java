@@ -29,6 +29,8 @@ public class CommandFactory {
         COMMAND_LIST.put(CommandsEnum.REDIRECT_TO_USER_ACCOUNT_PAGE_COMMAND.getCommand(), new RedirectToUserAccountPageImpl());
         COMMAND_LIST.put(CommandsEnum.CHECKOUT_COMMAND.getCommand(), new CheckoutCommandImpl());
         COMMAND_LIST.put(CommandsEnum.UPDATE_USER_DATA_COMMAND.getCommand(), new UpdateUserDataCommandImpl());
+        COMMAND_LIST.put(CommandsEnum.REDIRECT_TO_SEARCH_PAGE_COMMAND.getCommand(), new RedirectToSearchPageCommandImpl());
+        COMMAND_LIST.put(CommandsEnum.SEARCH_COMMAND.getCommand(), new SearchCommandImpl());
     }
 
     public static BaseCommand defineCommand(HttpServletRequest req) {
