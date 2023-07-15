@@ -15,7 +15,7 @@ public class RedirectToCategoryPageImpl implements BaseCommand {
 
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
-        PageFiller.showProducts(req, productService, imageService);
+        PageFiller.showCategoryProducts(req, productService, imageService);
         return PagesPathEnum.CATEGORY_PAGE.getPath();
     }
 }

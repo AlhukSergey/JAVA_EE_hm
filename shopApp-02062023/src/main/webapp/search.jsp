@@ -7,7 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
-    <title>Категория</title>
+    <link rel="stylesheet" href="css/search.css">
+    <title>Поисковая страница</title>
 </head>
 <body>
 <div class="superNav border-bottom py-2 bg-light" style="border-radius: 25px;">
@@ -44,20 +45,27 @@
                                 src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"
                                 class="fa-solid fa-circle-user me-1"> Аккаунт</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase" href="/shop?command=redirect-to-search-page"><img
-                                style="border-radius: 50%; max-height: 25px;"
-                                src="https://e7.pngegg.com/pngimages/605/56/png-clipart-search-icon-computer-icons-android-desktop-search-button-internet-share-icon-thumbnail.png"
-                                class="fa-solid fa-circle-user me-1">Поиск</a>
-                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 </div>
 <div class="container">
-    <h1 style="text-align: center">${categoryName}</h1>
-    <p>Товары в наличии</p>
+    <h1 style="text-align: center">Поисковая страница</h1>
+
+    <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-md-8">
+            <div class="search">
+                <i class="fa fa-search"></i>
+                <form method="post" action="/shop">
+                    <input type="hidden" name="command" value="search"/>
+                    <input type="text" class="form-control" placeholder="Введите название либо описание товара..." name="search_param" minlength="3" required>
+                    <button class="btn btn-primary">Найти</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="container-fluid">
         <c:if test="${not empty products}">
             <div class="row">
@@ -68,7 +76,7 @@
                                 <h5 class="card-title">${product.getName()}</h5>
                                 <c:forEach items="${images}" var="image">
                                     <c:if test="${product.getId() == image.getProductId() && image.getPrimary() == 1}">
-                                        <img class="card-img card-scale" style="max-height:300px"
+                                        <img class="card-img card-scale"
                                              src="${image.getImagePath()}" alt="Card image">
                                     </c:if>
                                 </c:forEach>
@@ -80,6 +88,11 @@
                 </c:forEach>
             </div>
         </c:if>
+
+        <span>
+            ${info}
+        </span>
+
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

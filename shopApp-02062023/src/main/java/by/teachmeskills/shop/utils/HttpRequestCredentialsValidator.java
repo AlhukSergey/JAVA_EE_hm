@@ -4,15 +4,14 @@ import by.teachmeskills.shop.commands.enums.MapKeysEnum;
 import by.teachmeskills.shop.domain.User;
 import by.teachmeskills.shop.exceptions.IncorrectUserDataException;
 import by.teachmeskills.shop.exceptions.RequestCredentialsNullException;
+import lombok.experimental.UtilityClass;
 
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+@UtilityClass
 public class HttpRequestCredentialsValidator {
-    private HttpRequestCredentialsValidator() {
-    }
-
     public static void validateCredential(String credential) throws RequestCredentialsNullException {
         if (credential == null) {
             throw new RequestCredentialsNullException("Учетные данные запроса не инициализированы!");
@@ -36,7 +35,7 @@ public class HttpRequestCredentialsValidator {
         }
 
         //check email
-        if (credentials.containsKey(MapKeysEnum.EMAIL.getKey())){
+        if (credentials.containsKey(MapKeysEnum.EMAIL.getKey())) {
             if (!DataValidator.validateEmail(credentials.get(MapKeysEnum.EMAIL.getKey()))) {
                 throw new IncorrectUserDataException("Неверный формат адреса электронной почты!");
             }

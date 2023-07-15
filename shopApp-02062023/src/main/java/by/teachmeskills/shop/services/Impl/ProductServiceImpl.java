@@ -38,4 +38,9 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getProductsByCategoryId(int categoryId) {
         return productRepository.findByCategoryId(categoryId);
     }
+
+    @Override
+    public List<Product> getProductsBySearchParameter(String parameter) {
+        return productRepository.findBySearchParameter(parameter);
+    }
 }

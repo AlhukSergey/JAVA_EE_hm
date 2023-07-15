@@ -24,7 +24,8 @@ public enum RequestParamsEnum {
     NEW_PASSWORD_REP("new_password_rep"),
     ORDERS("orders"),
     ACTIVE_ORDERS("activeOrders"),
-    FINISHED_ORDERS("finishedOrders");
+    FINISHED_ORDERS("finishedOrders"),
+    SEARCH_PARAM("search_param"),;
 
     private final String value;
 

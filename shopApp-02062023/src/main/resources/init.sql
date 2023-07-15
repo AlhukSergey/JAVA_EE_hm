@@ -186,17 +186,17 @@ CREATE TABLE IF NOT EXISTS shop.images
 );
 
 INSERT INTO shop.images (imagePath, categoryId, productId, primaryImage)
-VALUES ('https://static.zara.net/photos///2023/V/0/2/p/5875/314/300/2/w/824/5875314300_2_1_1.jpg?ts=1680187573164', 1, null, 1);
+VALUES ('https://cdnby.sportmaster.com/upload/mdm/media_content/resize/4ce/800_800_a906/69910370299.jpg', 1, null, 1);
 INSERT INTO shop.images (imagePath, categoryId, productId, primaryImage)
-VALUES ('https://contents.mediadecathlon.com/p2116631/k$63a1a528bf6c1a18f58c78ddf7e058b5/2116631.jpg?format=auto&quality=70&f=800x800', 2, null, 1);
+VALUES ('https://cdnby.sportmaster.com/upload/mdm/media_content/resize/274/800_800_a74b/49454760299.jpg', 2, null, 1);
 INSERT INTO shop.images (imagePath, categoryId, productId, primaryImage)
-VALUES ('https://basket-04.wb.ru/vol511/part51175/51175606/images/big/2.jpg', 3, null, 1);
+VALUES ('https://cdnby.sportmaster.com/upload/mdm/media_content/resize/9fe/800_800_521c/78081760299.jpg', 3, null, 1);
 INSERT INTO shop.images (imagePath, categoryId, productId, primaryImage)
-VALUES ('https://belok.ua/blog/wp-content/uploads/2021/07/image1-3.jpg', 4, null, 1);
+VALUES ('https://cdnby.sportmaster.com/upload/mdm/media_content/resize/e98/800_800_2f68/73899710299.jpg', 4, null, 1);
 INSERT INTO shop.images (imagePath, categoryId, productId, primaryImage)
-VALUES ('https://sportishka.com/uploads/posts/2023-03/1678232155_sportishka-com-p-sportivnii-inventar-dlya-doma-sport-instag-18.jpg', 5, null, 1);
+VALUES ('https://cdnby.sportmaster.com/upload/mdm/media_content/resize/538/800_800_fbb7/56802650299.jpg', 5, null, 1);
 INSERT INTO shop.images (imagePath, categoryId, productId, primaryImage)
-VALUES ('https://ae04.alicdn.com/kf/Hb4a243e8706e48baa6da4ce83d1c6ff7A.jpg_640x640.jpg', 6, null, 1);
+VALUES ('https://cdnby.sportmaster.com/upload/mdm/media_content/resize/d90/800_800_fce4/54484920299.jpg', 6, null, 1);
 
 
 INSERT INTO shop.images (imagePath, categoryId, productId, primaryImage)
