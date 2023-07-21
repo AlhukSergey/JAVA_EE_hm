@@ -4,6 +4,7 @@ import by.teachmeskills.shop.domain.Order;
 import by.teachmeskills.shop.domain.OrderStatus;
 import by.teachmeskills.shop.repositories.OrderRepository;
 import by.teachmeskills.shop.utils.ConverterUtils;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +13,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
+@Repository
 public class OrderRepositoryImpl implements OrderRepository {
     private static final String ADD_ORDER_QUERY = "INSERT INTO orders (userId, createdAt, status, price) VALUES (?, ?, ?, ?)";
     private static final String UPDATE_ORDER_QUERY = "UPDATE orders SET status = ? WHERE id = ?";

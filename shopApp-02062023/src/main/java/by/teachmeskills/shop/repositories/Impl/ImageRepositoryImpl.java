@@ -2,13 +2,14 @@ package by.teachmeskills.shop.repositories.Impl;
 
 import by.teachmeskills.shop.domain.Image;
 import by.teachmeskills.shop.repositories.ImageRepository;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
+@Repository
 public class ImageRepositoryImpl implements ImageRepository {
     private static final String ADD_IMAGE_QUERY = "INSERT INTO images (imagePath, categoryId, productId, primaryImage) VALUES (?, ?, ?, ?)";
     private static final String GET_ALL_IMAGES_QUERY = "SELECT * FROM images";

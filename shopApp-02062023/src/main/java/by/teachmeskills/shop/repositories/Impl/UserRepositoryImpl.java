@@ -1,9 +1,10 @@
 package by.teachmeskills.shop.repositories.Impl;
 
-import by.teachmeskills.shop.commands.enums.MapKeysEnum;
+import by.teachmeskills.shop.enums.MapKeysEnum;
 import by.teachmeskills.shop.domain.User;
 import by.teachmeskills.shop.repositories.UserRepository;
 import by.teachmeskills.shop.utils.EncryptionUtils;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -13,7 +14,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+@Repository
 public class UserRepositoryImpl implements UserRepository {
     private static String updateQuery;
     private static final String ADD_USER_QUERY = "INSERT INTO users (name, surname, birthday, balance, email, password) VALUES (?, ?, ?, ?, ?, ?)";
@@ -154,7 +155,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User findByEmailAndPassword(Map<String, String> data) {
+    public User findByEmailAndPassword(String email, String password) {
         log.info("Trying to get an existing user from the database.");
         User user = null;
 
@@ -162,8 +163,8 @@ public class UserRepositoryImpl implements UserRepository {
             Connection connection = pool.getConnection();
             PreparedStatement psGet = connection.prepareStatement(GET_USER_BY_EMAIL_AND_PASS_QUERY);
 
-            psGet.setString(1, data.get("email"));
-            psGet.setString(2, EncryptionUtils.encrypt(data.get("password")));
+            psGet.setString(1, email);
+            psGet.setString(2, EncryptionUtils.encrypt(password));
             ResultSet resultSet = psGet.executeQuery();
 
             while (resultSet.next()) {
@@ -196,9 +197,10 @@ public class UserRepositoryImpl implements UserRepository {
                     .append(usersTableColumnNames.get(MapKeysEnum.PASSWORD.getKey()))
                     .append(" = '")
                     .append(EncryptionUtils.encrypt(userData.get(MapKeysEnum.NEW_PASSWORD.getKey())))
-                    .append(" WHERE id = '")
+                    .append("' WHERE id = '")
                     .append(userId)
                     .append("'").toString();
+            return;
         }
 
         for (Map.Entry<String, String> name : usersTableColumnNames.entrySet()) {
@@ -212,7 +214,6 @@ public class UserRepositoryImpl implements UserRepository {
         }
 
         query.deleteCharAt(query.lastIndexOf(","));
-
         updateQuery = query.append(" WHERE id = '").append(userId).append("'").toString();
     }
 }

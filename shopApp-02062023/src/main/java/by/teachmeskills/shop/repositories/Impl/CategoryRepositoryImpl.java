@@ -2,13 +2,14 @@ package by.teachmeskills.shop.repositories.Impl;
 
 import by.teachmeskills.shop.domain.Category;
 import by.teachmeskills.shop.repositories.CategoryRepository;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
+@Repository
 public class CategoryRepositoryImpl implements CategoryRepository {
     private static final String ADD_CATEGORY_QUERY = "INSERT INTO categories (name) VALUES (?)";
     private static final String GET_ALL_CATEGORIES_QUERY = "SELECT * FROM categories";

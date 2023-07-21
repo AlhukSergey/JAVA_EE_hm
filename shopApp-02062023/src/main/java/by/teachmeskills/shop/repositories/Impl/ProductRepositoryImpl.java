@@ -2,13 +2,14 @@ package by.teachmeskills.shop.repositories.Impl;
 
 import by.teachmeskills.shop.domain.Product;
 import by.teachmeskills.shop.repositories.ProductRepository;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
+@Repository
 public class ProductRepositoryImpl implements ProductRepository {
     private static final String GET_ALL_PRODUCTS_FOR_ORDER = "SELECT * FROM product p " +
             "JOIN order_lists ol ON p.id = ol.productId " +
