@@ -24,8 +24,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public Product create(Product entity) {
-        log.info("Trying to add a new product to the database.");
-
         try {
             Connection connection = pool.getConnection();
             PreparedStatement psInsert = connection.prepareStatement(ADD_PRODUCT_QUERY);
@@ -39,15 +37,13 @@ public class ProductRepositoryImpl implements ProductRepository {
             pool.closeConnection(connection);
             psInsert.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return entity;
     }
 
     @Override
     public List<Product> read() {
-        log.info("Trying to get all products from the database.");
-
         List<Product> products = new ArrayList<>();
         try {
             Connection connection = pool.getConnection();
@@ -69,7 +65,7 @@ public class ProductRepositoryImpl implements ProductRepository {
             pool.closeConnection(connection);
             psGet.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return products;
     }
@@ -82,7 +78,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public void delete(int id) {
-        log.info("Trying to delete the product data from the database.");
         try {
             Connection connection = pool.getConnection();
             PreparedStatement psDelete = connection.prepareStatement(DELETE_PRODUCT_QUERY);
@@ -93,14 +88,12 @@ public class ProductRepositoryImpl implements ProductRepository {
             pool.closeConnection(connection);
             psDelete.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
     @Override
     public Product findById(int id) {
-        log.info("Trying to get the product from the database.");
-
         Product product = null;
         try {
             Connection connection = pool.getConnection();
@@ -122,14 +115,13 @@ public class ProductRepositoryImpl implements ProductRepository {
             pool.closeConnection(connection);
             psGet.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return product;
     }
 
     @Override
     public List<Product> findByCategoryId(int categoryId) {
-        log.info("Trying to get all the category products from the database.");
         List<Product> products = new ArrayList<>();
 
         try {
@@ -152,15 +144,13 @@ public class ProductRepositoryImpl implements ProductRepository {
             pool.closeConnection(connection);
             psGet.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return products;
     }
 
     @Override
     public List<Product> findBySearchParameter(String parameter) {
-        log.info("Trying to get products from the database.");
-
         List<Product> products = new ArrayList<>();
         try {
             Connection connection = pool.getConnection();
@@ -182,7 +172,7 @@ public class ProductRepositoryImpl implements ProductRepository {
             pool.closeConnection(connection);
             psGet.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return products;
     }

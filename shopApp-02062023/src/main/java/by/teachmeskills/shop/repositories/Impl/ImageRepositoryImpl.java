@@ -21,8 +21,6 @@ public class ImageRepositoryImpl implements ImageRepository {
 
     @Override
     public Image create(Image entity) {
-        log.info("Trying to add a new image to the database.");
-
         try {
             Connection connection = pool.getConnection();
             PreparedStatement psInsert = connection.prepareStatement(ADD_IMAGE_QUERY);
@@ -36,15 +34,13 @@ public class ImageRepositoryImpl implements ImageRepository {
             pool.closeConnection(connection);
             psInsert.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return entity;
     }
 
     @Override
     public List<Image> read() {
-        log.info("Trying to get all images from the database.");
-
         List<Image> images = new ArrayList<>();
         try {
             Connection connection = pool.getConnection();
@@ -66,14 +62,13 @@ public class ImageRepositoryImpl implements ImageRepository {
             pool.closeConnection(connection);
             psGet.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return images;
     }
 
     @Override
     public Image update(Image entity) {
-        log.info("Trying to change the image data in the database.");
         try {
             Connection connection = pool.getConnection();
             PreparedStatement psUpdate = connection.prepareStatement(UPDATE_IMAGE_QUERY);
@@ -86,14 +81,13 @@ public class ImageRepositoryImpl implements ImageRepository {
             pool.closeConnection(connection);
             psUpdate.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return entity;
     }
 
     @Override
     public void delete(int id) {
-        log.info("Trying to delete the image data from the database.");
         try {
             Connection connection = pool.getConnection();
             PreparedStatement psDelete = connection.prepareStatement(DELETE_IMAGE_QUERY);
@@ -104,14 +98,12 @@ public class ImageRepositoryImpl implements ImageRepository {
             pool.closeConnection(connection);
             psDelete.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
     @Override
     public Image findById(int id) {
-        log.info("Trying to get the image from the database.");
-
         Image image = null;
         try {
             Connection connection = pool.getConnection();
@@ -133,15 +125,13 @@ public class ImageRepositoryImpl implements ImageRepository {
             pool.closeConnection(connection);
             psGet.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return image;
     }
 
     @Override
     public Image findByCategoryId(int categoryId) {
-        log.info("Trying to get the image from the database.");
-
         Image image = null;
         try {
             Connection connection = pool.getConnection();
@@ -161,15 +151,13 @@ public class ImageRepositoryImpl implements ImageRepository {
             pool.closeConnection(connection);
             psGet.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return image;
     }
 
     @Override
     public List<Image> findByProductId(int productId) {
-        log.info("Trying to get the image from the database.");
-
         List<Image> images = new ArrayList<>();
         try {
             Connection connection = pool.getConnection();
@@ -192,7 +180,7 @@ public class ImageRepositoryImpl implements ImageRepository {
             pool.closeConnection(connection);
             psGet.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return images;
     }

@@ -25,7 +25,6 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public Order create(Order entity) {
-        log.info("Trying to add the new order to the database.");
         try {
             Connection connection = pool.getConnection();
             PreparedStatement psInsert = connection.prepareStatement(ADD_ORDER_QUERY);
@@ -39,15 +38,13 @@ public class OrderRepositoryImpl implements OrderRepository {
             pool.closeConnection(connection);
             psInsert.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return entity;
     }
 
     @Override
     public List<Order> read() {
-        log.info("Trying to get all orders from the database.");
-
         List<Order> orders = new ArrayList<>();
         try {
             Connection connection = pool.getConnection();
@@ -69,14 +66,13 @@ public class OrderRepositoryImpl implements OrderRepository {
             pool.closeConnection(connection);
             psGet.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return orders;
     }
 
     @Override
     public Order update(Order entity) {
-        log.info("Trying to change the order data in the database.");
         try {
             Connection connection = pool.getConnection();
             PreparedStatement psUpdate = connection.prepareStatement(UPDATE_ORDER_QUERY);
@@ -88,14 +84,13 @@ public class OrderRepositoryImpl implements OrderRepository {
             pool.closeConnection(connection);
             psUpdate.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return entity;
     }
 
     @Override
     public void delete(int id) {
-        log.info("Trying to delete the order from the database.");
         try {
             Connection connection = pool.getConnection();
             PreparedStatement psDelete = connection.prepareStatement(DELETE_ORDER_QUERY);
@@ -107,14 +102,12 @@ public class OrderRepositoryImpl implements OrderRepository {
             pool.closeConnection(connection);
             psDelete.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
     @Override
     public Order findById(int id) {
-        log.info("Trying to get the order from the database.");
-
         Order order = null;
         try {
             Connection connection = pool.getConnection();
@@ -136,15 +129,13 @@ public class OrderRepositoryImpl implements OrderRepository {
             pool.closeConnection(connection);
             psGet.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return order;
     }
 
     @Override
     public List<Order> findByDate(LocalDateTime date) {
-        log.info("Trying to orders by date from the database.");
-
         List<Order> orders = new ArrayList<>();
         try {
             Connection connection = pool.getConnection();
@@ -167,15 +158,13 @@ public class OrderRepositoryImpl implements OrderRepository {
             pool.closeConnection(connection);
             psGet.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return orders;
     }
 
     @Override
     public List<Order> findByUserId(int id) {
-        log.info("Trying to get all user orders from the database.");
-
         List<Order> orders = new ArrayList<>();
         try {
             Connection connection = pool.getConnection();
@@ -198,7 +187,7 @@ public class OrderRepositoryImpl implements OrderRepository {
             pool.closeConnection(connection);
             psGet.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return orders;
     }

@@ -19,8 +19,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public Category create(Category entity) {
-        log.info("Trying to add a new category to the database.");
-
         try {
             Connection connection = pool.getConnection();
             PreparedStatement psInsert = connection.prepareStatement(ADD_CATEGORY_QUERY);
@@ -31,15 +29,13 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             pool.closeConnection(connection);
             psInsert.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return entity;
     }
 
     @Override
     public List<Category> read() {
-        log.info("Trying to get all categories from the database.");
-
         List<Category> categories = new ArrayList<>();
         try {
             Connection connection = pool.getConnection();
@@ -58,14 +54,13 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             pool.closeConnection(connection);
             psGet.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return categories;
     }
 
     @Override
     public Category update(Category entity) {
-        log.info("Trying to change the category data in the database.");
         try {
             Connection connection = pool.getConnection();
             PreparedStatement psUpdate = connection.prepareStatement(UPDATE_CATEGORY_QUERY);
@@ -77,14 +72,13 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             pool.closeConnection(connection);
             psUpdate.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return entity;
     }
 
     @Override
     public void delete(int id) {
-        log.info("Trying to delete the category from the database.");
         try {
             Connection connection = pool.getConnection();
             PreparedStatement psDelete = connection.prepareStatement(DELETE_CATEGORY_QUERY);
@@ -95,14 +89,12 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             pool.closeConnection(connection);
             psDelete.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
     @Override
     public Category findById(int id) {
-        log.info("Trying to get the category from the database.");
-
         Category category = null;
         try {
             Connection connection = pool.getConnection();
@@ -121,7 +113,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             pool.closeConnection(connection);
             psGet.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return category;
     }

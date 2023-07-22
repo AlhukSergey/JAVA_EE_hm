@@ -1,7 +1,7 @@
 package by.teachmeskills.shop.repositories.Impl;
 
-import by.teachmeskills.shop.enums.MapKeysEnum;
 import by.teachmeskills.shop.domain.User;
+import by.teachmeskills.shop.enums.MapKeysEnum;
 import by.teachmeskills.shop.repositories.UserRepository;
 import by.teachmeskills.shop.utils.EncryptionUtils;
 import org.springframework.stereotype.Repository;
@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 @Repository
 public class UserRepositoryImpl implements UserRepository {
     private static String updateQuery;
@@ -33,8 +34,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User create(User entity) {
-        log.info("Trying to add a new user to the database.");
-
         try {
             Connection connection = pool.getConnection();
             PreparedStatement psInsert = connection.prepareStatement(ADD_USER_QUERY);
@@ -50,15 +49,13 @@ public class UserRepositoryImpl implements UserRepository {
             pool.closeConnection(connection);
             psInsert.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return entity;
     }
 
     @Override
     public List<User> read() {
-        log.info("Trying to get all users from the database.");
-
         List<User> users = new ArrayList<>();
         try {
             Connection connection = pool.getConnection();
@@ -82,14 +79,13 @@ public class UserRepositoryImpl implements UserRepository {
             pool.closeConnection(connection);
             psGet.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return users;
     }
 
     @Override
     public User update(User entity) {
-        log.info("Trying to change the user data in the database.");
         try {
             Connection connection = pool.getConnection();
             PreparedStatement psUpdate = connection.prepareStatement(updateQuery);
@@ -99,15 +95,13 @@ public class UserRepositoryImpl implements UserRepository {
             pool.closeConnection(connection);
             psUpdate.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return entity;
     }
 
     @Override
     public void delete(int id) {
-        log.info("Trying to delete the user from the database.");
-
         try {
             Connection connection = pool.getConnection();
             PreparedStatement psDelete = connection.prepareStatement(DELETE_USER_QUERY);
@@ -118,14 +112,12 @@ public class UserRepositoryImpl implements UserRepository {
             pool.closeConnection(connection);
             psDelete.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
     @Override
     public User findById(int id) {
-        log.info("Trying to get the user from the database.");
-
         User user = null;
         try {
             Connection connection = pool.getConnection();
@@ -149,14 +141,13 @@ public class UserRepositoryImpl implements UserRepository {
             pool.closeConnection(connection);
             psGet.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return user;
     }
 
     @Override
     public User findByEmailAndPassword(String email, String password) {
-        log.info("Trying to get an existing user from the database.");
         User user = null;
 
         try {
@@ -183,7 +174,7 @@ public class UserRepositoryImpl implements UserRepository {
             pool.closeConnection(connection);
             psGet.close();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
         return user;
     }
