@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static by.teachmeskills.shop.enums.RequestParamsEnum.CATEGORIES;
 import static by.teachmeskills.shop.enums.RequestParamsEnum.IMAGES;
 
 @Service
@@ -72,5 +73,22 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         return new ModelAndView(PagesPathEnum.CATEGORY_PAGE.getPath(), model);
+    }
+
+    @Override
+    public ModelAndView getCategories() {
+        ModelMap model = new ModelMap();
+        List<Category> categories = categoryRepository.read();
+        List<Image> images = new ArrayList<>();
+
+        for (Category category : categories) {
+            images.add(imageService.getImageByCategoryId(category.getId()));
+        }
+
+        model.addAttribute(CATEGORIES.getValue(), categories);
+        model.addAttribute(IMAGES.getValue(), images);
+
+        model.addAttribute(RequestParamsEnum.CATEGORIES.getValue(), categories);
+        return new ModelAndView(PagesPathEnum.HOME_PAGE.getPath(), model);
     }
 }

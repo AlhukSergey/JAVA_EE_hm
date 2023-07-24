@@ -5,9 +5,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-
+@Component
 @Data
 @SuperBuilder
 @NoArgsConstructor

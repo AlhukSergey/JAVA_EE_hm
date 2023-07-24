@@ -4,7 +4,12 @@ import by.teachmeskills.shop.enums.ShopConstants;
 import by.teachmeskills.shop.domain.Cart;
 import by.teachmeskills.shop.domain.User;
 import by.teachmeskills.shop.services.CartService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import static by.teachmeskills.shop.enums.ShopConstants.SHOPPING_CART;
@@ -22,13 +27,11 @@ public class CartController {
 
     @GetMapping("/add")
     public ModelAndView addProductToCart(@RequestParam(ShopConstants.PRODUCT_ID_PARAM) String id, @ModelAttribute(SHOPPING_CART) Cart shopCart) {
-        int productId = Integer.parseInt(id);
-        return cartService.addProductToCart(productId, shopCart);
+        return cartService.addProductToCart(id, shopCart);
     }
     @GetMapping("/remove")
     public ModelAndView removeProductFromCart(@RequestParam(ShopConstants.PRODUCT_ID_PARAM) String id, @ModelAttribute(SHOPPING_CART) Cart shopCart) {
-        int productId = Integer.parseInt(id);
-        return cartService.removeProductFromCart(productId, shopCart);
+        return cartService.removeProductFromCart(id, shopCart);
     }
 
     @GetMapping("/open")

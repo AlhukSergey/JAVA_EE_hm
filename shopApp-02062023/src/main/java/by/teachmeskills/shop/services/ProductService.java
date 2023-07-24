@@ -10,7 +10,7 @@ public interface ProductService extends BaseService<Product>{
 
     List<Product> getProductsByCategoryId(int categoryId);
 
-    List<Product> getProductsBySearchParameter(String parameter);
+    ModelAndView getProductsBySearchParameter(String parameter);
 
     ModelAndView getProductData(int id);
 }

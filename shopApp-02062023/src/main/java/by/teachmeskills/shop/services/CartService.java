@@ -1,6 +1,11 @@
 package by.teachmeskills.shop.services;
 
-import by.teachmeskills.shop.domain.*;
+import by.teachmeskills.shop.domain.Cart;
+import by.teachmeskills.shop.domain.Image;
+import by.teachmeskills.shop.domain.Order;
+import by.teachmeskills.shop.domain.OrderStatus;
+import by.teachmeskills.shop.domain.Product;
+import by.teachmeskills.shop.domain.User;
 import by.teachmeskills.shop.enums.InfoEnum;
 import by.teachmeskills.shop.enums.PagesPathEnum;
 import by.teachmeskills.shop.enums.RequestParamsEnum;
@@ -29,9 +34,10 @@ public class CartService {
         this.imageService = imageService;
     }
 
-    public ModelAndView addProductToCart(int productId, Cart shopCart) {
+    public ModelAndView addProductToCart(String id, Cart shopCart) {
         ModelMap model = new ModelMap();
 
+        int productId = Integer.parseInt(id);
         Product product = productRepository.findById(productId);
         shopCart.addProduct(product);
 
@@ -41,10 +47,10 @@ public class CartService {
         return new ModelAndView(PagesPathEnum.PRODUCT_PAGE.getPath(), model);
     }
 
-    public ModelAndView removeProductFromCart(int productId, Cart shopCart) {
+    public ModelAndView removeProductFromCart(String productId, Cart shopCart) {
         ModelMap model = new ModelMap();
 
-        shopCart.removeProduct(productId);
+        shopCart.removeProduct(Integer.parseInt(productId));
 
         List<Product> products = shopCart.getProducts();
         List<List<Image>> images = new ArrayList<>();

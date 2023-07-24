@@ -5,4 +5,5 @@ import org.springframework.web.servlet.ModelAndView;
 
 public interface CategoryService extends BaseService<Category> {
     ModelAndView getCategoryById(int id);
+    ModelAndView getCategories();
 }

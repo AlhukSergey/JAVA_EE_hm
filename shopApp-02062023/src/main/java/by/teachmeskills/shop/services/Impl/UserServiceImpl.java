@@ -1,7 +1,15 @@
 package by.teachmeskills.shop.services.Impl;
 
-import by.teachmeskills.shop.domain.*;
-import by.teachmeskills.shop.enums.*;
+import by.teachmeskills.shop.domain.Category;
+import by.teachmeskills.shop.domain.Image;
+import by.teachmeskills.shop.domain.Order;
+import by.teachmeskills.shop.domain.OrderStatus;
+import by.teachmeskills.shop.domain.User;
+import by.teachmeskills.shop.enums.InfoEnum;
+import by.teachmeskills.shop.enums.MapKeysEnum;
+import by.teachmeskills.shop.enums.PagesPathEnum;
+import by.teachmeskills.shop.enums.RequestParamsEnum;
+import by.teachmeskills.shop.enums.SetterActionsEnum;
 import by.teachmeskills.shop.exceptions.IncorrectUserDataException;
 import by.teachmeskills.shop.exceptions.RequestCredentialsNullException;
 import by.teachmeskills.shop.exceptions.UserAlreadyExistsException;
@@ -20,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
@@ -88,12 +95,10 @@ public class UserServiceImpl implements UserService {
     public ModelAndView authenticate(User user) {
         ModelMap model = new ModelMap();
 
-        if (Optional.ofNullable(user).isPresent()
-                && Optional.ofNullable(user.getEmail()).isPresent()
-                && Optional.ofNullable(user.getPassword()).isPresent()) {
+        if (user != null && user.getEmail() != null && user.getPassword() != null) {
             User loggedUser = userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
 
-            if (Optional.ofNullable(loggedUser).isPresent()) {
+            if (loggedUser != null) {
                 List<Category> categories = categoryService.read();
                 List<Image> images = new ArrayList<>();
 
@@ -122,12 +127,12 @@ public class UserServiceImpl implements UserService {
         ModelAndView modelAndView = new ModelAndView();
         ModelMap model = new ModelMap();
 
-        if (Optional.ofNullable(user).isPresent()
-                && Optional.ofNullable(user.getName()).isPresent()
-                && Optional.ofNullable(user.getSurname()).isPresent()
-                && Optional.ofNullable(user.getBirthday()).isPresent()
-                && Optional.ofNullable(user.getEmail()).isPresent()
-                && Optional.ofNullable(user.getPassword()).isPresent()) {
+        if (user != null
+                && user.getName() != null
+                && user.getSurname() != null
+                && user.getBirthday() != null
+                && user.getEmail() != null
+                && user.getPassword() != null) {
 
             try {
                 HttpRequestCredentialsValidator.validateUserData(user);
@@ -135,7 +140,7 @@ public class UserServiceImpl implements UserService {
 
                 User createdUser = create(user);
 
-                if (Optional.ofNullable(createdUser).isPresent()) {
+                if (createdUser != null) {
                     List<Category> categories = categoryService.read();
                     List<Image> images = new ArrayList<>();
 
@@ -194,6 +199,22 @@ public class UserServiceImpl implements UserService {
         model.addAttribute(RequestParamsEnum.FINISHED_ORDERS.getValue(), orders.stream().filter(order -> order.getOrderStatus() == OrderStatus.FINISHED).collect(Collectors.toList()));
 
         model.addAttribute(RequestParamsEnum.INFO.getValue(), InfoEnum.DATA_SUCCESSFUL_CHANGED_INFO.getInfo());
+        return new ModelAndView(PagesPathEnum.USER_ACCOUNT_PAGE.getPath(), model);
+    }
+
+    @Override
+    public ModelAndView generateAccountPage(User user) {
+        ModelMap model = new ModelMap();
+
+        model.addAttribute(RequestParamsEnum.NAME.getValue(), user.getName());
+        model.addAttribute(RequestParamsEnum.SURNAME.getValue(), user.getSurname());
+        model.addAttribute(RequestParamsEnum.BIRTHDAY.getValue(), user.getBirthday().toString());
+        model.addAttribute(RequestParamsEnum.EMAIL.getValue(), user.getEmail());
+
+        List<Order> orders = orderService.getOrdersByUserId(user.getId());
+        model.addAttribute(RequestParamsEnum.ACTIVE_ORDERS.getValue(), orders.stream().filter(order -> order.getOrderStatus() == OrderStatus.ACTIVE).collect(Collectors.toList()));
+        model.addAttribute(RequestParamsEnum.FINISHED_ORDERS.getValue(), orders.stream().filter(order -> order.getOrderStatus() == OrderStatus.FINISHED).collect(Collectors.toList()));
+
         return new ModelAndView(PagesPathEnum.USER_ACCOUNT_PAGE.getPath(), model);
     }
 

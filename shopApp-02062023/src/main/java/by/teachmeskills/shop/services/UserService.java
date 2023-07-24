@@ -16,5 +16,7 @@ public interface UserService extends BaseService<User> {
     ModelAndView createUser(User user);
 
     ModelAndView updateData(User user, Map<String, String> allParams);
+
+    ModelAndView generateAccountPage(User user);
 }
 
