@@ -1,6 +1,7 @@
 package by.teachmeskills.shop.services;
 
 import by.teachmeskills.shop.domain.Product;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -9,5 +10,7 @@ public interface ProductService extends BaseService<Product>{
 
     List<Product> getProductsByCategoryId(int categoryId);
 
-    List<Product> getProductsBySearchParameter(String parameter);
+    ModelAndView getProductsBySearchParameter(String parameter);
+
+    ModelAndView getProductData(int id);
 }

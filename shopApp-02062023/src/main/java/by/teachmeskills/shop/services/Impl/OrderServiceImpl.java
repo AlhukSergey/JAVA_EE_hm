@@ -4,10 +4,11 @@ import by.teachmeskills.shop.domain.Order;
 import by.teachmeskills.shop.repositories.Impl.OrderRepositoryImpl;
 import by.teachmeskills.shop.repositories.OrderRepository;
 import by.teachmeskills.shop.services.OrderService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+@Service
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository = new OrderRepositoryImpl();
 
