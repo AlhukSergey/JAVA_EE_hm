@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class LogAspect {
-    private Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Pointcut(value = "execution(public * by.teachmeskills.shop..*(..))")
     public void loggingOperation(){

@@ -71,7 +71,7 @@
                 <c:forEach items="${products}" var="product">
                     <div class="card w-25 m-1" type="product">
                         <div class="card-body" style="flex: 1 1 auto;">
-                            <a href='<c:url value="/shop?command=redirect-to-product-page&product_id=${product.getId()}"/>'>
+                            <a href='<c:url value="/product/${product.getId()}"/>'>
                                 <h5 class="card-title">${product.getName()}</h5>
                                 <c:forEach items="${images}" var="image">
                                     <c:if test="${product.getId() == image.getProductId() && image.getPrimary() == 1}">

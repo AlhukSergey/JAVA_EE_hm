@@ -29,7 +29,7 @@ public class HttpRequestCredentialsValidator {
         }
 
         //check password
-        if (DataValidator.validatePassword(user.getPassword())) {
+        if (!DataValidator.validatePassword(user.getPassword())) {
             throw new IncorrectUserDataException("Неверный формат пароля! " +
                     "Длина пароля должна быть не короче 8 символов. Пароль должен содержать как минимум одну цифру," +
                     "одну заглавную букву, одну букву нижнего регистра, один специальный символ.");
